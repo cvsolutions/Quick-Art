@@ -6,9 +6,7 @@ router.route('/')
         res.render('administrator_index', {});
     })
     .post(function (req, res, next) {
-        res.json(200, {
-            status: 'ok!'
-        });
+        res.status(200).send({msg: 'OK'});
     });
 
 router.get('/dashboard', function (req, res) {
