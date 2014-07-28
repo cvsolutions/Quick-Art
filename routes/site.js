@@ -6,7 +6,9 @@ router.get('/', function (req, res) {
 });
 
 router.get('/artista/:slug', function (req, res) {
-    res.render('detail_artist', {});
+    res.render('detail_artist', {
+        name:req.param('slug')
+    });
 });
 
 module.exports = router;

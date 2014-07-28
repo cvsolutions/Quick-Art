@@ -8,6 +8,7 @@
     },
     "dependencies": {
         "express": "4.x",
+        "body-parser": "1.x",
         "mongoose": "3.x",
         "ejs": "1.x"
     }
