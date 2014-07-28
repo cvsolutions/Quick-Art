@@ -1,10 +1,12 @@
 var express = require('express');
 var multer = require('multer');
-var ejs = require('ejs');
+var engine = require('ejs-locals');
 
 var app = express();
-app.set('view engine', 'ejs');
+
+app.engine('ejs', engine);
 app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
 app.use(multer({
@@ -12,7 +14,7 @@ app.use(multer({
     rename: function (fieldname, filename) {
         return filename.replace(/\W+/g, '-').toLowerCase()
     }
-}))
+}));
 
 app.use('/', require('./routes/site'));
 app.use('/administrator', require('./routes/administrator'));
@@ -24,5 +26,6 @@ app.use(function (req, res, next) {
     });
 });
 
-app.listen(3000);
-console.log('Quick-Art started...');
+app.listen(3000, function () {
+    console.log('Quick-Art started...');
+});
