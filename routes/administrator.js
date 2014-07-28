@@ -7,6 +7,8 @@ router.get('/', function (req, res) {
 
 router.post('/login', function (req, res) {
     console.log(req.body);
+    // console.log(req.files);
+    // var p = req.files.photo;
     res.status(200).send({
         phone: req.body.phone,
         status: 200,
