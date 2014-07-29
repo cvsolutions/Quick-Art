@@ -1,2 +1,47 @@
 <%- layout('site_layout') %>
-<p><%= name%></p>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h1><%= name %></h1>
+        <p>Accusamus aliquam assumenda doloremque, doloribus error et ipsam magnam modi mollitia, nisi porro quidem rem similique soluta ullam veritatis voluptate. Inventore, officiis!</p>
+        <p>&nbsp;</p>
+
+        <div class="row">
+            <% for(var i = 0; i < supplies.length; i++) { %>
+            <div class="col-xs-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <a href="/artista/lorem"><img src="http://placehold.it/480x320" class="img-responsive" alt=""/></a>
+                        <p>Lorem ipsum dolor sit amet</p>
+                        <ul class="list-inline pull-right">
+                            <li><a href="" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+
+    </div>
+    <div class="col-xs-4">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Panel heading without title</div>
+            <div class="panel-body">
+                <ul>
+                    <li>lorem</li>
+                    <li>lorem</li>
+                    <li>lorem</li>
+                </ul>
+                <p class="pull-right"><a href="" class="btn btn-default btn-sm">Contatta</a></p>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                Basic panel example
+            </div>
+        </div>
+
+    </div>
+</div>
