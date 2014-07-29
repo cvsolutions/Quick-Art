@@ -5,6 +5,18 @@ router.get('/', function (req, res) {
     res.render('site_index', {});
 });
 
+router.get('/artisti-contemporanei', function (req, res) {
+    res.render('site_artists', {
+        name:req.param('slug')
+    });
+});
+
+router.get('/quadri-opere-darte', function (req, res) {
+    res.render('site_paintings_worksofart', {
+        name:req.param('slug')
+    });
+});
+
 router.get('/registrazione', function (req, res) {
     res.render('site_registration', {
         name:req.param('slug')
