@@ -17,8 +17,18 @@ router.get('/gallery', function (req, res) {
     res.render('extranet_gallery', {});
 });
 
-router.get('/logout', function (req, res) {
+router.get('/gallery/add', function (req, res) {
+    res.render('extranet_gallery_add', {});
+});
 
+router.get('/gallery/edit/:id', function (req, res) {
+    res.render('extranet_gallery_edit', {});
+});
+
+router.get('/gallery/delete/:id', function (req, res) {
+});
+
+router.get('/logout', function (req, res) {
 });
 
 module.exports = router;
