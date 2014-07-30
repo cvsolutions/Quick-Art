@@ -41,12 +41,9 @@ app.use(multer({
     }
 }));
 app.use(session({
-    secret: 'Qu1ck4Rt',
+    secret: 'Qu1ck-4Rt-2014',
     saveUninitialized: true,
-    resave: true,
-    cookie: {
-        secure: true
-    }
+    resave: true
 }));
 app.use(bodyParser.urlencoded({
     extended: false

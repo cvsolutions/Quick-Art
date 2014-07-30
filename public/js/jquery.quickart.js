@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    /**
+     * Registrazione
+     */
     $('#js-registration-form').validate({
         rules: {
             usermail: {
@@ -23,6 +26,42 @@ $(document).ready(function () {
                 statusCode: {
                     200: function (response) {
                         var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
+                        $('html,body').animate({
+                            scrollTop: $('.container').offset().top
+                        }, 1000);
+                        $('#result').hide().html(output).slideDown();
+                    },
+                    500: function (response) {
+                        alert(response.responseJSON.err);
+                        $('.form-control').val('');
+                    }
+                }
+            });
+            return true;
+        }
+    });
+
+    /**
+     * Login
+     */
+    $('#js-login-form').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                url: '/extranet',
+                type: 'POST',
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                cache: false,
+                statusCode: {
+                    200: function (response) {
+                        if (response.location === 1) {
+                            window.location.replace('/extranet/dashboard');
+                        }
+                    },
+                    401: function (response) {
+                        var output = '<div class="alert alert-danger alert-dismissable">' + response.text + '</div>';
                         $('html,body').animate({
                             scrollTop: $('.container').offset().top
                         }, 1000);

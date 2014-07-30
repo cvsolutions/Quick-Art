@@ -42,10 +42,10 @@ router.get('/artisti-contemporanei', function (req, res) {
 });
 
 /**
- * Quadri Moderni
+ * Catalogo Opere d'Arte
  */
-router.get('/quadri-opere-darte', function (req, res) {
-    res.render('site/paintings_worksofart', {
+router.get('/catalogo-opere-arte', function (req, res) {
+    res.render('site/catalog', {
         name: req.param('slug'),
         supplies: [1, 2, 3, 4, 5, 6, 7, 8, 9]
     });
