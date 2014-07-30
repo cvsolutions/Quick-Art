@@ -75,6 +75,7 @@ router.route('/registrazione')
             region: mongoose.Types.ObjectId(req.body.region),
             web: req.body.web,
             description: req.body.description,
+            level: 1,
             active: 1,
             registered: Date.now()
         }).save(function (err) {

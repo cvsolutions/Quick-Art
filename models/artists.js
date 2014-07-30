@@ -40,6 +40,7 @@ var Artists = Schema({
         type: String,
         required: true
     },
+    level: Number,
     active: Number,
     registered: Date
 }, {
