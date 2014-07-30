@@ -26,12 +26,16 @@
 
         <div class="list-group">
             <a href="#" class="list-group-item active">Categorie</a>
-            <a href="/categoria/pittura" class="list-group-item">Pittura</a>
+            <% categories.forEach( function (row){ %>
+            <a href="/categoria/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <% }); %>
         </div>
 
         <div class="list-group">
             <a href="#" class="list-group-item active">Artisti</a>
-            <a href="/regione/sicilia" class="list-group-item">Sicilia</a>
+            <% regions.forEach( function (row){ %>
+            <a href="/regione/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <% }); %>
         </div>
 
         <div class="panel panel-default">

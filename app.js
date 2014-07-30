@@ -4,6 +4,7 @@ var engine = require('ejs-locals');
 
 require('./models/regions');
 require('./models/categories');
+require('./models/artists');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://127.0.0.1:27017/quick-art');

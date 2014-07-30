@@ -6,19 +6,19 @@
         <p class="lead">Sei un Artista? Pubblica i tuoi lavori su questo Portale...</p>
         <p>&nbsp;</p>
 
-        <div class="response"></div>
-        <form id="" method="" enctype="multipart/form-data">
+        <div id="result"></div>
+        <form id="js-registration-form" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label>Nome & Cognome</label>
-                        <input type="text" class="form-control" name="" id="" value="" required="">
+                        <input type="text" class="form-control" name="fullname" id="fullname" value="" required="">
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" class="form-control" name="" id="" value="" required="">
+                        <input type="password" class="form-control" name="pwd" id="pwd" value="" required="">
                     </div>
                 </div>
             </div>
@@ -26,13 +26,13 @@
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label>Indirizzo E-mail</label>
-                        <input type="email" class="form-control" name="" id="" value="" required="">
+                        <input type="email" class="form-control" name="usermail" id="usermail" value="" required="">
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label>Sito Internet</label>
-                        <input type="text" class="form-control" name="" id="" value="" required="">
+                        <input type="url" class="form-control" name="web" id="web" value="">
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label>Regione</label>
-                        <select class="form-control" name="" id="" required="">
+                        <select class="form-control" name="region" id="region" required="">
                             <option value="">-</option>
                             <% regions.forEach( function (row){ %>
                             <option value="<%= row._id %>"><%= row.fullname %></option>
@@ -51,7 +51,7 @@
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label>Categoria</label>
-                        <select class="form-control" name="" id="" required="">
+                        <select class="form-control" name="category" id="category" required="">
                             <option value="">-</option>
                             <% categories.forEach( function (row){ %>
                             <option value="<%= row._id %>"><%= row.fullname %></option>
@@ -62,14 +62,15 @@
             </div>
             <div class="form-group">
                 <label>Breve Descrizione</label>
-                <textarea class="form-control" name="" id="" rows="15" required=""></textarea>
+                <textarea class="form-control" name="description" id="description" rows="15" required=""></textarea>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox" name="" id="" value="" required=""> Accetto il regolamento</label>
+                <label><input type="checkbox" name="accept" id="accept" value="1" required=""> Accetto il regolamento</label>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox" name="" id="" value="" required=""> Ho preso visione dell’informativa al trattamento dei dati</label>
+                <label><input type="checkbox" name="privacy" id="privacy" value="1" required=""> Ho preso visione dell’informativa al trattamento dei dati</label>
             </div>
+            <input type="hidden" name="slug" id="slug" value="">
             <input type="submit" class="btn btn-default" value="Registrati">
         </form>
     </div>
