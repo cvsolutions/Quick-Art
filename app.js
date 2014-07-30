@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var multer = require('multer');
 var engine = require('ejs-locals');
 
@@ -10,6 +11,11 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://127.0.0.1:27017/quick-art');
 
 var app = express();
+
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+app.use(bodyParser.json());
 
 app.engine('ejs', engine);
 app.set('views', __dirname + '/views');

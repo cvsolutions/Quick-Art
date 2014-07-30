@@ -7,7 +7,7 @@ $(document).ready(function () {
                 required: true,
                 remote: {
                     url: '/check-usermail',
-                    type: 'GET'
+                    type: 'POST'
                 }
             }
         },

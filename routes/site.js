@@ -89,9 +89,12 @@ router.route('/registrazione')
             });
     });
 
-router.get('/check-usermail', function (req, res) {
+/**
+ * Check Usermail
+ */
+router.post('/check-usermail', function (req, res) {
     Artists.findOne({
-        usermail: req.param('usermail'),
+        usermail: req.body.usermail,
         active: 1
     }, function (err, result) {
         // console.log(result);
