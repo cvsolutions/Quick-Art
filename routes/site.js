@@ -30,13 +30,12 @@ router.get('/', function (req, res) {
 router.get('/artisti-contemporanei', function (req, res) {
     Regions.find({}).sort({fullname: 'asc'}
     ).exec(function (err, regions) {
-            Categories.find({}).sort({fullname: 'asc'}
-            ).exec(function (err, categories) {
-                    res.render('site_artists', {
-                        regions: regions,
-                        categories: categories
-                    });
+            Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+                res.render('site_artists', {
+                    regions: regions,
+                    categories: categories
                 });
+            });
         });
 });
 
@@ -57,13 +56,12 @@ router.route('/registrazione')
     .get(function (req, res) {
         Regions.find({}).sort({fullname: 'asc'}
         ).exec(function (err, regions) {
-                Categories.find({}).sort({fullname: 'asc'}
-                ).exec(function (err, categories) {
-                        res.render('site_registration', {
-                            regions: regions,
-                            categories: categories
-                        });
+                Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+                    res.render('site_registration', {
+                        regions: regions,
+                        categories: categories
                     });
+                });
             });
     })
     .post(function (req, res) {
@@ -90,7 +88,7 @@ router.route('/registrazione')
     });
 
 /**
- * Check Usermail
+ * Check UserMail (Registrazione)
  */
 router.post('/check-usermail', function (req, res) {
     Artists.findOne({
@@ -106,10 +104,18 @@ router.post('/check-usermail', function (req, res) {
     });
 });
 
+/**
+ * Pittura
+ */
 router.get('/categoria/:slug', function (req, res) {
-    res.render('site_category', {
-        name: req.param('slug'),
-        supplies: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    Categories.findOne({slug: req.param('slug')}, function (err, category) {
+        Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+            res.render('site_category', {
+                category: category,
+                categories: categories,
+                supplies: [1, 2, 3]
+            });
+        });
     });
 });
 
