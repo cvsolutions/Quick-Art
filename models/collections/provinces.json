@@ -1,0 +1,436 @@
+{
+    "fullname": "Agrigento", 
+    "slug": "agrigento"
+}
+{
+    "fullname": "Alessandria", 
+    "slug": "alessandria"
+}
+{
+    "fullname": "Ancona", 
+    "slug": "ancona"
+}
+{
+    "fullname": "Aosta", 
+    "slug": "aosta"
+}
+{
+    "fullname": "Arezzo", 
+    "slug": "arezzo"
+}
+{
+    "fullname": "Ascoli Piceno", 
+    "slug": "ascoli-piceno"
+}
+{
+    "fullname": "Asti", 
+    "slug": "asti"
+}
+{
+    "fullname": "Avellino", 
+    "slug": "avellino"
+}
+{
+    "fullname": "Bari", 
+    "slug": "bari"
+}
+{
+    "fullname": "Belluno", 
+    "slug": "belluno"
+}
+{
+    "fullname": "Benevento", 
+    "slug": "benevento"
+}
+{
+    "fullname": "Bergamo", 
+    "slug": "bergamo"
+}
+{
+    "fullname": "Biella", 
+    "slug": "biella"
+}
+{
+    "fullname": "Bologna", 
+    "slug": "bologna"
+}
+{
+    "fullname": "Bolzano", 
+    "slug": "bolzano"
+}
+{
+    "fullname": "Brescia", 
+    "slug": "brescia"
+}
+{
+    "fullname": "Brindisi", 
+    "slug": "brindisi"
+}
+{
+    "fullname": "Cagliari", 
+    "slug": "cagliari"
+}
+{
+    "fullname": "Caltanissetta", 
+    "slug": "caltanissetta"
+}
+{
+    "fullname": "Campobasso", 
+    "slug": "campobasso"
+}
+{
+    "fullname": "Caserta", 
+    "slug": "caserta"
+}
+{
+    "fullname": "Catania", 
+    "slug": "catania"
+}
+{
+    "fullname": "Catanzaro", 
+    "slug": "catanzaro"
+}
+{
+    "fullname": "Chieti", 
+    "slug": "chieti"
+}
+{
+    "fullname": "Como", 
+    "slug": "como"
+}
+{
+    "fullname": "Cosenza", 
+    "slug": "cosenza"
+}
+{
+    "fullname": "Cremona", 
+    "slug": "cremona"
+}
+{
+    "fullname": "Crotone", 
+    "slug": "crotone"
+}
+{
+    "fullname": "Cuneo", 
+    "slug": "cuneo"
+}
+{
+    "fullname": "Enna", 
+    "slug": "enna"
+}
+{
+    "fullname": "Ferrara", 
+    "slug": "ferrara"
+}
+{
+    "fullname": "Firenze", 
+    "slug": "firenze"
+}
+{
+    "fullname": "Foggia", 
+    "slug": "foggia"
+}
+{
+    "fullname": "Forli' Cesena", 
+    "slug": "forli-cesena"
+}
+{
+    "fullname": "Frosinone", 
+    "slug": "frosinone"
+}
+{
+    "fullname": "Genova", 
+    "slug": "genova"
+}
+{
+    "fullname": "Gorizia", 
+    "slug": "gorizia"
+}
+{
+    "fullname": "Grosseto", 
+    "slug": "grosseto"
+}
+{
+    "fullname": "Imperia", 
+    "slug": "imperia"
+}
+{
+    "fullname": "Isernia", 
+    "slug": "isernia"
+}
+{
+    "fullname": "L'Aquila", 
+    "slug": "laquila"
+}
+{
+    "fullname": "La Spezia", 
+    "slug": "la-spezia"
+}
+{
+    "fullname": "Latina", 
+    "slug": "latina"
+}
+{
+    "fullname": "Lecce", 
+    "slug": "lecce"
+}
+{
+    "fullname": "Lecco", 
+    "slug": "lecco"
+}
+{
+    "fullname": "Livorno", 
+    "slug": "livorno"
+}
+{
+    "fullname": "Lodi", 
+    "slug": "lodi"
+}
+{
+    "fullname": "Lucca", 
+    "slug": "lucca"
+}
+{
+    "fullname": "Macerata", 
+    "slug": "macerata"
+}
+{
+    "fullname": "Mantova", 
+    "slug": "mantova"
+}
+{
+    "fullname": "Massa", 
+    "slug": "massa"
+}
+{
+    "fullname": "Matera", 
+    "slug": "matera"
+}
+{
+    "fullname": "Messina", 
+    "slug": "messina"
+}
+{
+    "fullname": "Milano", 
+    "slug": "milano"
+}
+{
+    "fullname": "Modena", 
+    "slug": "modena"
+}
+{
+    "fullname": "Napoli", 
+    "slug": "napoli"
+}
+{
+    "fullname": "Novara", 
+    "slug": "novara"
+}
+{
+    "fullname": "Nuoro", 
+    "slug": "nuoro"
+}
+{
+    "fullname": "Oristano", 
+    "slug": "oristano"
+}
+{
+    "fullname": "Padova", 
+    "slug": "padova"
+}
+{
+    "fullname": "Palermo", 
+    "slug": "palermo"
+}
+{
+    "fullname": "Parma", 
+    "slug": "parma"
+}
+{
+    "fullname": "Pavia", 
+    "slug": "pavia"
+}
+{
+    "fullname": "Perugia", 
+    "slug": "perugia"
+}
+{
+    "fullname": "Pesaro e Urbino", 
+    "slug": "pesaro-e-urbino"
+}
+{
+    "fullname": "Pescara", 
+    "slug": "pescara"
+}
+{
+    "fullname": "Piacenza", 
+    "slug": "piacenza"
+}
+{
+    "fullname": "Pisa", 
+    "slug": "pisa"
+}
+{
+    "fullname": "Pistoia", 
+    "slug": "pistoia"
+}
+{
+    "fullname": "Pordenone", 
+    "slug": "pordenone"
+}
+{
+    "fullname": "Potenza", 
+    "slug": "potenza"
+}
+{
+    "fullname": "Prato", 
+    "slug": "prato"
+}
+{
+    "fullname": "Ragusa", 
+    "slug": "ragusa"
+}
+{
+    "fullname": "Ravenna", 
+    "slug": "ravenna"
+}
+{
+    "fullname": "Reggio Calabria", 
+    "slug": "reggio-calabria"
+}
+{
+    "fullname": "Reggio Emilia", 
+    "slug": "reggio-emilia"
+}
+{
+    "fullname": "Rieti", 
+    "slug": "rieti"
+}
+{
+    "fullname": "Rimini", 
+    "slug": "rimini"
+}
+{
+    "fullname": "Roma", 
+    "slug": "roma"
+}
+{
+    "fullname": "Rovigo", 
+    "slug": "rovigo"
+}
+{
+    "fullname": "Salerno", 
+    "slug": "salerno"
+}
+{
+    "fullname": "Sassari", 
+    "slug": "sassari"
+}
+{
+    "fullname": "Savona", 
+    "slug": "savona"
+}
+{
+    "fullname": "Siena", 
+    "slug": "siena"
+}
+{
+    "fullname": "Siracusa", 
+    "slug": "siracusa"
+}
+{
+    "fullname": "Sondrio", 
+    "slug": "sondrio"
+}
+{
+    "fullname": "Taranto", 
+    "slug": "taranto"
+}
+{
+    "fullname": "Teramo", 
+    "slug": "teramo"
+}
+{
+    "fullname": "Terni", 
+    "slug": "terni"
+}
+{
+    "fullname": "Torino", 
+    "slug": "torino"
+}
+{
+    "fullname": "Trapani", 
+    "slug": "trapani"
+}
+{
+    "fullname": "Trento", 
+    "slug": "trento"
+}
+{
+    "fullname": "Treviso", 
+    "slug": "treviso"
+}
+{
+    "fullname": "Trieste", 
+    "slug": "trieste"
+}
+{
+    "fullname": "Udine", 
+    "slug": "udine"
+}
+{
+    "fullname": "Varese", 
+    "slug": "varese"
+}
+{
+    "fullname": "Venezia", 
+    "slug": "venezia"
+}
+{
+    "fullname": "Verbano Cusio Ossola", 
+    "slug": "verbano-cusio-ossola"
+}
+{
+    "fullname": "Vercelli", 
+    "slug": "vercelli"
+}
+{
+    "fullname": "Verona", 
+    "slug": "verona"
+}
+{
+    "fullname": "Vibo Valentia", 
+    "slug": "vibo-valentia"
+}
+{
+    "fullname": "Vicenza", 
+    "slug": "vicenza"
+}
+{
+    "fullname": "Viterbo", 
+    "slug": "viterbo"
+}
+{
+    "fullname": "Olbia-Tempio", 
+    "slug": "olbia-tempio"
+}
+{
+    "fullname": "Carbonia-Iglesias", 
+    "slug": "carbonia-iglesias"
+}
+{
+    "fullname": "Medio Campidano", 
+    "slug": "medio-campidano"
+}
+{
+    "fullname": "Ogliastra", 
+    "slug": "ogliastra"
+}
+{
+    "fullname": "Fermo", 
+    "slug": "fermo"
+}
+{
+    "fullname": "Barletta-Andria-Trani", 
+    "slug": "barletta-andria-trani"
+}

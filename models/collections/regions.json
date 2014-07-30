@@ -1,0 +1,119 @@
+{
+	"fullname": "Abruzzo",
+	"slug": "abruzzo",
+	"coordinates": [42.120743, 13.886953]
+}
+
+{
+	"fullname": "Basilicata",
+	"slug": "basilicata",
+	"coordinates": [42.120743, 13.886953]
+}
+
+{
+	"fullname": "Calabria",
+	"slug": "calabria",
+	"coordinates": [38.864356, 15.915674]
+}
+
+{
+	"fullname": "Campania",
+	"slug": "campania",
+	"coordinates": [40.726005, 14.372017]
+}
+
+{
+	"fullname": "Emilia Romagna",
+	"slug": "emilia-romagna",
+	"coordinates": [44.643715, 10.313501]
+}
+
+{
+	"fullname": "Friuli Venezia Giulia",
+	"slug": "friuli-venezia-giulia",
+	"coordinates": [46.206448, 13.117676]
+}
+
+{
+	"fullname": "Lazio",
+	"slug": "lazio",
+	"coordinates": [41.963575, 13.167114]
+}
+
+{
+	"fullname": "Liguria",
+	"slug": "liguria",
+	"coordinates": [44.330507, 9.181158]
+}
+
+{
+	"fullname": "Lombardia",
+	"slug": "lombardia",
+	"coordinates": [45.508847, 9.655257]
+}
+
+{
+	"fullname": "Marche",
+	"slug": "marche",
+	"coordinates": [43.526877, 13.271366]
+}
+
+{
+	"fullname": "Molise",
+	"slug": "molise",
+	"coordinates": [41.485868, 14.043617]
+}
+
+{
+	"fullname": "Piemonte",
+	"slug": "piemonte",
+	"coordinates": [44.974156, 8.092770]
+}
+
+{
+	"fullname": "Puglia",
+	"slug": "puglia",
+	"coordinates": [40.864163, 17.232150]
+}
+
+{
+	"fullname": "Sardegna",
+	"slug": "sardegna",
+	"coordinates": [40.085532, 9.201671]
+}
+
+{
+	"fullname": "Sicilia",
+	"slug": "sicilia",
+	"coordinates": [37.649034, 13.842773]
+}
+
+{
+	"fullname": "Toscana",
+	"slug": "toscana",
+	"coordinates": [43.504737, 11.645508]
+}
+
+{
+	"fullname": "Trentino Alto Adige",
+	"slug": "trentino-alto-adige",
+	"coordinates": [46.620817, 11.348472]
+}
+
+{
+	"fullname": "Umbria",
+	"slug": "umbria",
+	"coordinates": [42.968482, 13.117676]
+}
+ 
+{
+	"fullname": "Valle d'Aosta",
+	"slug": "valle-daosta",
+	"coordinates": [45.782029, 7.000841]
+}
+
+{
+	"fullname": "Veneto",
+	"slug": "veneto",
+	"coordinates": [45.662402, 12.112837]
+}
