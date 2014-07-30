@@ -19,7 +19,6 @@ function isLoggedIn(req, res, next) {
     }
 }
 
-
 /**
  * Login
  */
@@ -54,8 +53,13 @@ router.route('/')
         });
     });
 
+/**
+ * Dashboard
+ */
 router.get('/dashboard', isLoggedIn, function (req, res) {
-    res.render('extranet/dashboard', {});
+    res.render('extranet/dashboard', {
+        user: req.session.extranetUser
+    });
 });
 
 router.get('/profile', isLoggedIn, function (req, res) {

@@ -61,7 +61,7 @@ $(document).ready(function () {
                         }
                     },
                     401: function (response) {
-                        var output = '<div class="alert alert-danger alert-dismissable">' + response.text + '</div>';
+                        var output = '<div class="alert alert-danger alert-dismissable">' + response.responseJSON.text + '</div>';
                         $('html,body').animate({
                             scrollTop: $('.container').offset().top
                         }, 1000);
