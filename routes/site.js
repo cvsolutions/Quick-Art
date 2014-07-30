@@ -1,3 +1,8 @@
+var mongoose = require('mongoose');
+
+var Regions = mongoose.model('regions');
+var Categories = mongoose.model('categories');
+
 var express = require('express');
 var router = express.Router();
 
@@ -21,8 +26,14 @@ router.get('/quadri-opere-darte', function (req, res) {
 });
 
 router.get('/registrazione', function (req, res) {
-    res.render('site_registration', {
-        name: req.param('slug')
+    Regions.find(function (err, regions) {
+        Categories.find(function (err, categories) {
+            res.render('site_registration', {
+                name: req.param('slug'),
+                regions: regions,
+                categories: categories
+            });
+        });
     });
 });
 

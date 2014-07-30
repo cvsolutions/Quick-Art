@@ -42,6 +42,9 @@
                         <label>Regione</label>
                         <select class="form-control" name="" id="" required="">
                             <option value="">-</option>
+                            <% regions.forEach( function (row){ %>
+                            <option value="<%= row._id %>"><%= row.fullname %></option>
+                            <% }); %>
                         </select>
                     </div>
                 </div>
@@ -50,6 +53,9 @@
                         <label>Categoria</label>
                         <select class="form-control" name="" id="" required="">
                             <option value="">-</option>
+                            <% categories.forEach( function (row){ %>
+                            <option value="<%= row._id %>"><%= row.fullname %></option>
+                            <% }); %>
                         </select>
                     </div>
                 </div>

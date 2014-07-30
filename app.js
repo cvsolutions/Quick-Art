@@ -2,6 +2,12 @@ var express = require('express');
 var multer = require('multer');
 var engine = require('ejs-locals');
 
+require('./models/regions');
+require('./models/categories');
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://127.0.0.1:27017/quick-art');
+
 var app = express();
 
 app.engine('ejs', engine);
