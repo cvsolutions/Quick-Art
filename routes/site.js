@@ -19,7 +19,7 @@ var router = express.Router();
  * Benvenuti su Quick-Art
  */
 router.get('/', function (req, res) {
-    res.render('site_index', {
+    res.render('site/index', {
         supplies: [1, 2, 3, 4, 5, 6]
     });
 });
@@ -28,22 +28,24 @@ router.get('/', function (req, res) {
  * Artisti Contemporanei
  */
 router.get('/artisti-contemporanei', function (req, res) {
-    Regions.find({}).sort({fullname: 'asc'}
-    ).exec(function (err, regions) {
-            Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
-                res.render('site_artists', {
+    Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+        Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+            Artists.count({active: 1}, function (err, allartists) {
+                res.render('site/artists', {
                     regions: regions,
-                    categories: categories
+                    categories: categories,
+                    all_artists: allartists
                 });
             });
         });
+    });
 });
 
 /**
  * Quadri Moderni
  */
 router.get('/quadri-opere-darte', function (req, res) {
-    res.render('site_paintings_worksofart', {
+    res.render('site/paintings_worksofart', {
         name: req.param('slug'),
         supplies: [1, 2, 3, 4, 5, 6, 7, 8, 9]
     });
@@ -54,15 +56,14 @@ router.get('/quadri-opere-darte', function (req, res) {
  */
 router.route('/registrazione')
     .get(function (req, res) {
-        Regions.find({}).sort({fullname: 'asc'}
-        ).exec(function (err, regions) {
-                Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
-                    res.render('site_registration', {
-                        regions: regions,
-                        categories: categories
-                    });
+        Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+            Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+                res.render('site/registration', {
+                    regions: regions,
+                    categories: categories
                 });
             });
+        });
     })
     .post(function (req, res) {
         new Artists({
@@ -105,31 +106,62 @@ router.post('/check-usermail', function (req, res) {
 });
 
 /**
- * Pittura
+ * Artisti Contemporanei
+ * Categoria: Pittura
  */
 router.get('/categoria/:slug', function (req, res) {
     Categories.findOne({slug: req.param('slug')}, function (err, category) {
         Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
-            res.render('site_category', {
-                category: category,
-                categories: categories,
-                supplies: [1, 2, 3]
+            Artists.find({
+                category: category._id,
+                active: 1
+            }).sort({fullname: 'asc'}).exec(function (err, artists) {
+                res.render('site/category', {
+                    category: category,
+                    categories: categories,
+                    artists: artists
+                });
             });
         });
     });
 });
 
+/**
+ * Artisti Contemporanei
+ * Regione: Sicilia
+ */
 router.get('/regione/:slug', function (req, res) {
-    res.render('site_region', {
-        name: req.param('slug')
+    Regions.findOne({slug: req.param('slug')}, function (err, region) {
+        Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+            Artists.find({
+                region: region._id,
+                active: 1
+            }).sort({fullname: 'asc'}).exec(function (err, artists) {
+                res.render('site/region', {
+                    region: region,
+                    regions: regions,
+                    artists: artists
+                });
+            });
+        });
     });
 });
 
+/**
+ * Artista
+ */
 router.get('/artista/:slug', function (req, res) {
-    res.render('site_artist', {
-        name: req.param('slug'),
-        supplies: [1, 2, 3, 4, 5, 6]
-    });
+    Artists.findOne({
+        slug: req.param('slug'),
+        active: 1
+    }, function (err, artist) {
+        res.render('site/artist', {
+            artist: artist,
+            supplies: [1, 2, 3, 4, 5, 6]
+        });
+    }).populate('category').populate('region');
+
+
 });
 
 module.exports = router;

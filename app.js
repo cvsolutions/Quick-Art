@@ -41,7 +41,9 @@ app.use(multer({
     }
 }));
 app.use(session({
-    secret: 'Qu1c4Rt',
+    secret: 'Qu1ck4Rt',
+    saveUninitialized: true,
+    resave: true,
     cookie: {
         secure: true
     }
@@ -59,7 +61,7 @@ app.use('/administrator', require('./routes/administrator'));
 app.use('/extranet', require('./routes/extranet'));
 
 app.use(function (req, res, next) {
-    res.status(404).render('404', {
+    res.status(404).render('site/404', {
         message: 'Sorry, page not found...'
     });
 });

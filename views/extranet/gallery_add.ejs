@@ -1,9 +1,9 @@
-<%- layout('site_layout') %>
+<%- layout('../site/layout') %>
 
 <div class="row">
     <div class="col-xs-8">
-        <h1>Modifica Foto</h1>
-        <p>Modifica quì le immagini della tua galleria artistica personale.</p>
+        <h1>Aggiungi Foto</h1>
+        <p>Inserisci quì le immagini della tua galleria artistica personale.</p>
         <p>&nbsp;</p>
 
         <div class="response"></div>
@@ -50,7 +50,6 @@
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label>Dimensione (H×L×P) in centimetri</label>
-
                         <div class="row">
                             <div class="col-xs-4"><input type="text" class="form-control" name="" id="" value="" required=""></div>
                             <div class="col-xs-4"><input type="text" class="form-control" name="" id="" value="" required=""></div>
@@ -69,6 +68,6 @@
         </form>
     </div>
     <div class="col-xs-4">
-        <%- include extranet_sidebar.ejs %>
+        <%- include sidebar.ejs %>
     </div>
 </div>

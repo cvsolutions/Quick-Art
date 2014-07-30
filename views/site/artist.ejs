@@ -1,9 +1,9 @@
-<%- layout('site_layout') %>
+<%- layout('layout') %>
 
 <div class="row">
     <div class="col-xs-8">
-        <h1><%= name %></h1>
-        <p>Accusamus aliquam assumenda doloremque, doloribus error et ipsam magnam modi mollitia, nisi porro quidem rem similique soluta ullam veritatis voluptate. Inventore, officiis!</p>
+        <h1><%= artist.fullname %></h1>
+        <p><%= artist.description %></p>
         <p>&nbsp;</p>
 
         <div class="row">
@@ -29,8 +29,8 @@
             <div class="panel-heading">Panel heading without title</div>
             <div class="panel-body">
                 <ul>
-                    <li>lorem</li>
-                    <li>lorem</li>
+                    <li>Categoria: <%= artist.category.fullname %></li>
+                    <li>Regione: <%= artist.region.fullname %></li>
                     <li>lorem</li>
                 </ul>
                 <p class="pull-right"><a href="" class="btn btn-default btn-sm">Contatta</a></p>

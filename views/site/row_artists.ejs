@@ -1,0 +1,15 @@
+<div class="row">
+    <% artists.forEach( function (row){ %>
+    <div class="col-xs-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <a href="/artista/<%= row.slug %>"><img src="http://placehold.it/350x150" class="img-responsive" alt=""/></a>
+                <p class="lead"><%= row.fullname %></p>
+                <ul class="list-inline pull-right">
+                    <li><a href="/artista/<%= row.slug %>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <% }); %>
+</div>

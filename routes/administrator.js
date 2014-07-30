@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.route('/')
     .get(function (req, res) {
-        res.render('administrator_index', {});
+        res.render('administrator/index', {});
     })
     .post(function (req, res) {
         console.log(req.body);
@@ -17,7 +17,7 @@ router.route('/')
     });
 
 router.get('/dashboard', function (req, res) {
-    res.render('administrator_dashboard', {});
+    res.render('administrator/dashboard', {});
 });
 
 router.get('/logout', function (req, res) {
