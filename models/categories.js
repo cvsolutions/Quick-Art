@@ -4,10 +4,12 @@ var Schema = mongoose.Schema;
 var Categories = Schema({
     fullname: {
         type: String,
+        trim: true,
         required: true
     },
     slug: {
         type: String,
+        trim: true,
         required: true,
         index: {
             unique: true

@@ -4,10 +4,12 @@ var Schema = mongoose.Schema;
 var Artists = Schema({
     fullname: {
         type: String,
+        trim: true,
         required: true
     },
     slug: {
         type: String,
+        trim: true,
         required: true,
         index: {
             unique: true
@@ -15,10 +17,12 @@ var Artists = Schema({
     },
     phone: {
         type: String,
+        trim: true,
         required: false
     },
     usermail: {
         type: String,
+        trim: true,
         required: true,
         index: {
             unique: true
@@ -26,6 +30,7 @@ var Artists = Schema({
     },
     pwd: {
         type: String,
+        trim: true,
         required: true
     },
     category: {
@@ -34,6 +39,7 @@ var Artists = Schema({
     },
     web: {
         type: String,
+        trim: true,
         required: false
     },
     region: {
@@ -46,10 +52,12 @@ var Artists = Schema({
     },
     photo: {
         type: Schema.Types.ObjectId,
+        required: false,
         ref: 'photos'
     },
     description: {
         type: String,
+        trim: true,
         required: true
     },
     level: Number,

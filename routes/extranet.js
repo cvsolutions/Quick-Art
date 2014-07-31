@@ -183,6 +183,10 @@ router.route('/gallery/add')
     })
     .post(isLoggedIn, function (req, res) {
         var cover = req.body.cover == 1 ? 1 : 0;
+
+
+
+
         new Photos({
             fullname: req.body.fullname,
             slug: req.body.slug,
@@ -238,8 +242,9 @@ router.route('/gallery/edit/:id')
         var ID = req.body.id;
         var cover = req.body.cover == 1 ? 1 : 0;
         Photos.findById(ID, function (err, photo) {
-
+            var picture = photo.picture;
             if (req.files.picture) {
+                picture = req.files.picture.name;
                 var target_path = './public/uploads/' + photo.picture;
                 fs.unlink(target_path, function () {
                     if (err) return console.error(err);
@@ -251,21 +256,23 @@ router.route('/gallery/edit/:id')
             photo.technique = mongoose.Types.ObjectId(req.body.technique);
             photo.theme = mongoose.Types.ObjectId(req.body.theme);
             photo.description = req.body.description;
-            photo.picture = req.files.picture.name;
+            photo.picture = picture;
             photo.height = req.body.height;
             photo.width = req.body.width;
             photo.depth = req.body.depth;
             photo.price = req.body.price;
             photo.tags = req.body.tags;
             photo.cover = cover;
-            photo.save(function (err) {
+            photo.save(function (err, image) {
                 if (!err) {
-                    if (cover == 1) {
-                        Artists.findById(ID, function (err, artist) {
-                            artist.photo = mongoose.Types.ObjectId(ID);
-                            artist.save();
-                        });
-                    }
+                    Artists.findById(image.artist, function (err, artist) {
+                        if (cover == 1) {
+                            artist.photo = mongoose.Types.ObjectId(image._id);
+                        } else {
+                            artist.photo = undefined;
+                        }
+                        artist.save();
+                    });
                     res.status(200).send({
                         text: 'Operazione eseguita con successo!'
                     });

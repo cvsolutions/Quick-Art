@@ -4,18 +4,16 @@ var Schema = mongoose.Schema;
 var Themes = Schema({
     fullname: {
         type: String,
+        trim: true,
         required: true
     },
     slug: {
         type: String,
+        trim: true,
         required: true,
         index: {
             unique: true
         }
-    },
-    coordinates: {
-        type: Object,
-        required: true
     }
 }, {
     collection: 'themes'
