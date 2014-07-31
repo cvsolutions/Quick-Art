@@ -36,10 +36,13 @@ router.get('/artisti-contemporanei', function (req, res) {
     Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
         Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
             Artists.count({active: 1}, function (err, allartists) {
-                res.render('site/artists', {
-                    regions: regions,
-                    categories: categories,
-                    all_artists: allartists
+                Photos.count({}, function (err, allphotos) {
+                    res.render('site/artists', {
+                        regions: regions,
+                        categories: categories,
+                        all_artists: allartists,
+                        all_photos: allphotos
+                    });
                 });
             });
         });
@@ -126,7 +129,7 @@ router.get('/categoria/:slug', function (req, res) {
             Artists.find({
                 category: category._id,
                 active: 1
-            }).sort({fullname: 'asc'}).exec(function (err, artists) {
+            }).populate('photo').sort({fullname: 'asc'}).exec(function (err, artists) {
                 res.render('site/category', {
                     category: category,
                     categories: categories,
@@ -147,7 +150,7 @@ router.get('/regione/:slug', function (req, res) {
             Artists.find({
                 region: region._id,
                 active: 1
-            }).sort({fullname: 'asc'}).exec(function (err, artists) {
+            }).populate('photo').sort({fullname: 'asc'}).exec(function (err, artists) {
                 res.render('site/region', {
                     region: region,
                     regions: regions,
@@ -166,13 +169,13 @@ router.get('/artista/:slug', function (req, res) {
         slug: req.param('slug'),
         active: 1
     }, function (err, artist) {
-        res.render('site/artist', {
-            artist: artist,
-            supplies: [1, 2, 3, 4, 5, 6]
+        Photos.find({artist: artist._id}).populate('technique').sort({fullname: 'asc'}).exec(function (err, photos) {
+            res.render('site/artist', {
+                artist: artist,
+                photos: photos
+            });
         });
     }).populate('category').populate('region').populate('province');
-
-
 });
 
 module.exports = router;

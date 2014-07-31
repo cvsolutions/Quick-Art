@@ -56,6 +56,7 @@ var Photos = Schema({
         type: Object,
         required: false
     },
+    cover: Number,
     registered: Date
 }, {
     collection: 'photos'

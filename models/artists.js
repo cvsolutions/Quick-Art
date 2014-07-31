@@ -44,6 +44,10 @@ var Artists = Schema({
         type: Schema.Types.ObjectId,
         ref: 'provinces'
     },
+    photo: {
+        type: Schema.Types.ObjectId,
+        ref: 'photos'
+    },
     description: {
         type: String,
         required: true

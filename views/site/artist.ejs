@@ -7,19 +7,20 @@
         <p>&nbsp;</p>
 
         <div class="row">
-            <% for(var i = 0; i < supplies.length; i++) { %>
+            <% photos.forEach( function (row){ %>
             <div class="col-xs-4">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <a href="/artista/lorem"><img src="http://placehold.it/320x240" class="img-responsive" alt=""/></a>
-                        <p>Lorem ipsum dolor sit amet</p>
+                        <a href="/artista/lorem"><img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-320" alt=""/></a>
+                        <p><%= row.fullname %></p>
+                        <p><%= row.technique.fullname %></p>
                         <ul class="list-inline pull-right">
-                            <li><a href="" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></a></li>
+                            <li><a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <% } %>
+            <% }); %>
         </div>
 
     </div>

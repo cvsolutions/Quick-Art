@@ -233,5 +233,27 @@ $(document).ready(function () {
         ]
     });
 
+    /**
+     * filestyle
+     */
+    $(':file').filestyle();
+
+    /**
+     * resizecrop
+     */
+    $('.js-rc-350').resizecrop({
+        width: 350,
+        height: 150,
+        vertical: "top"
+    });
+
+    /**
+     * resizecrop
+     */
+    $('.js-rc-320').resizecrop({
+        width: 240,
+        height: 150,
+        vertical: "top"
+    });
 
 });

@@ -176,6 +176,7 @@ router.route('/gallery/add')
         });
     })
     .post(isLoggedIn, function (req, res) {
+        var cover = req.body.cover == 1 ? 1 : 0;
         new Photos({
             fullname: req.body.fullname,
             slug: req.body.slug,
@@ -189,10 +190,18 @@ router.route('/gallery/add')
             price: req.body.price,
             artist: mongoose.Types.ObjectId(req.session.extranetUser._id),
             tags: req.body.tags.split(','),
+            cover: cover,
             registered: Date.now()
-        }).save(function (err) {
+        }).save(function (err, image) {
                 if (!err) {
+                    if (cover == 1) {
+                        Artists.findById(req.session.extranetUser._id, function (err, artist) {
+                            artist.photo = mongoose.Types.ObjectId(image._id);
+                            artist.save();
+                        });
+                    }
                     res.status(200).send({
+                        id: image,
                         text: 'Complimenti, la registrazione è avvenuta con successo!'
                     });
                 } else {

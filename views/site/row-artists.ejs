@@ -3,7 +3,13 @@
     <div class="col-xs-6">
         <div class="panel panel-default">
             <div class="panel-body">
-                <a href="/artista/<%= row.slug %>"><img src="http://placehold.it/350x150" class="img-responsive" alt=""/></a>
+                <a href="/artista/<%= row.slug %>">
+                    <% if (row.photo) { %>
+                    <img src="/uploads/<%= row.photo.picture %>" class="img-responsive js-rc-350" alt=""/>
+                    <% } else { %>
+                    <img src="/images/no-image.png" class="img-responsive js-rc-350" alt=""/>
+                    <% } %>
+                </a>
                 <p class="lead"><%= row.fullname %></p>
                 <ul class="list-inline pull-right">
                     <li><a href="/artista/<%= row.slug %>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></a></li>
