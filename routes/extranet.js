@@ -12,6 +12,12 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 /**
+ * fs
+ * @type {exports}
+ */
+var fs = require('fs');
+
+/**
  * model
  */
 var Regions = mongoose.model('regions');
@@ -202,7 +208,7 @@ router.route('/gallery/add')
                     }
                     res.status(200).send({
                         id: image,
-                        text: 'Complimenti, la registrazione è avvenuta con successo!'
+                        text: 'Operazione eseguita con successo!'
                     });
                 } else {
                     res.status(500).send(err);
@@ -210,12 +216,81 @@ router.route('/gallery/add')
             });
     });
 
+/**
+ * Modifica Foto
+ */
+router.route('/gallery/edit/:id')
+    .get(isLoggedIn, function (req, res) {
+        Techniques.find({}).sort({fullname: 'asc'}).exec(function (err, techniques) {
+            Themes.find({}).sort({fullname: 'asc'}).exec(function (err, themes) {
+                var ID = req.param('id');
+                Photos.findById(ID, function (err, photo) {
+                    res.render('extranet/gallery-edit', {
+                        techniques: techniques,
+                        themes: themes,
+                        photo: photo
+                    });
+                });
+            });
+        });
+    })
+    .post(isLoggedIn, function (req, res) {
+        var ID = req.body.id;
+        var cover = req.body.cover == 1 ? 1 : 0;
+        Photos.findById(ID, function (err, photo) {
 
-router.get('/gallery/edit/:id', isLoggedIn, function (req, res) {
-    res.render('extranet/gallery-edit', {});
-});
+            if (req.files.picture) {
+                var target_path = './public/uploads/' + photo.picture;
+                fs.unlink(target_path, function () {
+                    if (err) return console.error(err);
+                });
+            }
 
+            photo.fullname = req.body.fullname;
+            photo.slug = req.body.slug;
+            photo.technique = mongoose.Types.ObjectId(req.body.technique);
+            photo.theme = mongoose.Types.ObjectId(req.body.theme);
+            photo.description = req.body.description;
+            photo.picture = req.files.picture.name;
+            photo.height = req.body.height;
+            photo.width = req.body.width;
+            photo.depth = req.body.depth;
+            photo.price = req.body.price;
+            photo.tags = req.body.tags;
+            photo.cover = cover;
+            photo.save(function (err) {
+                if (!err) {
+                    if (cover == 1) {
+                        Artists.findById(ID, function (err, artist) {
+                            artist.photo = mongoose.Types.ObjectId(ID);
+                            artist.save();
+                        });
+                    }
+                    res.status(200).send({
+                        text: 'Operazione eseguita con successo!'
+                    });
+                } else {
+                    res.status(500).send(err);
+                }
+            });
+        });
+    });
+
+/**
+ * Elimina Foto
+ */
 router.get('/gallery/delete/:id', isLoggedIn, function (req, res) {
+    Photos.findById(req.params.id, function (err, photo) {
+        var target_path = './public/uploads/' + photo.picture;
+        fs.unlink(target_path, function () {
+            if (err) return console.error(err);
+        });
+        photo.remove(function (err) {
+            if (!err) {
+                res.redirect('/extranet/gallery');
+            }
+        });
+    });
 });
 
 /**

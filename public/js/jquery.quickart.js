@@ -19,11 +19,25 @@ $(document).ready(function () {
     var province = $('#province').data('selected');
 
     /**
+     * technique
+     * @type {*|jQuery}
+     */
+    var technique = $('#technique').data('selected');
+
+    /**
+     * theme
+     * @type {*|jQuery}
+     */
+    var theme = $('#theme').data('selected');
+
+    /**
      * selected option
      */
     $("#category option[value='" + category + "']").attr('selected', 'selected');
     $("#region option[value='" + region + "']").attr('selected', 'selected');
     $("#province option[value='" + province + "']").attr('selected', 'selected');
+    $("#technique option[value='" + technique + "']").attr('selected', 'selected');
+    $("#theme option[value='" + theme + "']").attr('selected', 'selected');
 
     /**
      * Registrazione
@@ -175,6 +189,37 @@ $(document).ready(function () {
     });
 
     /**
+     * Modifica Foto
+     */
+    $('#js-gallery-edit-form').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                url: '/extranet/gallery/edit/' + $('#id').val(),
+                type: 'POST',
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                cache: false,
+                statusCode: {
+                    200: function (response) {
+                        var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
+                        $('html,body').animate({
+                            scrollTop: $('.container').offset().top
+                        }, 1000);
+                        $('#result').hide().html(output).slideDown();
+                    },
+                    500: function (response) {
+                        alert(response.responseJSON.err);
+                        $('.form-control').val('');
+                    }
+                }
+            });
+            return true;
+        }
+    });
+
+    /**
      * keyup hide result
      */
     $('form').keyup(function () {
@@ -250,10 +295,18 @@ $(document).ready(function () {
     /**
      * resizecrop
      */
-    $('.js-rc-320').resizecrop({
+    $('.js-rc-240').resizecrop({
         width: 240,
         height: 150,
         vertical: "top"
     });
 
+    /**
+     * resizecrop
+     */
+    $('.js-rc-480').resizecrop({
+        width: 480,
+        height: 320,
+        vertical: "top"
+    });
 });

@@ -4,10 +4,12 @@ var Schema = mongoose.Schema;
 var Photos = Schema({
     fullname: {
         type: String,
+        trim: true,
         required: true
     },
     slug: {
         type: String,
+        trim: true,
         required: true,
         index: {
             unique: true
@@ -23,6 +25,7 @@ var Photos = Schema({
     },
     description: {
         type: String,
+        trim: true,
         required: false
     },
     picture: {
@@ -34,18 +37,22 @@ var Photos = Schema({
     },
     height: {
         type: Number,
+        trim: true,
         required: true
     },
     width: {
         type: Number,
+        trim: true,
         required: true
     },
     depth: {
         type: Number,
+        trim: true,
         required: true
     },
     price: {
         type: Number,
+        trim: true,
         required: true
     },
     artist: {

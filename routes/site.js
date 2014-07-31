@@ -53,9 +53,10 @@ router.get('/artisti-contemporanei', function (req, res) {
  * Catalogo Opere d'Arte
  */
 router.get('/catalogo-opere-arte', function (req, res) {
-    res.render('site/catalog', {
-        name: req.param('slug'),
-        supplies: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    Photos.find({cover: 1}).sort({fullname: 'asc'}).exec(function (err, photos) {
+        res.render('site/catalog', {
+            photos: photos
+        });
     });
 });
 
@@ -169,12 +170,18 @@ router.get('/artista/:slug', function (req, res) {
         slug: req.param('slug'),
         active: 1
     }, function (err, artist) {
-        Photos.find({artist: artist._id}).populate('technique').sort({fullname: 'asc'}).exec(function (err, photos) {
-            res.render('site/artist', {
-                artist: artist,
-                photos: photos
+        if (artist) {
+            Photos.find({artist: artist._id}).populate('technique').sort({fullname: 'asc'}).exec(function (err, photos) {
+                res.render('site/artist', {
+                    artist: artist,
+                    photos: photos
+                });
             });
-        });
+        } else {
+            res.status(404).render('site/404', {
+                message: 'Sorry, page not found...'
+            });
+        }
     }).populate('category').populate('region').populate('province');
 });
 
