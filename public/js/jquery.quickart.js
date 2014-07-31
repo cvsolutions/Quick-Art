@@ -1,6 +1,31 @@
 $(document).ready(function () {
 
     /**
+     * category
+     * @type {*|jQuery}
+     */
+    var category = $('#category').data('selected');
+
+    /**
+     * region
+     * @type {*|jQuery}
+     */
+    var region = $('#region').data('selected');
+
+    /**
+     * province
+     * @type {*|jQuery}
+     */
+    var province = $('#province').data('selected');
+
+    /**
+     * selected option
+     */
+    $("#category option[value='" + category + "']").attr('selected', 'selected');
+    $("#region option[value='" + region + "']").attr('selected', 'selected');
+    $("#province option[value='" + province + "']").attr('selected', 'selected');
+
+    /**
      * Registrazione
      */
     $('#js-registration-form').validate({
@@ -77,10 +102,60 @@ $(document).ready(function () {
         }
     });
 
+    /**
+     * Modifica Profilo
+     */
+    $('#js-profile-form').validate({
+        rules: {
+            usermail: {
+                email: true,
+                required: true,
+                remote: {
+                    url: '/extranet/check-exclude-usermail',
+                    type: 'POST',
+                    data: {
+                        id: $('#id').val()
+                    }
+                }
+            }
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                url: '/extranet/profile',
+                type: 'POST',
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                cache: false,
+                statusCode: {
+                    200: function (response) {
+                        var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
+                        $('html,body').animate({
+                            scrollTop: $('.container').offset().top
+                        }, 1000);
+                        $('#result').hide().html(output).slideDown();
+                    },
+                    500: function (response) {
+                        alert(response.responseJSON.err);
+                        $('.form-control').val('');
+                    }
+                }
+            });
+            return true;
+        }
+    });
+
+    /**
+     * keyup hide result
+     */
     $('form').keyup(function () {
         $('#result').slideUp();
     });
 
+    /**
+     * stringToSlug
+     */
     $('#fullname').stringToSlug({
         setEvents: 'keyup keydown blur',
         getPut: '#slug',
@@ -92,13 +167,10 @@ $(document).ready(function () {
         callback: false
     });
 
+    /**
+     * dataTable
+     */
     $('#example').dataTable();
 
-    var category = $('#category').data('selected');
-    var region = $('#region').data('selected');
-    var province = $('#province').data('selected');
 
-    $("#category option[value='" + category + "']").attr('selected', 'selected');
-    $("#region option[value='" + region + "']").attr('selected', 'selected');
-    $("#province option[value='" + province + "']").attr('selected', 'selected');
 });

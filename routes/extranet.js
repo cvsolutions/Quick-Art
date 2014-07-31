@@ -85,10 +85,7 @@ router.route('/profile')
         Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
             Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
                 Provinces.find({}).sort({fullname: 'asc'}).exec(function (err, provinces) {
-                    Artists.findOne({
-                        slug: req.session.extranetUser.slug,
-                        active: 1
-                    }, function (err, artist) {
+                    Artists.findById(req.session.extranetUser._id, function (err, artist) {
                         res.render('extranet/profile', {
                             artist: artist,
                             regions: regions,
@@ -101,8 +98,47 @@ router.route('/profile')
         });
     })
     .post(isLoggedIn, function (req, res) {
-
+        Artists.findById(req.body.id, function (err, artist) {
+            artist.fullname = req.body.fullname;
+            artist.slug = req.body.slug;
+            artist.phone = req.body.phone;
+            artist.usermail = req.body.usermail;
+            artist.pwd = req.body.pwd;
+            artist.category = mongoose.Types.ObjectId(req.body.category);
+            artist.web = req.body.web;
+            artist.region = mongoose.Types.ObjectId(req.body.region);
+            artist.province = mongoose.Types.ObjectId(req.body.province);
+            artist.description = req.body.description;
+            artist.save(function (err) {
+                if (!err) {
+                    res.status(200).send({
+                        text: 'Operazione eseguita con successo!'
+                    });
+                } else {
+                    res.status(500).send(err);
+                }
+            });
+        });
     });
+
+/**
+ * Check Usermail (Exclude profile)
+ */
+router.post('/check-exclude-usermail', isLoggedIn, function (req, res) {
+    Artists.findOne({
+        _id: {
+            '$ne': req.body.id
+        },
+        usermail: req.body.usermail,
+        active: 1
+    }, function (err, result) {
+        if (result) {
+            res.status(200).send(false);
+        } else {
+            res.status(200).send(true);
+        }
+    });
+});
 
 router.get('/gallery', isLoggedIn, function (req, res) {
     res.render('extranet/gallery', {});
