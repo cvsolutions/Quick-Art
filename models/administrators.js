@@ -1,21 +1,24 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Auth = Schema({
+var Administrators = Schema({
     fullname: {
         type: String,
         required: true
     },
     username: {
         type: String,
-        required: true
+        required: true,
+        index: {
+            unique: true
+        }
     },
     password: {
         type: String,
         required: true
     }
 }, {
-    collection: 'auth'
+    collection: 'administrators'
 });
 
-mongoose.model('auth', Auth);
+mongoose.model('administrators', Administrators);

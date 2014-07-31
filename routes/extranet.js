@@ -18,6 +18,9 @@ var Regions = mongoose.model('regions');
 var Provinces = mongoose.model('provinces');
 var Categories = mongoose.model('categories');
 var Artists = mongoose.model('artists');
+var Techniques = mongoose.model('techniques');
+var Themes = mongoose.model('themes');
+var Photos = mongoose.model('photos');
 
 /**
  * isLoggedIn
@@ -140,13 +143,64 @@ router.post('/check-exclude-usermail', isLoggedIn, function (req, res) {
     });
 });
 
+/**
+ * Photo Gallery
+ */
 router.get('/gallery', isLoggedIn, function (req, res) {
     res.render('extranet/gallery', {});
 });
 
-router.get('/gallery/add', isLoggedIn, function (req, res) {
-    res.render('extranet/gallery-add', {});
+/**
+ * json photos
+ */
+router.get('/gallery/photos.json', isLoggedIn, function (req, res) {
+    Photos.find({artist: req.session.extranetUser._id}).populate('technique').exec(function (err, photos) {
+        res.status(200).send({
+            data: photos
+        });
+    });
 });
+
+/**
+ * Aggiungi Foto
+ */
+router.route('/gallery/add')
+    .get(isLoggedIn, function (req, res) {
+        Techniques.find({}).sort({fullname: 'asc'}).exec(function (err, techniques) {
+            Themes.find({}).sort({fullname: 'asc'}).exec(function (err, themes) {
+                res.render('extranet/gallery-add', {
+                    techniques: techniques,
+                    themes: themes
+                });
+            });
+        });
+    })
+    .post(isLoggedIn, function (req, res) {
+        new Photos({
+            fullname: req.body.fullname,
+            slug: req.body.slug,
+            technique: mongoose.Types.ObjectId(req.body.technique),
+            theme: mongoose.Types.ObjectId(req.body.theme),
+            description: req.body.description,
+            picture: req.files.picture.name,
+            height: req.body.height,
+            width: req.body.width,
+            depth: req.body.depth,
+            price: req.body.price,
+            artist: mongoose.Types.ObjectId(req.session.extranetUser._id),
+            tags: req.body.tags.split(','),
+            registered: Date.now()
+        }).save(function (err) {
+                if (!err) {
+                    res.status(200).send({
+                        text: 'Complimenti, la registrazione è avvenuta con successo!'
+                    });
+                } else {
+                    res.status(500).send(err);
+                }
+            });
+    });
+
 
 router.get('/gallery/edit/:id', isLoggedIn, function (req, res) {
     res.render('extranet/gallery-edit', {});

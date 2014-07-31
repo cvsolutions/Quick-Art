@@ -6,64 +6,73 @@
         <p>Inserisci quì le immagini della tua galleria artistica personale.</p>
         <p>&nbsp;</p>
 
-        <div class="response"></div>
-        <form id="" method="" enctype="multipart/form-data">
+        <div id="result"></div>
+        <form id="js-gallery-add-form" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label>Titolo</label>
-                        <input type="text" class="form-control" name="" id="" value="" required="">
+                        <input type="text" class="form-control" name="fullname" id="fullname" value="" required="">
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Tecnica</label>
-                        <select class="form-control" name="" id="" required="">
-                            <option value="">-</option>
-                        </select>
+                        <label>Dimensione (H×L×P) in centimetri</label>
+
+                        <div class="row">
+                            <div class="col-xs-4"><input type="number" class="form-control" name="height" id="height" value="" required=""></div>
+                            <div class="col-xs-4"><input type="number" class="form-control" name="width" id="width" value="" required=""></div>
+                            <div class="col-xs-4"><input type="number" class="form-control" name="depth" id="depth" value="" required=""></div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Categoria Tematica</label>
-                        <select class="form-control" name="" id="" required="">
+                        <label>Tecnica</label>
+                        <select class="form-control" name="technique" id="technique" required="">
                             <option value="">-</option>
+                            <% techniques.forEach( function (row){ %>
+                            <option value="<%= row._id %>"><%= row.fullname %></option>
+                            <% }); %>
                         </select>
                     </div>
                 </div>
                 <div class="col-xs-6">
-                    <p>&nbsp;</p>
+                    <div class="form-group">
+                        <label>Categoria Tematica</label>
+                        <select class="form-control" name="theme" id="theme" required="">
+                            <option value="">-</option>
+                            <% themes.forEach( function (row){ %>
+                            <option value="<%= row._id %>"><%= row.fullname %></option>
+                            <% }); %>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
                 <label>Breve Descrizione</label>
-                <textarea class="form-control" name="" id="" rows="10" required=""></textarea>
+                <textarea class="form-control" name="description" id="description" rows="10"></textarea>
             </div>
             <div class="form-group">
                 <label>Immagine</label>
-                <input type="file" name="" id="" required="">
+                <input type="file" name="picture" id="picture" accept="image/*" required="">
                 <p class="help-block">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
             </div>
             <div class="row">
                 <div class="col-xs-6">
-                    <div class="form-group">
-                        <label>Dimensione (H×L×P) in centimetri</label>
-                        <div class="row">
-                            <div class="col-xs-4"><input type="text" class="form-control" name="" id="" value="" required=""></div>
-                            <div class="col-xs-4"><input type="text" class="form-control" name="" id="" value="" required=""></div>
-                            <div class="col-xs-4"><input type="text" class="form-control" name="" id="" value="" required=""></div>
-                        </div>
-                    </div>
+                    <label>Prezzo Netto €</label>
+                    <input type="text" class="form-control" name="price" id="price" value="" required="">
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Prezzo Netto €</label>
-                        <input type="text" class="form-control" name="" id="" value="" required="">
+                        <label>Tags</label>
+                        <input type="text" class="form-control" name="tags" id="tags" value="" required="">
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="slug" id="slug" value="">
             <input type="submit" class="btn btn-default" value="Salva">
         </form>
     </div>

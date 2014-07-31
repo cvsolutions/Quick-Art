@@ -7,13 +7,14 @@ var session = require('express-session');
 /**
  * Models
  */
-require('./models/auth');
+require('./models/administrators');
 require('./models/regions');
 require('./models/provinces');
 require('./models/categories');
 require('./models/artists');
 require('./models/themes');
 require('./models/techniques');
+require('./models/photos');
 
 /**
  * Connect Mongo DB
@@ -47,7 +48,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(multer({
     dest: './public/uploads/',
     rename: function (fieldname, filename) {
-        return filename.replace(/\W+/g, '-').toLowerCase()
+        return Date.now() + '_' + filename.replace(/\W+/g, '-').toLowerCase()
     }
 }));
 app.use(session({
