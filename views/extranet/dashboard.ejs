@@ -5,6 +5,7 @@
         <h1>Benvenuto, <%= user.fullname %></h1>
         <p class="lead">L'accesso a quest'area è concesso solamente agli espositori già iscritti.</p>
         <p>Benvenuto nella tua Area Riservata alla nostra Community. In questa sezione potrai modificare il tuo profilo personale, inserire le tue mostre creare la tua Galleria d'Arte On-line e modificarti il tuo curriculum Professionale. Buona navigazione ...</p>
+        <p><i>Utente registrato dal <%- user.registered %></i></p>
     </div>
     <div class="col-xs-4">
         <%- include sidebar.ejs %>

@@ -13,9 +13,9 @@ var Artists = Schema({
             unique: true
         }
     },
-    pwd: {
+    phone: {
         type: String,
-        required: true
+        required: false
     },
     usermail: {
         type: String,
@@ -24,17 +24,25 @@ var Artists = Schema({
             unique: true
         }
     },
+    pwd: {
+        type: String,
+        required: true
+    },
     category: {
         type: Schema.Types.ObjectId,
         ref: 'categories'
+    },
+    web: {
+        type: String,
+        required: false
     },
     region: {
         type: Schema.Types.ObjectId,
         ref: 'regions'
     },
-    web: {
-        type: String,
-        required: false
+    province: {
+        type: Schema.Types.ObjectId,
+        ref: 'provinces'
     },
     description: {
         type: String,

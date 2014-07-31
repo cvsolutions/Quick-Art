@@ -13,6 +13,7 @@
         "mongoose": "3.x",
         "ejs": "1.x",
         "ejs-locals": "1.x",
+        "native-view-helpers": "0.x",
         "multer": "0.x"
     }
 }

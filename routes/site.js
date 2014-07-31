@@ -4,7 +4,11 @@
  */
 var mongoose = require('mongoose');
 
+/**
+ * model
+ */
 var Regions = mongoose.model('regions');
+var Provinces = mongoose.model('provinces');
 var Categories = mongoose.model('categories');
 var Artists = mongoose.model('artists');
 
@@ -58,9 +62,12 @@ router.route('/registrazione')
     .get(function (req, res) {
         Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
             Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
-                res.render('site/registration', {
-                    regions: regions,
-                    categories: categories
+                Provinces.find({}).sort({fullname: 'asc'}).exec(function (err, provinces) {
+                    res.render('site/registration', {
+                        regions: regions,
+                        provinces: provinces,
+                        categories: categories
+                    });
                 });
             });
         });
@@ -69,11 +76,13 @@ router.route('/registrazione')
         new Artists({
             fullname: req.body.fullname,
             slug: req.body.slug,
-            pwd: req.body.pwd,
+            phone: req.body.phone,
             usermail: req.body.usermail,
+            pwd: req.body.pwd,
             category: mongoose.Types.ObjectId(req.body.category),
-            region: mongoose.Types.ObjectId(req.body.region),
             web: req.body.web,
+            region: mongoose.Types.ObjectId(req.body.region),
+            province: mongoose.Types.ObjectId(req.body.province),
             description: req.body.description,
             level: 1,
             active: 1,
@@ -160,9 +169,7 @@ router.get('/artista/:slug', function (req, res) {
             artist: artist,
             supplies: [1, 2, 3, 4, 5, 6]
         });
-    }).populate('category').populate('region');
-
-
+    }).populate('category').populate('region').populate('province');
 });
 
 module.exports = router;

@@ -7,9 +7,13 @@ var session = require('express-session');
 /**
  * Models
  */
+require('./models/auth');
 require('./models/regions');
+require('./models/provinces');
 require('./models/categories');
 require('./models/artists');
+require('./models/themes');
+require('./models/techniques');
 
 /**
  * Connect Mongo DB
@@ -22,6 +26,12 @@ mongoose.connect('mongodb://127.0.0.1:27017/quick-art');
  * Express
  */
 var app = express();
+
+/**
+ * helpers
+ * @type {exports}
+ */
+app.locals.helper = require('native-view-helpers');
 
 /**
  * set

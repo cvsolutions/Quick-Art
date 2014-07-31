@@ -93,4 +93,12 @@ $(document).ready(function () {
     });
 
     $('#example').dataTable();
+
+    var category = $('#category').data('selected');
+    var region = $('#region').data('selected');
+    var province = $('#province').data('selected');
+
+    $("#category option[value='" + category + "']").attr('selected', 'selected');
+    $("#region option[value='" + region + "']").attr('selected', 'selected');
+    $("#province option[value='" + province + "']").attr('selected', 'selected');
 });
