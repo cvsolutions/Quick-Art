@@ -11,6 +11,7 @@ var Regions = mongoose.model('regions');
 var Provinces = mongoose.model('provinces');
 var Categories = mongoose.model('categories');
 var Artists = mongoose.model('artists');
+var Photos = mongoose.model('photos');
 
 /**
  * express
@@ -170,6 +171,8 @@ router.get('/artista/:slug', function (req, res) {
             supplies: [1, 2, 3, 4, 5, 6]
         });
     }).populate('category').populate('region').populate('province');
+
+
 });
 
 module.exports = router;
