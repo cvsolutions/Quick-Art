@@ -38,9 +38,13 @@ router.get('/loginFailure', function (req, res) {
  */
 router.get('/artisti-contemporanei', function (req, res) {
     Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+        if (err) return next(err);
         Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+            if (err) return next(err);
             Artists.count({active: 1}, function (err, allartists) {
+                if (err) return next(err);
                 Photos.count({}, function (err, allphotos) {
+                    if (err) return next(err);
                     res.render('site/artists', {
                         regions: regions,
                         categories: categories,
@@ -58,6 +62,7 @@ router.get('/artisti-contemporanei', function (req, res) {
  */
 router.get('/catalogo-opere-arte', function (req, res) {
     Photos.find({cover: 1}).sort({fullname: 'asc'}).exec(function (err, photos) {
+        if (err) return next(err);
         res.render('site/catalog', {
             photos: photos
         });
@@ -70,8 +75,11 @@ router.get('/catalogo-opere-arte', function (req, res) {
 router.route('/registrazione')
     .get(function (req, res) {
         Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+            if (err) return next(err);
             Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+                if (err) return next(err);
                 Provinces.find({}).sort({fullname: 'asc'}).exec(function (err, provinces) {
+                    if (err) return next(err);
                     res.render('site/registration', {
                         regions: regions,
                         provinces: provinces,
@@ -116,6 +124,7 @@ router.post('/check-usermail', function (req, res) {
         active: 1
     }, function (err, result) {
         // console.log(result);
+        if (err) return next(err);
         if (result) {
             res.status(200).send(false);
         } else {
@@ -130,11 +139,14 @@ router.post('/check-usermail', function (req, res) {
  */
 router.get('/categoria/:slug', function (req, res) {
     Categories.findOne({slug: req.param('slug')}, function (err, category) {
+        if (err) return next(err);
         Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+            if (err) return next(err);
             Artists.find({
                 category: category._id,
                 active: 1
             }).populate('photo').sort({fullname: 'asc'}).exec(function (err, artists) {
+                if (err) return next(err);
                 res.render('site/category', {
                     category: category,
                     categories: categories,
@@ -151,11 +163,14 @@ router.get('/categoria/:slug', function (req, res) {
  */
 router.get('/regione/:slug', function (req, res) {
     Regions.findOne({slug: req.param('slug')}, function (err, region) {
+        if (err) return next(err);
         Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+            if (err) return next(err);
             Artists.find({
                 region: region._id,
                 active: 1
             }).populate('photo').sort({fullname: 'asc'}).exec(function (err, artists) {
+                if (err) return next(err);
                 res.render('site/region', {
                     region: region,
                     regions: regions,
@@ -174,8 +189,10 @@ router.get('/artista/:slug', function (req, res) {
         slug: req.param('slug'),
         active: 1
     }, function (err, artist) {
+        if (err) return next(err);
         if (artist) {
             Photos.find({artist: artist._id}).populate('technique').sort({fullname: 'asc'}).exec(function (err, photos) {
+                if (err) return next(err);
                 res.render('site/artist', {
                     artist: artist,
                     photos: photos

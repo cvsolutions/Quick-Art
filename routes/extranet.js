@@ -65,6 +65,7 @@ router.route('/')
  */
 router.get('/dashboard', isLoggedIn, function (req, res) {
     Artists.findById(req.session.passport.user, function (err, artist) {
+        if (err) return next(err);
         res.render('extranet/dashboard', {
             user: artist
         });

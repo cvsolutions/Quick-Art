@@ -36,6 +36,9 @@ function isLoggedIn(req, res, next) {
     }
 }
 
+/**
+ * Login
+ */
 router.route('/')
     .get(function (req, res) {
         res.render('administrator/index', {});
@@ -45,14 +48,21 @@ router.route('/')
         failureRedirect: '/loginFailure'
     }));
 
+/**
+ * Dashboard
+ */
 router.get('/dashboard', isLoggedIn, function (req, res) {
     Administrators.findById(req.session.passport.user, function (err, admin) {
+        if (err) return next(err);
         res.render('administrator/dashboard', {
             user: admin
         });
     });
 });
 
+/**
+ * Logout
+ */
 router.get('/logout', isLoggedIn, function (req, res) {
     req.logout();
     res.redirect('/');
