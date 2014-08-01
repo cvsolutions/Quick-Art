@@ -58,7 +58,7 @@
             <div class="form-group">
                 <label>Immagine</label>
                 <input type="file" name="picture" id="picture" accept="image/*">
-                <p class="help-block"><%= photo.picture %></p>
+                <p class="help-block"><a href="/uploads/<%= photo.picture %>" class="js-fancybox" rel="picture"><%= photo.picture %></a></p>
             </div>
             <div class="row">
                 <div class="col-xs-4">

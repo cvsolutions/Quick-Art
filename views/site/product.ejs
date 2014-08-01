@@ -4,7 +4,7 @@
     <div class="col-xs-8">
         <h1><%= photo.fullname %></h1>
         <p><i>di: <%= photo.artist.fullname %></i></p>
-        <p><img src="/uploads/<%= photo.picture %>" class="img-responsive img-thumbnail" alt=""/></p>
+        <p><a href="/uploads/<%= photo.picture %>" class="js-fancybox" title="<%= photo.fullname %>" rel="picture"><img src="/uploads/<%= photo.picture %>" class="img-responsive img-thumbnail" alt=""/></a></p>
         <p><%- helper.nl2br(photo.description) %></p>
     </div>
     <div class="col-xs-4">

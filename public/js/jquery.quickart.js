@@ -111,8 +111,15 @@ $(document).ready(function () {
                 contentType: false,
                 dataType: 'json',
                 cache: false,
+                beforeSend: function () {
+                    $.isLoading({
+                        text: 'Loading',
+                        position: 'overlay'
+                    });
+                },
                 statusCode: {
                     200: function (response) {
+                        $.isLoading('hide');
                         var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
                         $('html,body').animate({
                             scrollTop: $('.container').offset().top
@@ -120,6 +127,7 @@ $(document).ready(function () {
                         $('#result').hide().html(output).slideDown();
                     },
                     500: function (response) {
+                        $.isLoading('hide');
                         alert(response.responseJSON.err);
                         $('.form-control').val('');
                     }
@@ -139,8 +147,15 @@ $(document).ready(function () {
                 contentType: false,
                 dataType: 'json',
                 cache: false,
+                beforeSend: function () {
+                    $.isLoading({
+                        text: 'Loading',
+                        position: 'overlay'
+                    });
+                },
                 statusCode: {
                     200: function (response) {
+                        $.isLoading('hide');
                         var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
                         $('html,body').animate({
                             scrollTop: $('.container').offset().top
@@ -148,6 +163,7 @@ $(document).ready(function () {
                         $('#result').hide().html(output).slideDown();
                     },
                     500: function (response) {
+                        $.isLoading('hide');
                         alert(response.responseJSON.err);
                         $('.form-control').val('');
                     }
@@ -170,8 +186,15 @@ $(document).ready(function () {
                 contentType: false,
                 dataType: 'json',
                 cache: false,
+                beforeSend: function () {
+                    $.isLoading({
+                        text: 'Loading',
+                        position: 'overlay'
+                    });
+                },
                 statusCode: {
                     200: function (response) {
+                        $.isLoading('hide');
                         var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
                         $('html,body').animate({
                             scrollTop: $('.container').offset().top
@@ -179,6 +202,7 @@ $(document).ready(function () {
                         $('#result').hide().html(output).slideDown();
                     },
                     500: function (response) {
+                        $.isLoading('hide');
                         alert(response.responseJSON.err);
                         $('.form-control').val('');
                     }
@@ -214,6 +238,9 @@ $(document).ready(function () {
      */
     $('#js-full-gallery').dataTable({
         "ajax": '/extranet/gallery/photos.json',
+        "language": {
+            "url": '/js/jquery.dataTables_messages_it.json'
+        },
         "order": [
             [3, 'desc']
         ],
@@ -251,6 +278,11 @@ $(document).ready(function () {
      * filestyle
      */
     $(':file').filestyle();
+
+    /**
+     * fancybox
+     */
+    $('.js-fancybox').fancybox();
 
     /**
      * resizecrop
