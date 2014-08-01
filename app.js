@@ -138,9 +138,7 @@ app.use('/administrator', require('./routes/administrator'));
 app.use('/extranet', require('./routes/extranet'));
 
 app.use(function (req, res) {
-    res.status(404).render('site/404', {
-        message: 'Sorry, page not found...'
-    });
+    res.status(404).render('site/404', {});
 });
 
 app.listen(3000, function () {

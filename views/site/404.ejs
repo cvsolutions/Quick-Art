@@ -1,32 +1,20 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <link href="/css/bootstrap.css" rel="stylesheet">
-</head>
+<%- layout('layout') %>
 
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <p>&nbsp;</p>
-        </div>
+<div class="row">
+    <div class="col-xs-8">
+        <h1>404 - PAGINA NON TROVATA</h1>
+        <p class="lead">Oops, pagina non trovata!</p>
+        <p>Siamo spiacenti ma non siamo riusciti a trovare la pagina che stavi cercando.</p>
+        <p>Potrebbe trattarsi di un errore di scrittura dell'URL oppure la pagina cercata potrebbe essere stata spostata.</p>
+        <p><i>E' anche possibile che si tratti di una pagina riservata agli utenti registrati e che per poterla leggere sia necessario effettuare la <a href="registrazione">registrazione</a> o il <a href="extranet">login</a></i></p>
+        <p><a href="/" class="btn btn-default">Torna all'home page</a></p>
     </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="alert alert-warning alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <%= message %>
+    <div class="col-xs-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include adsbygoogle-300-250.ejs %>
             </div>
-            <p><a href="javascript:history.back()">Torna indietro...</a></p>
         </div>
     </div>
 </div>
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.js"></script>
-</body>
-</html>
+

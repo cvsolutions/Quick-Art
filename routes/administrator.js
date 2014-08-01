@@ -45,7 +45,7 @@ router.route('/')
     })
     .post(passport.authenticate('administrator-local', {
         successRedirect: '/administrator/dashboard',
-        failureRedirect: '/loginFailure'
+        failureRedirect: '/login-failure'
     }));
 
 /**

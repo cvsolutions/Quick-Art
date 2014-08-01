@@ -1,0 +1,25 @@
+<%- layout('layout') %>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h1>401 - Log in failed</h1>
+        <p class="lead">Errore: l'account non esiste oppure non sei autorizzato ad accedere a questa pagina!</p>
+
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            ERRORE: Nome Utente non valido o Password errata!
+        </div>
+        <p><a href="/extranet" class="btn btn-default">Rieffettua il login</a></p>
+    </div>
+    <div class="col-xs-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include adsbygoogle-300-250.ejs %>
+            </div>
+        </div>
+    </div>
+</div>
+

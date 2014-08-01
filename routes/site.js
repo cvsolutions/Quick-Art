@@ -29,8 +29,11 @@ router.get('/', function (req, res) {
     });
 });
 
-router.get('/loginFailure', function (req, res) {
-    res.send('Failure to authenticate');
+/**
+ * loginFailure
+ */
+router.get('/login-failure', function (req, res) {
+    res.render('site/login-failure');
 });
 
 /**
@@ -140,20 +143,24 @@ router.post('/check-usermail', function (req, res) {
 router.get('/categoria/:slug', function (req, res) {
     Categories.findOne({slug: req.param('slug')}, function (err, category) {
         if (err) return next(err);
-        Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
-            if (err) return next(err);
-            Artists.find({
-                category: category._id,
-                active: 1
-            }).populate('photo').sort({fullname: 'asc'}).exec(function (err, artists) {
+        if (category) {
+            Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
                 if (err) return next(err);
-                res.render('site/category', {
-                    category: category,
-                    categories: categories,
-                    artists: artists
+                Artists.find({
+                    category: category._id,
+                    active: 1
+                }).populate('photo').sort({fullname: 'asc'}).exec(function (err, artists) {
+                    if (err) return next(err);
+                    res.render('site/category', {
+                        category: category,
+                        categories: categories,
+                        artists: artists
+                    });
                 });
             });
-        });
+        } else {
+            res.status(404).render('site/404');
+        }
     });
 });
 
@@ -164,20 +171,24 @@ router.get('/categoria/:slug', function (req, res) {
 router.get('/regione/:slug', function (req, res) {
     Regions.findOne({slug: req.param('slug')}, function (err, region) {
         if (err) return next(err);
-        Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
-            if (err) return next(err);
-            Artists.find({
-                region: region._id,
-                active: 1
-            }).populate('photo').sort({fullname: 'asc'}).exec(function (err, artists) {
+        if (region) {
+            Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
                 if (err) return next(err);
-                res.render('site/region', {
-                    region: region,
-                    regions: regions,
-                    artists: artists
+                Artists.find({
+                    region: region._id,
+                    active: 1
+                }).populate('photo').sort({fullname: 'asc'}).exec(function (err, artists) {
+                    if (err) return next(err);
+                    res.render('site/region', {
+                        region: region,
+                        regions: regions,
+                        artists: artists
+                    });
                 });
             });
-        });
+        } else {
+            res.status(404).render('site/404');
+        }
     });
 });
 
@@ -199,9 +210,7 @@ router.get('/artista/:slug', function (req, res) {
                 });
             });
         } else {
-            res.status(404).render('site/404', {
-                message: 'Sorry, page not found...'
-            });
+            res.status(404).render('site/404');
         }
     }).populate('category').populate('region').populate('province');
 });
