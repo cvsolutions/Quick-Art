@@ -24,8 +24,11 @@ var router = express.Router();
  * Benvenuti su Quick-Art
  */
 router.get('/', function (req, res) {
-    res.render('site/index', {
-        supplies: [1, 2, 3, 4, 5, 6]
+    Photos.find({cover: 1}).populate('technique').sort({registered: 'desc'}).limit(3).exec(function (err, photos) {
+        if (err) return next(err);
+        res.render('site/index', {
+            photos: photos
+        });
     });
 });
 
@@ -64,7 +67,7 @@ router.get('/artisti-contemporanei', function (req, res) {
  * Catalogo Opere d'Arte
  */
 router.get('/catalogo-opere-arte', function (req, res) {
-    Photos.find({cover: 1}).sort({fullname: 'asc'}).exec(function (err, photos) {
+    Photos.find({cover: 1}).populate('technique').sort({registered: 'desc'}).exec(function (err, photos) {
         if (err) return next(err);
         res.render('site/catalog', {
             photos: photos

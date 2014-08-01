@@ -1,16 +1,14 @@
 <div class="row">
-    <% if(artists.length > 0){ %>
-    <% artists.forEach( function (row){ %>
-    <div class="col-xs-6">
+    <% if(photos.length > 0){ %>
+    <% photos.forEach( function (row){ %>
+    <div class="col-xs-4">
         <div class="thumbnail">
-            <% if (row.photo) { %>
-            <img src="/uploads/<%= row.photo.picture %>" class="img-responsive js-rc-350" alt=""/>
-            <% } else { %>
-            <img src="/images/no-image.png" class="img-responsive js-rc-350" alt=""/>
-            <% } %>
+            <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt=""/>
+
             <div class="caption">
                 <h3><%= row.fullname %></h3>
-                <p><a href="/artista/<%= row.slug %>" class="btn btn-primary" role="button">vedi scheda</a></p>
+                <p><%= row.technique.fullname %>, <%= row.height %>x<%= row.width %>x<%= row.depth %> cm</p>
+                <p><a href="#" class="btn btn-primary" role="button">vedi scheda</a></p>
             </div>
         </div>
     </div>

@@ -275,7 +275,7 @@ $(document).ready(function () {
      */
     $('.js-rc-480').resizecrop({
         width: 480,
-        height: 320,
+        height: 200,
         vertical: "top"
     });
 });
