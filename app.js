@@ -26,8 +26,9 @@ require('./models/photos');
 mongoose.connect('mongodb://127.0.0.1:27017/quick-art');
 
 /**
- * model
+ * Model
  */
+var Administrators = mongoose.model('administrators');
 var Artists = mongoose.model('artists');
 
 /**
@@ -76,15 +77,43 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /**
- * passport
+ * Passport
  */
 passport.serializeUser(function (user, done) {
-    done(null, user);
+    done(null, user.id);
 });
-passport.deserializeUser(function (user, done) {
-    done(null, user);
+
+passport.deserializeUser(function (id, done) {
+    Administrators.findById(id, function (err, user) {
+        if (err) done(err);
+        if (user) {
+            done(null, user);
+        } else {
+            Artists.findById(id, function (err, user) {
+                if (err) done(err);
+                done(null, user);
+            });
+        }
+    });
 });
-passport.use('local-login', new LocalStrategy({
+
+passport.use('administrator-local', new LocalStrategy({
+        usernameField: 'username',
+        passwordField: 'password',
+        passReqToCallback: true
+    },
+    function (req, email, password, done) {
+        Administrators.findOne({
+            username: email,
+            password: password
+        }, function (err, user) {
+            if (err) return done(err);
+            if (!user) return done(null, false);
+            return done(null, user);
+        });
+    }));
+
+passport.use('extranet-local', new LocalStrategy({
         usernameField: 'usermail',
         passwordField: 'pwd',
         passReqToCallback: true

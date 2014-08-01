@@ -1,11 +1,4 @@
 /**
- * express
- * @type {exports}
- */
-var express = require('express');
-var router = express.Router();
-
-/**
  * mongoose
  * @type {exports}
  */
@@ -22,6 +15,13 @@ var fs = require('fs');
  * @type {exports}
  */
 var passport = require('passport');
+
+/**
+ * express
+ * @type {exports}
+ */
+var express = require('express');
+var router = express.Router();
 
 /**
  * model
@@ -55,7 +55,7 @@ router.route('/')
     .get(function (req, res) {
         res.render('extranet/index', {});
     })
-    .post(passport.authenticate('local-login', {
+    .post(passport.authenticate('extranet-local', {
         successRedirect: '/extranet/dashboard',
         failureRedirect: '/loginFailure'
     }));
@@ -64,8 +64,10 @@ router.route('/')
  * Dashboard
  */
 router.get('/dashboard', isLoggedIn, function (req, res) {
-    res.render('extranet/dashboard', {
-        user: req.session
+    Artists.findById(req.session.passport.user, function (err, artist) {
+        res.render('extranet/dashboard', {
+            user: artist
+        });
     });
 });
 
@@ -77,7 +79,7 @@ router.route('/profile')
         Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
             Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
                 Provinces.find({}).sort({fullname: 'asc'}).exec(function (err, provinces) {
-                    Artists.findById(req.session.passport.user._id, function (err, artist) {
+                    Artists.findById(req.session.passport.user, function (err, artist) {
                         res.render('extranet/profile', {
                             artist: artist,
                             regions: regions,
@@ -143,7 +145,7 @@ router.get('/gallery', isLoggedIn, function (req, res) {
  * json photos
  */
 router.get('/gallery/photos.json', isLoggedIn, function (req, res) {
-    Photos.find({artist: req.session.passport.user._id}).populate('technique').exec(function (err, photos) {
+    Photos.find({artist: req.session.passport.user}).populate('technique').exec(function (err, photos) {
         res.status(200).send({
             data: photos
         });
@@ -177,14 +179,14 @@ router.route('/gallery/add')
             width: req.body.width,
             depth: req.body.depth,
             price: req.body.price,
-            artist: mongoose.Types.ObjectId(req.session.passport.user._id),
+            artist: mongoose.Types.ObjectId(req.session.passport.user),
             tags: req.body.tags.split(','),
             cover: cover,
             registered: Date.now()
         }).save(function (err, image) {
                 if (!err) {
                     if (cover == 1) {
-                        Artists.findById(req.session.passport.user._id, function (err, artist) {
+                        Artists.findById(req.session.passport.user, function (err, artist) {
                             artist.photo = mongoose.Types.ObjectId(image._id);
                             artist.save();
                         });
