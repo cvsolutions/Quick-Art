@@ -19,8 +19,8 @@
                     <li>Dimensione: <%= photo.height %>x<%= photo.width %>x<%= photo.depth %> cm</li>
                 </ul>
                 <ul class="list-unstyled">
-                    <li><span class="lead">250 €</span> - <span class="label label-success">Disponibile</span></li>
-                    <li class="text-muted">Quadro comprensivo di cornice</li>
+                    <li><%= helper.number_format(photo.price, 2, '.', ',') %> € - <% if(photo.available == 1){ %><span class="label label-success">Disponibile</span><% } else{ %><span class="label label-danger">NON Disponibile</span><% } %></li>
+                    <% if(photo.frame == 1){ %><li class="text-muted">Quadro comprensivo di cornice<% } %>
                 </ul>
             </div>
         </div>
