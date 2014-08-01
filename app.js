@@ -42,6 +42,7 @@ var app = express();
  */
 app.locals.helper = require('native-view-helpers');
 app.locals.truncate = require('html-truncate');
+app.locals.gravatar = require('gravatar');
 
 /**
  * set

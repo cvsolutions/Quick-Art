@@ -17,6 +17,7 @@
         "ejs-locals": "1.x",
         "native-view-helpers": "0.x",
         "html-truncate": "1.x",
+        "gravatar": "1.x",
         "multer": "0.x"
     }
 }
