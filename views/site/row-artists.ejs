@@ -10,7 +10,8 @@
             <% } %>
             <div class="caption">
                 <h3><%= row.fullname %></h3>
-                <p><a href="/artista/<%= row.slug %>" class="btn btn-primary" role="button">vedi scheda</a></p>
+                <p><%= row.province.fullname %></p>
+                <p><a href="/artista/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></a></p>
             </div>
         </div>
     </div>

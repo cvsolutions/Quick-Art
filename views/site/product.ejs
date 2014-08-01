@@ -1,0 +1,85 @@
+<%- layout('layout') %>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h1><%= photo.fullname %></h1>
+        <p><i>di: <%= photo.artist.fullname %></i></p>
+        <p><img src="/uploads/<%= photo.picture %>" class="img-responsive img-thumbnail" alt=""/></p>
+        <p><%- helper.nl2br(photo.description) %></p>
+    </div>
+    <div class="col-xs-4">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Informazioni Produttore</div>
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li>Codice: <%= photo.code %></li>
+                    <li>Tecnica: <%= photo.technique.fullname %></li>
+                    <li>Anno: <%= photo.year %></li>
+                    <li>Dimensione: <%= photo.height %>x<%= photo.width %>x<%= photo.depth %> cm</li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li><span class="lead">250 €</span> - <span class="label label-success">Disponibile</span></li>
+                    <li class="text-muted">Quadro comprensivo di cornice</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Questo quadro potrebbe essere tuo</div>
+            <div class="panel-body">
+                <p>Chiedi come fare direttamente all'artista, senza alcuna intermediazione.</p>
+                <form id="" method="post" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="" id="" placeholder="Nome & Cognome" required="">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="" id="" placeholder="Indirizzo E-mail" required="">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="" id="" placeholder="Telefono" required="">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="" id="" placeholder="Messaggio"></textarea>
+                    </div>
+                    <input type="submit" class="btn btn-default btn-block" value="INVIA">
+                </form>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include adsbygoogle-300-250.ejs %>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <hr/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <p class="lead">Guarda altri quadri di <a href="/artista/<%= photo.artist.slug %>"><%= photo.artist.fullname %></a> (scelti a caso)</p>
+    </div>
+</div>
+
+<div class="row">
+    <% pictures.forEach( function (row){ %>
+    <div class="col-xs-4">
+        <div class="thumbnail">
+            <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt=""/>
+
+            <div class="caption">
+                <h3 data-toggle="tooltip" class="mytooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 20) %></h3>
+                <p><%= row.technique.fullname %>, (<%= row.height %>x<%= row.width %>x<%= row.depth %> cm)</p>
+                <p><a href="/opera-darte/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></p>
+            </div>
+        </div>
+    </div>
+    <% }); %>
+</div>

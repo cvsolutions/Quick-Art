@@ -169,6 +169,8 @@ router.route('/gallery/add')
     })
     .post(isLoggedIn, function (req, res) {
         var cover = req.body.cover == 1 ? 1 : 0;
+        var available = req.body.available == 1 ? 1 : 0;
+        var frame = req.body.frame == 1 ? 1 : 0;
         new Photos({
             fullname: req.body.fullname,
             slug: req.body.slug,
@@ -179,10 +181,14 @@ router.route('/gallery/add')
             height: req.body.height,
             width: req.body.width,
             depth: req.body.depth,
+            code: req.body.code,
             price: req.body.price,
+            year: req.body.year,
             artist: mongoose.Types.ObjectId(req.session.passport.user),
             tags: req.body.tags.split(','),
             cover: cover,
+            available: available,
+            frame: frame,
             registered: Date.now()
         }).save(function (err, image) {
                 if (!err) {
@@ -222,6 +228,8 @@ router.route('/gallery/edit/:id')
     .post(isLoggedIn, function (req, res) {
         var ID = req.body.id;
         var cover = req.body.cover == 1 ? 1 : 0;
+        var available = req.body.available == 1 ? 1 : 0;
+        var frame = req.body.frame == 1 ? 1 : 0;
         Photos.findById(ID, function (err, photo) {
             var picture = photo.picture;
             if (req.files.picture) {
@@ -240,9 +248,13 @@ router.route('/gallery/edit/:id')
             photo.height = req.body.height;
             photo.width = req.body.width;
             photo.depth = req.body.depth;
+            photo.code = req.body.code;
             photo.price = req.body.price;
+            photo.year = req.body.year;
             photo.tags = req.body.tags;
             photo.cover = cover;
+            photo.available = available;
+            photo.frame = frame;
             photo.save(function (err, image) {
                 if (!err) {
                     Artists.findById(image.artist, function (err, artist) {

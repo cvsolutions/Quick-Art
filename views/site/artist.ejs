@@ -9,14 +9,15 @@
         <div class="row">
             <% photos.forEach( function (row){ %>
             <div class="col-xs-4">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <a href="#"><img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-240" alt=""/></a>
-                        <p><%= row.fullname %></p>
-                        <p><%= row.technique.fullname %></p>
-                        <ul class="list-inline pull-right">
-                            <li><a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></a></li>
+                <div class="thumbnail">
+                    <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt=""/>
+                    <div class="caption">
+                        <h3 data-toggle="tooltip" class="mytooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 20) %></h3>
+                        <ul class="list-unstyled">
+                            <li><%= row.technique.fullname %></li>
+                            <li>(<%= row.height %>x<%= row.width %>x<%= row.depth %> cm)</li>
                         </ul>
+                        <p><a href="/opera-darte/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></p>
                     </div>
                 </div>
             </div>

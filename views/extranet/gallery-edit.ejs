@@ -61,19 +61,40 @@
                 <p class="help-block"><%= photo.picture %></p>
             </div>
             <div class="row">
-                <div class="col-xs-6">
-                    <label>Prezzo Netto €</label>
-                    <input type="text" class="form-control" name="price" id="price" value="<%= photo.price %>" required="">
-                </div>
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                     <div class="form-group">
-                        <label>Tags</label>
-                        <input type="text" class="form-control" name="tags" id="tags" value="<%= photo.tags %>" data-role="tagsinput" required="">
+                        <label>Codice</label>
+                        <input type="text" class="form-control" name="code" id="code" value="<%= photo.code %>">
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <label>Prezzo Netto</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="price" id="price" value="<%= photo.price %>" required="">
+                        <span class="input-group-addon">€</span>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>Anno</label>
+                            <input type="text" class="form-control" name="year" id="year" value="<%= photo.year %>" required="">
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <label>Tags</label>
+                <input type="text" class="form-control" name="tags" id="tags" value="<%= photo.tags %>" data-role="tagsinput" required="">
+            </div>
             <div class="checkbox">
                 <label><input type="checkbox" name="cover" id="cover" <% if (photo.cover == 1) { %>checked<% } %> value="1"> Usa come immagine principale</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="available" id="available" <% if (photo.available == 1) { %>checked<% } %> value="1"> Disponibile</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="frame" id="frame" <% if (photo.frame == 1) { %>checked<% } %> value="1"> Quadro comprensivo di cornice</label>
             </div>
             <input type="hidden" name="slug" id="slug" value="<%= photo.slug %>">
             <input type="hidden" name="id" id="id" value="<%= photo._id %>">

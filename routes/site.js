@@ -156,7 +156,7 @@ router.get('/categoria/:slug', function (req, res) {
                 Artists.find({
                     category: category._id,
                     active: 1
-                }).populate('photo').sort({fullname: 'asc'}).exec(function (err, artists) {
+                }).populate('photo').populate('province').sort({fullname: 'asc'}).exec(function (err, artists) {
                     if (err) return next(err);
                     res.render('site/category', {
                         category: category,
@@ -184,7 +184,7 @@ router.get('/regione/:slug', function (req, res) {
                 Artists.find({
                     region: region._id,
                     active: 1
-                }).populate('photo').sort({fullname: 'asc'}).exec(function (err, artists) {
+                }).populate('photo').populate('province').sort({fullname: 'asc'}).exec(function (err, artists) {
                     if (err) return next(err);
                     res.render('site/region', {
                         region: region,
@@ -220,6 +220,25 @@ router.get('/artista/:slug', function (req, res) {
             res.status(404).render('site/404');
         }
     }).populate('category').populate('region').populate('province');
+});
+
+router.get('/opera-darte/:slug', function (req, res) {
+    Photos.findOne({
+        slug: req.param('slug')
+    }, function (err, photo) {
+        if (err) return next(err);
+        if (photo) {
+            Photos.find({artist: photo.artist._id}).populate('technique').sort({fullname: 'asc'}).exec(function (err, pictures) {
+                if (err) return next(err);
+                res.render('site/product', {
+                    photo: photo,
+                    pictures: pictures
+                });
+            });
+        } else {
+            res.status(404).render('site/404');
+        }
+    }).populate('technique').populate('theme').populate('artist');
 });
 
 module.exports = router;

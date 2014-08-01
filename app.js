@@ -142,6 +142,6 @@ app.use(function (req, res) {
     res.status(404).render('site/404', {});
 });
 
-app.listen(3000, function () {
+app.listen(3010, function () {
     console.log('Quick-Art started...');
 });

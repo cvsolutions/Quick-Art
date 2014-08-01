@@ -50,7 +50,17 @@ var Photos = Schema({
         trim: true,
         required: true
     },
+    code: {
+        type: String,
+        trim: true,
+        required: false
+    },
     price: {
+        type: Number,
+        trim: true,
+        required: true
+    },
+    year: {
         type: Number,
         trim: true,
         required: true
@@ -64,6 +74,8 @@ var Photos = Schema({
         required: false
     },
     cover: Number,
+    available: Number,
+    frame: Number,
     registered: Date
 }, {
     collection: 'photos'
