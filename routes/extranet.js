@@ -57,7 +57,7 @@ router.route('/')
     })
     .post(passport.authenticate('extranet-local', {
         successRedirect: '/extranet/dashboard',
-        failureRedirect: '/login-failure'
+        failureRedirect: '/loginFailure'
     }));
 
 /**

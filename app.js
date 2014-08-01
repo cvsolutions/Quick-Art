@@ -41,6 +41,7 @@ var app = express();
  * @type {exports}
  */
 app.locals.helper = require('native-view-helpers');
+app.locals.truncate = require('html-truncate');
 
 /**
  * set

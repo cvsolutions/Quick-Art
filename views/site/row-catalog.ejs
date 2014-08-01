@@ -6,7 +6,7 @@
             <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt=""/>
 
             <div class="caption">
-                <h3><%= row.fullname %></h3>
+                <h3 data-toggle="tooltip" class="mytooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 20) %></h3>
                 <p><%= row.technique.fullname %>, <%= row.height %>x<%= row.width %>x<%= row.depth %> cm</p>
                 <p><a href="#" class="btn btn-primary" role="button">vedi scheda</a></p>
             </div>

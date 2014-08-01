@@ -258,7 +258,7 @@ $(document).ready(function () {
     $('.js-rc-350').resizecrop({
         width: 350,
         height: 150,
-        vertical: "top"
+        vertical: "center"
     });
 
     /**
@@ -267,7 +267,7 @@ $(document).ready(function () {
     $('.js-rc-240').resizecrop({
         width: 240,
         height: 150,
-        vertical: "top"
+        vertical: "center"
     });
 
     /**
@@ -276,6 +276,14 @@ $(document).ready(function () {
     $('.js-rc-480').resizecrop({
         width: 480,
         height: 200,
-        vertical: "top"
+        vertical: "center"
     });
+
+    $('.js-rc-64').resizecrop({
+        width: 64,
+        height: 64,
+        vertical: "center"
+    });
+
+    $('.mytooltip').tooltip();
 });

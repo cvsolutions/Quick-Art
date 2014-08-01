@@ -26,8 +26,12 @@ var router = express.Router();
 router.get('/', function (req, res) {
     Photos.find({cover: 1}).populate('technique').sort({registered: 'desc'}).limit(3).exec(function (err, photos) {
         if (err) return next(err);
-        res.render('site/index', {
-            photos: photos
+        Artists.find({active: 1}).populate('category').populate('region').populate('photo').sort({registered: 'desc'}).limit(3).exec(function (err, artists) {
+            if (err) return next(err);
+            res.render('site/index', {
+                photos: photos,
+                artists: artists
+            });
         });
     });
 });
