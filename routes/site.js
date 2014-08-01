@@ -29,6 +29,10 @@ router.get('/', function (req, res) {
     });
 });
 
+router.get('/loginFailure', function (req, res) {
+    res.send('Failure to authenticate');
+});
+
 /**
  * Artisti Contemporanei
  */

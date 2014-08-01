@@ -18,6 +18,12 @@ var mongoose = require('mongoose');
 var fs = require('fs');
 
 /**
+ * passport
+ * @type {exports}
+ */
+var passport = require('passport');
+
+/**
  * model
  */
 var Regions = mongoose.model('regions');
@@ -35,7 +41,7 @@ var Photos = mongoose.model('photos');
  * @param next
  */
 function isLoggedIn(req, res, next) {
-    if (req.session.extranetUser) {
+    if (req.isAuthenticated()) {
         next();
     } else {
         res.redirect('/extranet');
@@ -49,40 +55,17 @@ router.route('/')
     .get(function (req, res) {
         res.render('extranet/index', {});
     })
-    .post(function (req, res) {
-        Artists.findOne({
-            usermail: req.body.usermail,
-            pwd: req.body.pwd,
-            active: 1
-        }).exec(function (err, user) {
-            if (!err) {
-                if (user) {
-                    req.session.regenerate(function (err) {
-                        req.session.extranetUser = user;
-                        res.status(200).send({
-                            user: user,
-                            location: 1
-                        });
-                    });
-                } else {
-                    req.session.destroy(function (err) {
-                        res.status(401).send({
-                            text: 'Login fallito!'
-                        });
-                    });
-                }
-            } else {
-                res.status(500).send(err);
-            }
-        });
-    });
+    .post(passport.authenticate('local-login', {
+        successRedirect: '/extranet/dashboard',
+        failureRedirect: '/loginFailure'
+    }));
 
 /**
  * Dashboard
  */
 router.get('/dashboard', isLoggedIn, function (req, res) {
     res.render('extranet/dashboard', {
-        user: req.session.extranetUser
+        user: req.session
     });
 });
 
@@ -94,7 +77,7 @@ router.route('/profile')
         Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
             Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
                 Provinces.find({}).sort({fullname: 'asc'}).exec(function (err, provinces) {
-                    Artists.findById(req.session.extranetUser._id, function (err, artist) {
+                    Artists.findById(req.session.passport.user._id, function (err, artist) {
                         res.render('extranet/profile', {
                             artist: artist,
                             regions: regions,
@@ -160,7 +143,7 @@ router.get('/gallery', isLoggedIn, function (req, res) {
  * json photos
  */
 router.get('/gallery/photos.json', isLoggedIn, function (req, res) {
-    Photos.find({artist: req.session.extranetUser._id}).populate('technique').exec(function (err, photos) {
+    Photos.find({artist: req.session.passport.user._id}).populate('technique').exec(function (err, photos) {
         res.status(200).send({
             data: photos
         });
@@ -183,10 +166,6 @@ router.route('/gallery/add')
     })
     .post(isLoggedIn, function (req, res) {
         var cover = req.body.cover == 1 ? 1 : 0;
-
-
-
-
         new Photos({
             fullname: req.body.fullname,
             slug: req.body.slug,
@@ -198,20 +177,19 @@ router.route('/gallery/add')
             width: req.body.width,
             depth: req.body.depth,
             price: req.body.price,
-            artist: mongoose.Types.ObjectId(req.session.extranetUser._id),
+            artist: mongoose.Types.ObjectId(req.session.passport.user._id),
             tags: req.body.tags.split(','),
             cover: cover,
             registered: Date.now()
         }).save(function (err, image) {
                 if (!err) {
                     if (cover == 1) {
-                        Artists.findById(req.session.extranetUser._id, function (err, artist) {
+                        Artists.findById(req.session.passport.user._id, function (err, artist) {
                             artist.photo = mongoose.Types.ObjectId(image._id);
                             artist.save();
                         });
                     }
                     res.status(200).send({
-                        id: image,
                         text: 'Operazione eseguita con successo!'
                     });
                 } else {
@@ -250,7 +228,6 @@ router.route('/gallery/edit/:id')
                     if (err) return console.error(err);
                 });
             }
-
             photo.fullname = req.body.fullname;
             photo.slug = req.body.slug;
             photo.technique = mongoose.Types.ObjectId(req.body.technique);
@@ -304,9 +281,8 @@ router.get('/gallery/delete/:id', isLoggedIn, function (req, res) {
  * Logout
  */
 router.get('/logout', isLoggedIn, function (req, res) {
-    req.session.destroy(function () {
-        res.redirect('/');
-    });
+    req.logout();
+    res.redirect('/');
 });
 
 module.exports = router;
