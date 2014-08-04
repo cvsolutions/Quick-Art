@@ -3,7 +3,7 @@
     <% photos.forEach( function (row){ %>
     <div class="col-xs-4">
         <div class="thumbnail">
-            <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt=""/>
+            <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt="<%= row.fullname %>"/>
             <div class="caption">
                 <h3 data-toggle="tooltip" class="mytooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 20) %></h3>
                 <p><%= row.technique.fullname %>, (<%= row.height %>x<%= row.width %>x<%= row.depth %> cm)</p>

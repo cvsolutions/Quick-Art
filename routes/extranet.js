@@ -78,9 +78,13 @@ router.get('/dashboard', isLoggedIn, function (req, res) {
 router.route('/profile')
     .get(isLoggedIn, function (req, res) {
         Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+            if (err) return next(err);
             Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+                if (err) return next(err);
                 Provinces.find({}).sort({fullname: 'asc'}).exec(function (err, provinces) {
+                    if (err) return next(err);
                     Artists.findById(req.session.passport.user, function (err, artist) {
+                        if (err) return next(err);
                         res.render('extranet/profile', {
                             artist: artist,
                             regions: regions,
@@ -147,6 +151,7 @@ router.get('/gallery', isLoggedIn, function (req, res) {
  */
 router.get('/gallery/photos.json', isLoggedIn, function (req, res) {
     Photos.find({artist: req.session.passport.user}).populate('technique').exec(function (err, photos) {
+        if (err) return next(err);
         res.status(200).send({
             data: photos
         });
@@ -159,7 +164,9 @@ router.get('/gallery/photos.json', isLoggedIn, function (req, res) {
 router.route('/gallery/add')
     .get(isLoggedIn, function (req, res) {
         Techniques.find({}).sort({fullname: 'asc'}).exec(function (err, techniques) {
+            if (err) return next(err);
             Themes.find({}).sort({fullname: 'asc'}).exec(function (err, themes) {
+                if (err) return next(err);
                 res.render('extranet/gallery-add', {
                     techniques: techniques,
                     themes: themes
@@ -213,7 +220,9 @@ router.route('/gallery/add')
 router.route('/gallery/edit/:id')
     .get(isLoggedIn, function (req, res) {
         Techniques.find({}).sort({fullname: 'asc'}).exec(function (err, techniques) {
+            if (err) return next(err);
             Themes.find({}).sort({fullname: 'asc'}).exec(function (err, themes) {
+                if (err) return next(err);
                 var ID = req.param('id');
                 Photos.findById(ID, function (err, photo) {
                     res.render('extranet/gallery-edit', {
@@ -251,7 +260,7 @@ router.route('/gallery/edit/:id')
             photo.code = req.body.code;
             photo.price = req.body.price;
             photo.year = req.body.year;
-            photo.tags = req.body.tags;
+            photo.tags = req.body.tags.split(',');
             photo.cover = cover;
             photo.available = available;
             photo.frame = frame;

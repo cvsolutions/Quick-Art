@@ -8,19 +8,15 @@
         <%- include row-artists.ejs %>
     </div>
     <div class="col-xs-4">
-
         <div class="list-group">
-            <a href="#" class="list-group-item active">Categorie</a>
             <% categories.forEach( function (row){ %>
-            <a href="/categoria/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <a href="/categoria/<%= row.slug %>" class="list-group-item <% if(row.slug == category.slug){ %>active<% } %>"><%= row.fullname %></a>
             <% }); %>
         </div>
-
         <div class="panel panel-default">
             <div class="panel-body">
                 <%- include adsbygoogle-300-600.ejs %>
             </div>
         </div>
-
     </div>
 </div>

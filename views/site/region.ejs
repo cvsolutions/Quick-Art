@@ -2,25 +2,21 @@
 
 <div class="row">
     <div class="col-xs-8">
-        <h1><%= region.fullname %></h1>
+        <h1>Artisti in <%= region.fullname %></h1>
         <p>Accusamus aliquam assumenda doloremque, doloribus error et ipsam magnam modi mollitia, nisi porro quidem rem similique soluta ullam veritatis voluptate. Inventore, officiis!</p>
         <p>&nbsp;</p>
         <%- include row-artists.ejs %>
     </div>
     <div class="col-xs-4">
-
         <div class="list-group">
-            <a href="#" class="list-group-item active">Artisti</a>
             <% regions.forEach( function (row){ %>
-            <a href="/regione/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <a href="/regione/<%= row.slug %>" class="list-group-item <% if(row.slug == region.slug){ %>active<% } %>"><%= row.fullname %></a>
             <% }); %>
         </div>
-
         <div class="panel panel-default">
             <div class="panel-body">
                 <%- include adsbygoogle-300-600.ejs %>
             </div>
         </div>
-
     </div>
 </div>

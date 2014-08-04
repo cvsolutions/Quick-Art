@@ -137,6 +137,9 @@ $(document).ready(function () {
         }
     });
 
+    /**
+     * Aggiungi Foto
+     */
     $('#js-gallery-add-form').validate({
         submitHandler: function (form) {
             $.ajax({
@@ -317,5 +320,8 @@ $(document).ready(function () {
         vertical: "center"
     });
 
+    /**
+     * tooltip
+     */
     $('.mytooltip').tooltip();
 });

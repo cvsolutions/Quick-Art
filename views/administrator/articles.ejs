@@ -1,0 +1,23 @@
+<%- layout('layout') %>
+<%- include header.ejs %>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Articoli</div>
+    <div class="panel-body">
+        <p><a href="/administrator/articles/add" class="btn btn-primary">Nuovo</a></p>
+        <br/>
+
+        <div class="table-responsive">
+            <table class="table" id="js-full-articles">
+                <thead>
+                <tr>
+                    <th>Titolo</th>
+                    <th>Categoria</th>
+                    <th>Registrazione</th>
+                    <th>Operazioni</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>

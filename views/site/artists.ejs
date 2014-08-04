@@ -5,7 +5,7 @@
         <h1>Artisti Contemporanei</h1>
         <p class="lead">Per scoprire i <%= all_artists %> Artisti già presenti nella nostra Galleria seleziona la Categoria di interesse...</p>
         <p>Tutte le <%= all_photos %> Opere degli Artisti inseriti in questo Portale sono normalmente ritenute valide dallo Staff e compaiono in queste pagine a <strong>titolo gratuito</strong> con l'unica richiesta se possibile di ricambiarci con un link sulle loro pagine web.</p>
-        <p><a href=""><img src="/images/gallery.gif" alt=""></a></p>
+        <p><a href=""><img src="/images/gallery.gif" alt="Artisti Contemporanei Gallery"></a></p>
         <p>Una delle maggiori raccolte italiane di: Artisti, link, quadri, opere, pittori, scultori, incisori, mostre, pittura figurativa, astratta, moderna, grafica, performance, mostre d'arte, vernice, gallerie d'arte, esposizioni, critica, opera d'arte... <strong>Quick-Art</strong>: l'Arte a portata di mano...</p>
         <hr/>
         <p class="lead">Se sei un Artista e vuoi esporre le tue Opere, puoi registrarti...</p>
@@ -23,20 +23,31 @@
         <p class="text-danger">* Sono ammessi solo artisti che realizzano opere di arti visive: pittura, disegno, grafica, fotografia, scultura, arte digitale. Noi curiamo con attenzione la qualità del sito e tutte le iscrizioni vengono controllate per evitare abusi.</p>
     </div>
     <div class="col-xs-4">
-
         <div class="list-group">
-            <a href="#" class="list-group-item active">Categorie</a>
             <% categories.forEach( function (row){ %>
-            <a href="/categoria/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <a href="/categoria/<%= row.slug %>" class="list-group-item">Categoria <%= row.fullname %></a>
             <% }); %>
         </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include adsbygoogle-300-250.ejs %>
+            </div>
+        </div>
+    </div>
+</div>
 
-        <div class="list-group">
-            <a href="#" class="list-group-item active">Artisti</a>
+<div class="row">
+    <div class="col-xs-12">
+        <hr/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <ul class="list-inline">
             <% regions.forEach( function (row){ %>
-            <a href="/regione/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <li><a href="/regione/<%= row.slug %>">Artisti in <%= row.fullname %></a></li>
             <% }); %>
-        </div>
-
+        </ul>
     </div>
 </div>

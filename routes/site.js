@@ -12,6 +12,8 @@ var Provinces = mongoose.model('provinces');
 var Categories = mongoose.model('categories');
 var Artists = mongoose.model('artists');
 var Photos = mongoose.model('photos');
+var Techniques = mongoose.model('techniques');
+var Themes = mongoose.model('themes');
 
 /**
  * express
@@ -26,7 +28,7 @@ var router = express.Router();
 router.get('/', function (req, res) {
     Photos.find({cover: 1}).populate('technique').sort({registered: 'desc'}).limit(3).exec(function (err, photos) {
         if (err) return next(err);
-        Artists.find({active: 1}).populate('category').populate('region').populate('photo').sort({registered: 'desc'}).limit(3).exec(function (err, artists) {
+        Artists.find({active: 1}).populate('category').populate('region').populate('photo').sort({registered: 'desc'}).limit(4).exec(function (err, artists) {
             if (err) return next(err);
             res.render('site/index', {
                 photos: photos,
@@ -73,8 +75,16 @@ router.get('/artisti-contemporanei', function (req, res) {
 router.get('/catalogo-opere-arte', function (req, res) {
     Photos.find({cover: 1}).populate('technique').sort({registered: 'desc'}).exec(function (err, photos) {
         if (err) return next(err);
-        res.render('site/catalog', {
-            photos: photos
+        Techniques.find({}).sort('').exec(function (err, techniques) {
+            if (err) return next(err);
+            Themes.find({}).sort('').exec(function (err, themes) {
+                if (err) return next(err);
+                res.render('site/catalog', {
+                    techniques: techniques,
+                    themes: themes,
+                    photos: photos
+                });
+            });
         });
     });
 });
@@ -211,9 +221,18 @@ router.get('/artista/:slug', function (req, res) {
         if (artist) {
             Photos.find({artist: artist._id}).populate('technique').sort({fullname: 'asc'}).exec(function (err, photos) {
                 if (err) return next(err);
-                res.render('site/artist', {
-                    artist: artist,
-                    photos: photos
+                Artists.find({
+                    _id: {
+                        '$ne': artist._id
+                    },
+                    province: artist.province
+                }).populate('category').populate('photo').sort({fullname: 'asc'}).limit(5).exec(function (err, surroundings) {
+                    if (err) return next(err);
+                    res.render('site/artist', {
+                        artist: artist,
+                        photos: photos,
+                        surroundings: surroundings
+                    });
                 });
             });
         } else {
@@ -222,13 +241,21 @@ router.get('/artista/:slug', function (req, res) {
     }).populate('category').populate('region').populate('province');
 });
 
+/**
+ * Opera d'Arte
+ */
 router.get('/opera-darte/:slug', function (req, res) {
     Photos.findOne({
         slug: req.param('slug')
     }, function (err, photo) {
         if (err) return next(err);
         if (photo) {
-            Photos.find({artist: photo.artist._id}).populate('technique').sort({fullname: 'asc'}).exec(function (err, pictures) {
+            Photos.find({
+                _id: {
+                    '$ne': photo._id
+                },
+                artist: photo.artist._id
+            }).populate('technique').sort({fullname: 'asc'}).exec(function (err, pictures) {
                 if (err) return next(err);
                 res.render('site/product', {
                     photo: photo,
@@ -239,6 +266,15 @@ router.get('/opera-darte/:slug', function (req, res) {
             res.status(404).render('site/404');
         }
     }).populate('technique').populate('theme').populate('artist');
+});
+
+/**
+ * Search
+ */
+router.get('/search', function (req, res) {
+    res.render('site/search', {
+        article: 0
+    });
 });
 
 module.exports = router;

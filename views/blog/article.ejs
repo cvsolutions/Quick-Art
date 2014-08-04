@@ -1,0 +1,27 @@
+<%- layout('../site/layout') %>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h1><%= article.fullname %></h1>
+        <p><i>di: Vecchio Concetto - <%= article.registered %></i></p>
+        <p><%- helper.nl2br(article.description) %></p>
+        <hr/>
+        <% if(article.tags){ %>
+        <ul class="list-inline">
+            <li>Tags:</li>
+            <% article.tags.forEach( function (tag){ %>
+            <li><a href="#"><%= tag %></a></li>
+            <% }); %>
+        </ul>
+        <% } %>
+    </div>
+    <div class="col-xs-4">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include ../site/adsbygoogle-300-600.ejs %>
+            </div>
+        </div>
+
+    </div>
+</div>

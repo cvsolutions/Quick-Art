@@ -51,10 +51,15 @@
                 <p><a href="/registrazione">Sei un Artista? Pubblica i tuoi lavori su questo Portale...</a></p>
             </div>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <%- include adsbygoogle-300-250.ejs %>
-            </div>
+        <div class="well">
+            <form action="" method="get" enctype="application/x-www-form-urlencoded">
+                <div class="form-group">
+                    <label>Quadro</label>
+                    <input type="search" class="form-control" name="q" id="q" placeholder="">
+                </div>
+                <p><a href="/catalogo-opere-arte">Catalogo Opere d'Arte?</a></p>
+                <input type="submit" class="btn btn-primary btn-block btn-lg" value="CERCA">
+            </form>
         </div>
     </div>
 </div>
@@ -75,22 +80,27 @@
 
 <div class="row">
     <div class="col-xs-4">
-        <% artists.forEach( function (row){ %>
-        <div class="media">
-            <a class="pull-left" href="/artista/<%= row.slug %>">
-                <% if (row.photo) { %>
-                <img src="/uploads/<%= row.photo.picture %>" class="img-responsive media-object js-rc-64" alt=""/>
-                <% } else { %>
-                <img src="/images/no-image.png" class="img-responsive media-object js-rc-64" alt=""/>
-                <% } %>
-            </a>
+        <div class="panel panel-default">
+            <div class="panel-heading">Ultimi Artisti</div>
+            <div class="panel-body">
+                <% artists.forEach( function (row){ %>
+                <div class="media">
+                    <a class="pull-left" href="/artista/<%= row.slug %>">
+                        <% if (row.photo) { %>
+                        <img src="/uploads/<%= row.photo.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <% } else { %>
+                        <img src="/images/no-image.png" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <% } %>
+                    </a>
 
-            <div class="media-body">
-                <h4 class="media-heading"><%= row.fullname %></h4>
-                <p><%= row.category.fullname %>, <%= row.region.fullname %></p>
+                    <div class="media-body">
+                        <h4 class="media-heading"><%= row.fullname %></h4>
+                        <p><%= row.category.fullname %>, <%= row.region.fullname %></p>
+                    </div>
+                </div>
+                <% }); %>
             </div>
         </div>
-        <% }); %>
     </div>
     <div class="col-xs-4">
         <div class="list-group">
@@ -99,7 +109,6 @@
             <a href="#" class="list-group-item">Glossario d'Arte</a>
             <a href="#" class="list-group-item">Segnala eventi</a>
             <a href="#" class="list-group-item">Elenco Musei Italiani</a>
-            <a href="#" class="list-group-item">Catalogo on-line</a>
             <a href="#" class="list-group-item">Interviste Immaginarie</a>
             <a href="#" class="list-group-item">Annunci Gratis</a>
             <a href="#" class="list-group-item">Art Directory Scambio link</a>
@@ -114,4 +123,21 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-xs-12">
+        <p>&nbsp;</p>
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-xs-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include adsbygoogle-300-250.ejs %>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-8">
+        <p>...</p>
+    </div>
+</div>

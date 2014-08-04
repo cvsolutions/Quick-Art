@@ -11,6 +11,8 @@ var mongoose = require('mongoose');
  * Models
  */
 require('./models/administrators');
+require('./models/contents');
+require('./models/articles');
 require('./models/regions');
 require('./models/provinces');
 require('./models/categories');
@@ -136,6 +138,7 @@ passport.use('extranet-local', new LocalStrategy({
  * Routes
  */
 app.use('/', require('./routes/site'));
+app.use('/blog', require('./routes/blog'));
 app.use('/administrator', require('./routes/administrator'));
 app.use('/extranet', require('./routes/extranet'));
 
