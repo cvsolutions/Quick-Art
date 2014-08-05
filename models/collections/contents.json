@@ -1,12 +1,20 @@
 {
-    "fullname": "La Storia dell'Arte",
-    "slug": "storia-dell-arte"
+	"fullname": "La Storia dell'Arte",
+	"slug": "storia-dell-arte",
+	"show": 1
 }
 {
-    "fullname": "I Maestri dell'Arte",
-    "slug": "maestri-dell-arte"
+	"fullname": "I Maestri dell'Arte",
+	"slug": "maestri-dell-arte",
+	"show": 1
 }
 {
-    "fullname": "Interviste Immaginarie",
-    "slug": "interviste-immaginarie"
+	"fullname": "Interviste Immaginarie",
+	"slug": "interviste-immaginarie",
+	"show": 1
+}
+{
+	"fullname": "Contenuti Statici",
+	"slug": "contenuti-statici",
+	"show": 1
 }

@@ -20,6 +20,13 @@ var Articles = Schema({
         trim: true,
         required: true
     },
+    picture: {
+        type: String,
+        required: true,
+        index: {
+            unique: true
+        }
+    },
     content: {
         type: Schema.Types.ObjectId,
         ref: 'contents'
@@ -29,6 +36,7 @@ var Articles = Schema({
         required: false
     },
     active: Number,
+    home: Number,
     registered: Date
 }, {
     collection: 'articles'

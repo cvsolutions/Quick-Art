@@ -5,6 +5,12 @@
 var mongoose = require('mongoose');
 
 /**
+ * fs
+ * @type {exports}
+ */
+var fs = require('fs');
+
+/**
  * passport
  * @type {exports}
  */
@@ -111,13 +117,16 @@ router.route('/articles/add')
         });
     })
     .post(isLoggedIn, function (req, res) {
+        var home = req.body.home == 1 ? 1 : 0;
         new Articles({
             fullname: req.body.fullname,
             slug: req.body.slug,
             description: req.body.description,
+            picture: req.files.picture.name,
             content: mongoose.Types.ObjectId(req.body.content),
             tags: req.body.tags.split(','),
             active: 1,
+            home: home,
             registered: Date.now()
         }).save(function (err) {
                 if (!err) {
@@ -147,14 +156,25 @@ router.route('/articles/edit/:id')
         });
     })
     .post(isLoggedIn, function (req, res) {
-        var active = req.body.active == 1 ? 1 : 0;
         Articles.findById(req.body.id, function (err, article) {
+            var active = req.body.active == 1 ? 1 : 0;
+            var home = req.body.home == 1 ? 1 : 0;
+            var picture = article.picture;
+            if (req.files.picture) {
+                picture = req.files.picture.name;
+                var target_path = './public/uploads/' + article.picture;
+                fs.unlink(target_path, function () {
+                    if (err) return console.error(err);
+                });
+            }
             article.fullname = req.body.fullname;
             article.slug = req.body.slug;
             article.description = req.body.description;
+            article.picture = picture;
             article.content = mongoose.Types.ObjectId(req.body.content);
             article.tags = req.body.tags.split(',');
             article.active = active;
+            article.home = home;
             article.save(function (err) {
                 if (!err) {
                     res.status(200).send({

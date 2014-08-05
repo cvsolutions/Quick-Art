@@ -21,10 +21,34 @@ var router = express.Router();
  * Blog Quick-Art
  */
 router.get('/', function (req, res) {
-    Contents.find({}).sort({fullname: 'asc'}).exec(function (err, contents) {
+    Contents.find({show: 1}).sort({fullname: 'asc'}).exec(function (err, contents) {
         if (err) return next(err);
         res.render('blog/index', {
             contents: contents
+        });
+    });
+});
+
+/**
+ * Categorie Articoli
+ */
+router.get('/articoli/:slug', function (req, res) {
+    Contents.find({show: 1}).sort({fullname: 'asc'}).exec(function (err, contents) {
+        if (err) return next(err);
+        Contents.findOne({slug: req.param('slug')}).exec(function (err, content) {
+            if (err) return next(err);
+            if (content) {
+                Articles.find({content: content._id}).sort({fullname: 'asc'}).exec(function (err, articles) {
+                    if (err) return next(err);
+                    res.render('blog/articles', {
+                        content: content,
+                        contents: contents,
+                        articles: articles
+                    });
+                });
+            } else {
+                res.status(404).render('site/404');
+            }
         });
     });
 });

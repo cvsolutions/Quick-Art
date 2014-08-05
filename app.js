@@ -20,6 +20,7 @@ require('./models/artists');
 require('./models/themes');
 require('./models/techniques');
 require('./models/photos');
+require('./models/definitions');
 
 /**
  * Connect Mongo DB

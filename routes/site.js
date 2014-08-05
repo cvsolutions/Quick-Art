@@ -14,6 +14,7 @@ var Artists = mongoose.model('artists');
 var Photos = mongoose.model('photos');
 var Techniques = mongoose.model('techniques');
 var Themes = mongoose.model('themes');
+var Definitions = mongoose.model('definitions');
 
 /**
  * express
@@ -28,7 +29,7 @@ var router = express.Router();
 router.get('/', function (req, res) {
     Photos.find({cover: 1}).populate('technique').sort({registered: 'desc'}).limit(3).exec(function (err, photos) {
         if (err) return next(err);
-        Artists.find({active: 1}).populate('category').populate('region').populate('photo').sort({registered: 'desc'}).limit(4).exec(function (err, artists) {
+        Artists.find({active: 1}).populate('category').populate('region').populate('photo').sort({registered: 'desc'}).limit(3).exec(function (err, artists) {
             if (err) return next(err);
             res.render('site/index', {
                 photos: photos,
@@ -39,7 +40,7 @@ router.get('/', function (req, res) {
 });
 
 /**
- * loginFailure
+ * Login Failure
  */
 router.get('/login-failure', function (req, res) {
     res.render('site/login-failure');
@@ -274,6 +275,42 @@ router.get('/opera-darte/:slug', function (req, res) {
 router.get('/search', function (req, res) {
     res.render('site/search', {
         article: 0
+    });
+});
+
+/**
+ * Glossario d'Arte
+ */
+router.get('/glossario-darte', function (req, res) {
+    Definitions.find({}).sort({fullname: 'asc'}).exec(function (err, definitions) {
+        if (err) return next(err);
+        Definitions.distinct('letter').exec(function (err, letters) {
+            if (err) return next(err);
+            res.render('site/glossary', {
+                letters: letters,
+                definitions: definitions
+            });
+        });
+    });
+});
+
+/**
+ * Lettere Glossario d'Arte
+ */
+router.get('/glossario/:letter', function (req, res) {
+    Definitions.find({letter: req.param('letter')}).sort({fullname: 'asc'}).exec(function (err, definitions) {
+        if (err) return next(err);
+        if (definitions) {
+            Definitions.distinct('letter').exec(function (err, letters) {
+                if (err) return next(err);
+                res.render('site/glossary', {
+                    letters: letters,
+                    definitions: definitions
+                });
+            });
+        } else {
+            res.status(404).render('site/404');
+        }
     });
 });
 

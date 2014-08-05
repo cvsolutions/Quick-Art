@@ -14,7 +14,8 @@ var Contents = Schema({
         index: {
             unique: true
         }
-    }
+    },
+    show: Number
 }, {
     collection: 'contents'
 });

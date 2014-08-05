@@ -1,0 +1,35 @@
+<%- layout('layout') %>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h1>Glossario d'Arte</h1>
+        <p>Nel glossario d'Arte sono elencate in ordine alfabetico termini, parole ed espressioni del mondo artistico...</p>
+
+        <div class="well">
+            <ul class="list-inline">
+                <li>Lettera:</li>
+                <% letters.forEach( function (letter){ %>
+                <li><a href="/glossario/<%= letter %>"><%= letter %></a></li>
+                <% }); %>
+                <li><a href="/glossario-darte">[A-z]</a></li>
+            </ul>
+
+        </div>
+        <% definitions.forEach( function (row){ %>
+        <ul class="list-unstyled">
+            <li><strong><%= row.fullname %></strong></li>
+            <li><%= row.description %></li>
+        </ul>
+        <hr/>
+
+        <% }); %>
+
+    </div>
+    <div class="col-xs-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include adsbygoogle-300-600.ejs %>
+            </div>
+        </div>
+    </div>
+</div>

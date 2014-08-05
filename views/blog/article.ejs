@@ -4,6 +4,7 @@
     <div class="col-xs-8">
         <h1><%= article.fullname %></h1>
         <p><i>di: Vecchio Concetto - <%= article.registered %></i></p>
+        <p><a href="/uploads/<%= article.picture %>" class="js-fancybox" rel="picture" title="<%= article.fullname %>"><img src="/uploads/<%= article.picture %>" class="img-responsive" alt="<%= article.fullname %>"/></a></p>
         <p><%- helper.nl2br(article.description) %></p>
         <hr/>
         <% if(article.tags){ %>
