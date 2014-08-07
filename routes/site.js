@@ -139,7 +139,9 @@ router.route('/registrazione')
             web: req.body.web,
             region: mongoose.Types.ObjectId(req.body.region),
             province: mongoose.Types.ObjectId(req.body.province),
-            description: req.body.description,
+            biography: req.body.biography,
+            reviews: req.body.reviews,
+            exhibitions: req.body.exhibitions,
             level: 1,
             active: 1,
             registered: Date.now()

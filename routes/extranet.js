@@ -108,7 +108,9 @@ router.route('/profile')
             artist.web = req.body.web;
             artist.region = mongoose.Types.ObjectId(req.body.region);
             artist.province = mongoose.Types.ObjectId(req.body.province);
-            artist.description = req.body.description;
+            artist.biography = req.body.biography;
+            artist.reviews = req.body.reviews;
+            artist.exhibitions = req.body.exhibitions;
             artist.save(function (err) {
                 if (!err) {
                     res.status(200).send({

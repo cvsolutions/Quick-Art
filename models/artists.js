@@ -60,10 +60,20 @@ var Artists = Schema({
         required: false,
         ref: 'photos'
     },
-    description: {
+    biography: {
         type: String,
         trim: true,
         required: true
+    },
+    reviews: {
+        type: String,
+        trim: true,
+        required: false
+    },
+    exhibitions: {
+        type: String,
+        trim: true,
+        required: false
     },
     level: Number,
     active: Number,

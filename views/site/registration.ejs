@@ -94,10 +94,32 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Breve Descrizione</label>
-                <textarea class="form-control" name="description" id="description" rows="15" required=""></textarea>
+
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#biography" role="tab" data-toggle="tab">Biografia</a></li>
+                <li><a href="#reviews" role="tab" data-toggle="tab">Critiche</a></li>
+                <li><a href="#exhibitions" role="tab" data-toggle="tab">Mostre</a></li>
+            </ul>
+            <br/>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="biography">
+                    <div class="form-group">
+                        <textarea class="form-control" name="biography" id="biography" rows="15" required=""></textarea>
+                    </div>
+                </div>
+                <div class="tab-pane" id="reviews">
+                    <div class="form-group">
+                        <textarea class="form-control" name="reviews" id="reviews" rows="15"></textarea>
+                    </div>
+                </div>
+                <div class="tab-pane" id="exhibitions">
+                    <div class="form-group">
+                        <textarea class="form-control" name="exhibitions" id="exhibitions" rows="15"></textarea>
+                    </div>
+                </div>
             </div>
+
             <div class="checkbox">
                 <label><input type="checkbox" name="accept" id="accept" value="1" checked required=""> Accetto il regolamento</label>
             </div>
