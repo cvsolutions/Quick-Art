@@ -1,3 +1,4 @@
+<% title = 'Photo Gallery' %>
 <%- layout('../site/layout') %>
 
 <div class="row">
@@ -5,7 +6,18 @@
         <h1>Photo Gallery</h1>
         <p>Modifica o cancella le immagini della tua galleria artistica personale.</p>
         <br/>
+
+        <% if(total >= 6){ %>
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            Spiacente, hai raggiunto il numero massimo di immagini!
+        </div>
+        <% } else { %>
         <p><a href="/extranet/gallery/add" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Aggiungi Foto</a></p>
+        <% } %>
         <br/>
 
         <div class="table-responsive">
@@ -15,6 +27,7 @@
                     <th>Titolo</th>
                     <th>Tecnica</th>
                     <th>Dimensione</th>
+                    <th>Principale</th>
                     <th>Operazioni</th>
                 </tr>
                 </thead>

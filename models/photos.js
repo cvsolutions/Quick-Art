@@ -50,6 +50,11 @@ var Photos = Schema({
         trim: true,
         required: true
     },
+    measure: {
+        type: String,
+        trim: true,
+        required: true
+    },
     code: {
         type: String,
         trim: true,

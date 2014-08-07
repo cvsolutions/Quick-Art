@@ -15,6 +15,7 @@ var Photos = mongoose.model('photos');
 var Techniques = mongoose.model('techniques');
 var Themes = mongoose.model('themes');
 var Definitions = mongoose.model('definitions');
+var Articles = mongoose.model('articles');
 
 /**
  * express
@@ -24,16 +25,32 @@ var express = require('express');
 var router = express.Router();
 
 /**
+ * Globals
+ */
+router.use(function (req, res, next) {
+    if (req.isAuthenticated()) {
+        res.locals.extranet = true;
+    } else {
+        res.locals.extranet = false;
+    }
+    next();
+});
+
+/**
  * Benvenuti su Quick-Art
  */
-router.get('/', function (req, res) {
+router.get('/', function (req, res, next) {
     Photos.find({cover: 1}).populate('technique').sort({registered: 'desc'}).limit(3).exec(function (err, photos) {
         if (err) return next(err);
         Artists.find({active: 1}).populate('category').populate('region').populate('photo').sort({registered: 'desc'}).limit(3).exec(function (err, artists) {
             if (err) return next(err);
-            res.render('site/index', {
-                photos: photos,
-                artists: artists
+            Articles.find({active: 1}).populate('content').sort({registered: 'desc'}).exec(function (err, articles) {
+                if (err) return next(err);
+                res.render('site/index', {
+                    photos: photos,
+                    artists: artists,
+                    articles: articles
+                });
             });
         });
     });
@@ -49,7 +66,7 @@ router.get('/login-failure', function (req, res) {
 /**
  * Artisti Contemporanei
  */
-router.get('/artisti-contemporanei', function (req, res) {
+router.get('/artisti-contemporanei', function (req, res, next) {
     Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
         if (err) return next(err);
         Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
@@ -73,7 +90,7 @@ router.get('/artisti-contemporanei', function (req, res) {
 /**
  * Catalogo Opere d'Arte
  */
-router.get('/catalogo-opere-arte', function (req, res) {
+router.get('/catalogo-opere-arte', function (req, res, next) {
     Photos.find({cover: 1}).populate('technique').sort({registered: 'desc'}).exec(function (err, photos) {
         if (err) return next(err);
         Techniques.find({}).sort('').exec(function (err, techniques) {
@@ -94,7 +111,7 @@ router.get('/catalogo-opere-arte', function (req, res) {
  * Registrazione
  */
 router.route('/registrazione')
-    .get(function (req, res) {
+    .get(function (req, res, next) {
         Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
             if (err) return next(err);
             Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
@@ -115,6 +132,7 @@ router.route('/registrazione')
             fullname: req.body.fullname,
             slug: req.body.slug,
             phone: req.body.phone,
+            facebook: req.body.facebook,
             usermail: req.body.usermail,
             pwd: req.body.pwd,
             category: mongoose.Types.ObjectId(req.body.category),
@@ -137,9 +155,26 @@ router.route('/registrazione')
     });
 
 /**
+ * Check Permalink (Registrazione)
+ */
+router.post('/check-slug', function (req, res, next) {
+    Artists.findOne({
+        slug: req.body.slug,
+        active: 1
+    }, function (err, result) {
+        if (err) return next(err);
+        if (result) {
+            res.status(200).send(false);
+        } else {
+            res.status(200).send(true);
+        }
+    });
+});
+
+/**
  * Check UserMail (Registrazione)
  */
-router.post('/check-usermail', function (req, res) {
+router.post('/check-usermail', function (req, res, next) {
     Artists.findOne({
         usermail: req.body.usermail,
         active: 1
@@ -158,7 +193,7 @@ router.post('/check-usermail', function (req, res) {
  * Artisti Contemporanei
  * Categoria: Pittura
  */
-router.get('/categoria/:slug', function (req, res) {
+router.get('/categoria/:slug', function (req, res, next) {
     Categories.findOne({slug: req.param('slug')}, function (err, category) {
         if (err) return next(err);
         if (category) {
@@ -186,7 +221,7 @@ router.get('/categoria/:slug', function (req, res) {
  * Artisti Contemporanei
  * Regione: Sicilia
  */
-router.get('/regione/:slug', function (req, res) {
+router.get('/regione/:slug', function (req, res, next) {
     Regions.findOne({slug: req.param('slug')}, function (err, region) {
         if (err) return next(err);
         if (region) {
@@ -213,7 +248,7 @@ router.get('/regione/:slug', function (req, res) {
 /**
  * Artista
  */
-router.get('/artista/:slug', function (req, res) {
+router.get('/artista/:slug', function (req, res, next) {
     Artists.findOne({
         slug: req.param('slug'),
         active: 1
@@ -245,7 +280,7 @@ router.get('/artista/:slug', function (req, res) {
 /**
  * Opera d'Arte
  */
-router.get('/opera-darte/:slug', function (req, res) {
+router.get('/opera-darte/:slug', function (req, res, next) {
     Photos.findOne({
         slug: req.param('slug')
     }, function (err, photo) {
@@ -272,7 +307,7 @@ router.get('/opera-darte/:slug', function (req, res) {
 /**
  * Search
  */
-router.get('/search', function (req, res) {
+router.get('/search', function (req, res, next) {
     res.render('site/search', {
         article: 0
     });
@@ -281,7 +316,7 @@ router.get('/search', function (req, res) {
 /**
  * Glossario d'Arte
  */
-router.get('/glossario-darte', function (req, res) {
+router.get('/glossario-darte', function (req, res, next) {
     Definitions.find({}).sort({fullname: 'asc'}).exec(function (err, definitions) {
         if (err) return next(err);
         Definitions.distinct('letter').exec(function (err, letters) {
@@ -297,7 +332,7 @@ router.get('/glossario-darte', function (req, res) {
 /**
  * Lettere Glossario d'Arte
  */
-router.get('/glossario/:letter', function (req, res) {
+router.get('/glossario/:letter', function (req, res, next) {
     Definitions.find({letter: req.param('letter')}).sort({fullname: 'asc'}).exec(function (err, definitions) {
         if (err) return next(err);
         if (definitions) {

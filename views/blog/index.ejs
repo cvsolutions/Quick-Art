@@ -1,8 +1,16 @@
+<% title = 'Art Blog' %>
 <%- layout('../site/layout') %>
 
 <div class="row">
     <div class="col-xs-8">
         <h1>Art Blog</h1>
+        <hr/>
+        <%- include row-articles.ejs %>
+        <div class="well">
+            <p class="lead">Segnala eventi e manifestazioni</p>
+            <p>Pubblicazione News e Comunicati Stampa di Mostre ed Eventi d'Arte...</p>
+            <p><a href="#" class="btn btn-default">Segnala un evento</a></p>
+        </div>
     </div>
     <div class="col-xs-4">
         <div class="list-group">
@@ -12,7 +20,13 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-body">
-                <%- include ../site/adsbygoogle-300-600.ejs %>
+                <%- include ../site/adsbygoogle-300-250.ejs %>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Art News - Quick-art (Feed RSS)</div>
+            <div class="panel-body">
+                <p>Abbonati al servizio di Notizie utilizzando questo <a href="#">Feed RSS</a>. Troverai una lista completa delle ultime Notizie sull' Mondo dell' Arte ...</p>
             </div>
         </div>
     </div>

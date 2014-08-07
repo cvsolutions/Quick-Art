@@ -60,7 +60,7 @@ router.route('/')
 /**
  * Dashboard
  */
-router.get('/dashboard', isLoggedIn, function (req, res) {
+router.get('/dashboard', isLoggedIn, function (req, res, next) {
     Administrators.findById(req.session.passport.user, function (err, admin) {
         if (err) return next(err);
         res.render('administrator/dashboard', {
@@ -76,7 +76,7 @@ router.get('/artists', isLoggedIn, function (req, res) {
     res.render('administrator/artists');
 });
 
-router.get('/artists.json', isLoggedIn, function (req, res) {
+router.get('/artists.json', isLoggedIn, function (req, res, next) {
     Artists.find({}).populate('category').populate('region').exec(function (err, artists) {
         if (err) return next(err);
         res.status(200).send({
@@ -95,7 +95,7 @@ router.get('/articles', isLoggedIn, function (req, res) {
 /**
  * Articoli JSON
  */
-router.get('/articles.json', isLoggedIn, function (req, res) {
+router.get('/articles.json', isLoggedIn, function (req, res, next) {
     Articles.find({}).populate('content').exec(function (err, articles) {
         if (err) return next(err);
         res.status(200).send({
@@ -108,7 +108,7 @@ router.get('/articles.json', isLoggedIn, function (req, res) {
  * Nuovo Articolo
  */
 router.route('/articles/add')
-    .get(isLoggedIn, function (req, res) {
+    .get(isLoggedIn, function (req, res, next) {
         Contents.find({}).sort({fullname: 'asc'}).exec(function (err, contents) {
             if (err) return next(err);
             res.render('administrator/articles-add', {
@@ -143,7 +143,7 @@ router.route('/articles/add')
  * Modifica Articolo
  */
 router.route('/articles/edit/:id')
-    .get(isLoggedIn, function (req, res) {
+    .get(isLoggedIn, function (req, res, next) {
         Contents.find({}).sort({fullname: 'asc'}).exec(function (err, contents) {
             if (err) return next(err);
             var ID = req.param('id');
@@ -155,7 +155,7 @@ router.route('/articles/edit/:id')
             });
         });
     })
-    .post(isLoggedIn, function (req, res) {
+    .post(isLoggedIn, function (req, res, next) {
         Articles.findById(req.body.id, function (err, article) {
             var active = req.body.active == 1 ? 1 : 0;
             var home = req.body.home == 1 ? 1 : 0;
@@ -164,7 +164,7 @@ router.route('/articles/edit/:id')
                 picture = req.files.picture.name;
                 var target_path = './public/uploads/' + article.picture;
                 fs.unlink(target_path, function () {
-                    if (err) return console.error(err);
+                    if (err) return next(err);
                 });
             }
             article.fullname = req.body.fullname;

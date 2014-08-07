@@ -63,7 +63,7 @@ router.route('/')
 /**
  * Dashboard
  */
-router.get('/dashboard', isLoggedIn, function (req, res) {
+router.get('/dashboard', isLoggedIn, function (req, res, next) {
     Artists.findById(req.session.passport.user, function (err, artist) {
         if (err) return next(err);
         res.render('extranet/dashboard', {
@@ -76,7 +76,7 @@ router.get('/dashboard', isLoggedIn, function (req, res) {
  * Modifica Profilo
  */
 router.route('/profile')
-    .get(isLoggedIn, function (req, res) {
+    .get(isLoggedIn, function (req, res, next) {
         Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
             if (err) return next(err);
             Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
@@ -101,6 +101,7 @@ router.route('/profile')
             artist.fullname = req.body.fullname;
             artist.slug = req.body.slug;
             artist.phone = req.body.phone;
+            artist.facebook = req.body.facebook;
             artist.usermail = req.body.usermail;
             artist.pwd = req.body.pwd;
             artist.category = mongoose.Types.ObjectId(req.body.category);
@@ -119,6 +120,25 @@ router.route('/profile')
             });
         });
     });
+
+/**
+ * Check Permalink (Exclude profile)
+ */
+router.post('/check-exclude-slug', isLoggedIn, function (req, res) {
+    Artists.findOne({
+        _id: {
+            '$ne': req.body.id
+        },
+        slug: req.body.slug,
+        active: 1
+    }, function (err, result) {
+        if (result) {
+            res.status(200).send(false);
+        } else {
+            res.status(200).send(true);
+        }
+    });
+});
 
 /**
  * Check Usermail (Exclude profile)
@@ -142,14 +162,19 @@ router.post('/check-exclude-usermail', isLoggedIn, function (req, res) {
 /**
  * Photo Gallery
  */
-router.get('/gallery', isLoggedIn, function (req, res) {
-    res.render('extranet/gallery', {});
+router.get('/gallery', isLoggedIn, function (req, res, next) {
+    Photos.find({artist: req.session.passport.user}).count().exec(function (err, total) {
+        if (err) return next(err);
+        res.render('extranet/gallery', {
+            total: total
+        });
+    });
 });
 
 /**
  * json photos
  */
-router.get('/gallery/photos.json', isLoggedIn, function (req, res) {
+router.get('/gallery/photos.json', isLoggedIn, function (req, res, next) {
     Photos.find({artist: req.session.passport.user}).populate('technique').exec(function (err, photos) {
         if (err) return next(err);
         res.status(200).send({
@@ -159,17 +184,38 @@ router.get('/gallery/photos.json', isLoggedIn, function (req, res) {
 });
 
 /**
+ * Check Permalink Picture
+ */
+router.post('/check-picture-slug', function (req, res, next) {
+    Photos.findOne({
+        slug: req.body.slug
+    }, function (err, result) {
+        if (err) return next(err);
+        if (result) {
+            res.status(200).send(false);
+        } else {
+            res.status(200).send(true);
+        }
+    });
+});
+
+/**
  * Aggiungi Foto
  */
 router.route('/gallery/add')
-    .get(isLoggedIn, function (req, res) {
+    .get(isLoggedIn, function (req, res, next) {
+        Photos.find({artist: req.session.passport.user}).count().exec(function (err, total) {
+            if (err) return next(err);
+            if (total >= 6) res.redirect('/extranet/gallery');
+        });
         Techniques.find({}).sort({fullname: 'asc'}).exec(function (err, techniques) {
             if (err) return next(err);
             Themes.find({}).sort({fullname: 'asc'}).exec(function (err, themes) {
                 if (err) return next(err);
                 res.render('extranet/gallery-add', {
                     techniques: techniques,
-                    themes: themes
+                    themes: themes,
+                    measurements: ['cm', 'mm', 'px', 'mt']
                 });
             });
         });
@@ -188,6 +234,7 @@ router.route('/gallery/add')
             height: req.body.height,
             width: req.body.width,
             depth: req.body.depth,
+            measure: req.body.measure,
             code: req.body.code,
             price: req.body.price,
             year: req.body.year,
@@ -215,10 +262,28 @@ router.route('/gallery/add')
     });
 
 /**
+ * Check Permalink (Exclude Picture)
+ */
+router.post('/check-exclude-picture-slug', isLoggedIn, function (req, res) {
+    Photos.findOne({
+        _id: {
+            '$ne': req.body.id
+        },
+        slug: req.body.slug
+    }, function (err, result) {
+        if (result) {
+            res.status(200).send(false);
+        } else {
+            res.status(200).send(true);
+        }
+    });
+});
+
+/**
  * Modifica Foto
  */
 router.route('/gallery/edit/:id')
-    .get(isLoggedIn, function (req, res) {
+    .get(isLoggedIn, function (req, res, next) {
         Techniques.find({}).sort({fullname: 'asc'}).exec(function (err, techniques) {
             if (err) return next(err);
             Themes.find({}).sort({fullname: 'asc'}).exec(function (err, themes) {
@@ -228,7 +293,8 @@ router.route('/gallery/edit/:id')
                     res.render('extranet/gallery-edit', {
                         techniques: techniques,
                         themes: themes,
-                        photo: photo
+                        photo: photo,
+                        measurements: ['cm', 'mm', 'px', 'mt']
                     });
                 });
             });
@@ -257,6 +323,7 @@ router.route('/gallery/edit/:id')
             photo.height = req.body.height;
             photo.width = req.body.width;
             photo.depth = req.body.depth;
+            photo.measure = req.body.measure;
             photo.code = req.body.code;
             photo.price = req.body.price;
             photo.year = req.body.year;
@@ -287,11 +354,11 @@ router.route('/gallery/edit/:id')
 /**
  * Elimina Foto
  */
-router.get('/gallery/delete/:id', isLoggedIn, function (req, res) {
+router.get('/gallery/delete/:id', isLoggedIn, function (req, res, next) {
     Photos.findById(req.params.id, function (err, photo) {
         var target_path = './public/uploads/' + photo.picture;
         fs.unlink(target_path, function () {
-            if (err) return console.error(err);
+            if (err) return next(err);
         });
         photo.remove(function (err) {
             if (!err) {

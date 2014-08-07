@@ -20,6 +20,11 @@ var Artists = Schema({
         trim: true,
         required: false
     },
+    facebook: {
+        type: String,
+        trim: true,
+        required: false
+    },
     usermail: {
         type: String,
         trim: true,

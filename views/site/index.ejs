@@ -1,3 +1,4 @@
+<% title = 'Artisti Contemporanei | Quadri Moderni | Opere | Vendita Quadri | Mostre | Storia dell\'Arte' %>
 <%- layout('layout') %>
 
 <div class="row">
@@ -137,6 +138,26 @@
         </div>
     </div>
     <div class="col-xs-8">
-        <p>...</p>
+        <div class="row">
+            <% articles.forEach( function (row){ %>
+            <div class="col-xs-6">
+                <div class="media">
+                    <a class="pull-left" href="/blog/<%= row.slug %>">
+                        <% if (row.picture) { %>
+                        <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <% } else { %>
+                        <img src="/images/no-image.png" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <% } %>
+                    </a>
+
+                    <div class="media-body">
+                        <h4 class="media-heading"><%= row.fullname %></h4>
+                        <p><%= row.content.fullname %></p>
+                    </div>
+                </div>
+                <br/>
+            </div>
+            <% }); %>
+        </div>
     </div>
 </div>

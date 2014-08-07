@@ -1,3 +1,4 @@
+<% title = photo.fullname + ' | ' + photo.technique.fullname + ' | ' + photo.theme.fullname %>
 <%- layout('layout') %>
 
 <div class="row">
@@ -33,7 +34,7 @@
                     <li>Codice: <%= photo.code %></li>
                     <li>Tecnica: <%= photo.technique.fullname %></li>
                     <li>Anno: <%= photo.year %></li>
-                    <li>Dimensione: <%= photo.height %>x<%= photo.width %>x<%= photo.depth %> cm</li>
+                    <li>Dimensione: <%= photo.height %>x<%= photo.width %>x<%= photo.depth %> <%= photo.measure %></li>
                 </ul>
                 <ul class="list-unstyled">
                     <li><%= helper.number_format(photo.price, 2, '.', ',') %> € -

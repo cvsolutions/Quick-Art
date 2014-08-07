@@ -1,3 +1,11 @@
+/**
+ * Quick-Art
+ * Artisti Contemporanei Italiani
+ *
+ * @author Concetto Vecchio
+ * @copyright 2014
+ * @link http://quick-art.me
+ */
 $(document).ready(function () {
 
     /**
@@ -31,6 +39,12 @@ $(document).ready(function () {
     var theme = $('#theme').data('selected');
 
     /**
+     * measure
+     * @type {*|jQuery}
+     */
+    var measure = $('#measure').data('selected');
+
+    /**
      * selected option
      */
     $("#category option[value='" + category + "']").attr('selected', 'selected');
@@ -38,6 +52,7 @@ $(document).ready(function () {
     $("#province option[value='" + province + "']").attr('selected', 'selected');
     $("#technique option[value='" + technique + "']").attr('selected', 'selected');
     $("#theme option[value='" + theme + "']").attr('selected', 'selected');
+    $("#measure option[value='" + measure + "']").attr('selected', 'selected');
 
     /**
      * Registrazione
@@ -49,6 +64,13 @@ $(document).ready(function () {
                 required: true,
                 remote: {
                     url: '/check-usermail',
+                    type: 'POST'
+                }
+            },
+            slug: {
+                required: true,
+                remote: {
+                    url: '/check-slug',
                     type: 'POST'
                 }
             }
@@ -100,6 +122,16 @@ $(document).ready(function () {
                         id: $('#id').val()
                     }
                 }
+            },
+            slug: {
+                required: true,
+                remote: {
+                    url: '/extranet/check-exclude-slug',
+                    type: 'POST',
+                    data: {
+                        id: $('#id').val()
+                    }
+                }
             }
         },
         submitHandler: function (form) {
@@ -141,6 +173,15 @@ $(document).ready(function () {
      * Aggiungi Foto
      */
     $('#js-gallery-add-form').validate({
+        rules: {
+            slug: {
+                required: true,
+                remote: {
+                    url: '/extranet/check-picture-slug',
+                    type: 'POST'
+                }
+            }
+        },
         submitHandler: function (form) {
             $.ajax({
                 url: '/extranet/gallery/add',
@@ -180,6 +221,18 @@ $(document).ready(function () {
      * Modifica Foto
      */
     $('#js-gallery-edit-form').validate({
+        rules: {
+            slug: {
+                required: true,
+                remote: {
+                    url: '/extranet/check-exclude-picture-slug',
+                    type: 'POST',
+                    data: {
+                        id: $('#id').val()
+                    }
+                }
+            }
+        },
         submitHandler: function (form) {
             $.ajax({
                 url: '/extranet/gallery/edit/' + $('#id').val(),
@@ -227,13 +280,15 @@ $(document).ready(function () {
      */
     $('#fullname').stringToSlug({
         setEvents: 'keyup keydown blur',
-        getPut: '#slug',
-        space: '-',
-        prefix: '',
-        suffix: '',
-        replace: '',
-        AND: 'and',
-        callback: false
+        getPut: '#slug'
+    });
+
+    /**
+     * stringToSlug
+     */
+    $('#slug').stringToSlug({
+        setEvents: 'keyup keydown blur',
+        getPut: '#slug'
     });
 
     /**
@@ -260,17 +315,24 @@ $(document).ready(function () {
                 targets: 2,
                 data: 'picture',
                 render: function (data, type, row) {
-                    return  row.height + 'x' + row.width + 'x' + row.depth + ' cm';
+                    return  row.height + 'x' + row.width + 'x' + row.depth + ' ' + row.measure;
                 }
             },
             {
                 targets: 3,
+                data: 'cover',
+                render: function (data) {
+                    return  data;
+                }
+            },
+            {
+                targets: 4,
                 data: '_id',
                 searchable: false,
                 render: function (data) {
                     return '<div class="btn-group">' +
                         '<a href="/extranet/gallery/edit/' + data + '" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span></a>' +
-                        '<a href="/extranet/gallery/delete/' + data + '" class="btn btn-default btn-sm" onClick="return confirm(\'Sei sicuro di voler cancellare?\');"><span class="glyphicon glyphicon-trash"></span></a>' +
+                        '<a href="/extranet/gallery/delete/' + data + '" class="btn btn-default btn-sm" onclick="return confirm(\'Sei sicuro di voler cancellare?\');"><span class="glyphicon glyphicon-trash"></span></a>' +
                         '</div>';
                 }
             }

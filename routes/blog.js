@@ -20,11 +20,18 @@ var router = express.Router();
 /**
  * Blog Quick-Art
  */
-router.get('/', function (req, res) {
+router.get('/', function (req, res, next) {
     Contents.find({show: 1}).sort({fullname: 'asc'}).exec(function (err, contents) {
         if (err) return next(err);
-        res.render('blog/index', {
-            contents: contents
+        Articles.find({
+            active: 1,
+            home: 1
+        }).sort({registered: 'desc'}).exec(function (err, articles) {
+            if (err) return next(err);
+            res.render('blog/index', {
+                contents: contents,
+                articles: articles
+            });
         });
     });
 });
@@ -32,7 +39,7 @@ router.get('/', function (req, res) {
 /**
  * Categorie Articoli
  */
-router.get('/articoli/:slug', function (req, res) {
+router.get('/articoli/:slug', function (req, res, next) {
     Contents.find({show: 1}).sort({fullname: 'asc'}).exec(function (err, contents) {
         if (err) return next(err);
         Contents.findOne({slug: req.param('slug')}).exec(function (err, content) {
@@ -54,22 +61,53 @@ router.get('/articoli/:slug', function (req, res) {
 });
 
 /**
+ * Tags Articoli
+ */
+router.get('/tags/:tag', function (req, res, next) {
+    Contents.find({show: 1}).sort({fullname: 'asc'}).exec(function (err, contents) {
+        if (err) return next(err);
+        Articles.find({
+            active: 1,
+            tags: new RegExp(req.param('tag'), 'i')
+        }).sort({registered: 'desc'}).exec(function (err, articles) {
+            if (err) return next(err);
+            res.render('blog/tags', {
+                contents: contents,
+                articles: articles
+            });
+        });
+    });
+});
+
+/**
  * Dettaglio Articolo
  */
-router.get('/:slug', function (req, res) {
+router.get('/:slug', function (req, res, next) {
     Articles.findOne({
         slug: req.param('slug'),
         active: 1
     }, function (err, article) {
         if (err) return next(err);
         if (article) {
-            res.render('blog/article', {
-                article: article
+            Articles.find({
+                active: 1,
+                _id: {
+                    '$ne': article._id
+                },
+                tags: {
+                    '$in': article.tags
+                }
+            }).exec(function (err, related) {
+                if (err) return next(err);
+                res.render('blog/article', {
+                    article: article,
+                    related: related
+                });
             });
         } else {
             res.status(404).render('site/404');
         }
-    }).populate('technique').populate('theme').populate('artist');
+    }).populate('content');
 });
 
 module.exports = router;

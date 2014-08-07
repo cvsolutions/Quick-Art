@@ -1,3 +1,4 @@
+<% title = 'Registrazione' %>
 <%- layout('layout') %>
 
 <div class="row">
@@ -17,8 +18,8 @@
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Telefono</label>
-                        <input type="tel" class="form-control" name="phone" id="phone" value="">
+                        <label>Permalink</label>
+                        <input type="text" class="form-control" name="slug" id="slug" value="" required="">
                     </div>
                 </div>
             </div>
@@ -33,6 +34,20 @@
                     <div class="form-group">
                         <label>Password</label>
                         <input type="password" class="form-control" name="pwd" id="pwd" value="" required="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Telefono</label>
+                        <input type="number" class="form-control" name="phone" id="phone" value="">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Collegamento pagina Facebook</label>
+                        <input type="url" class="form-control" name="facebook" id="facebook" value="">
                     </div>
                 </div>
             </div>
@@ -89,12 +104,10 @@
             <div class="checkbox">
                 <label><input type="checkbox" name="privacy" id="privacy" value="1" checked required=""> Ho preso visione dell’informativa al trattamento dei dati</label>
             </div>
-            <input type="hidden" name="slug" id="slug" value="">
             <input type="submit" class="btn btn-default" value="Registrati">
         </form>
     </div>
     <div class="col-xs-4">
-
         <div class="panel panel-default">
             <div class="panel-body">
                 <p>Quick-Art è un servizio di Promozione Artistica On-line</p>
@@ -106,12 +119,10 @@
                 </ul>
             </div>
         </div>
-
         <div class="panel panel-default">
             <div class="panel-body">
                 <%- include adsbygoogle-300-250.ejs %>
             </div>
         </div>
-
     </div>
 </div>

@@ -1,3 +1,4 @@
+<% title = 'Modifica Profilo' %>
 <%- layout('../site/layout') %>
 
 <div class="row">
@@ -17,8 +18,8 @@
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Telefono</label>
-                        <input type="tel" class="form-control" name="phone" id="phone" value="<%= artist.phone %>">
+                        <label>Permalink</label>
+                        <input type="text" class="form-control" name="slug" id="slug" value="<%= artist.slug %>" required="">
                     </div>
                 </div>
             </div>
@@ -39,6 +40,20 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
+                        <label>Telefono</label>
+                        <input type="number" class="form-control" name="phone" id="phone" value="<%- artist.phone %>">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Collegamento pagina Facebook</label>
+                        <input type="url" class="form-control" name="facebook" id="facebook" value="<%- artist.facebook %>">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
                         <label>Categoria</label>
                         <select class="form-control" name="category" id="category" data-selected="<%= artist.category %>" required="">
                             <option value="">-</option>
@@ -51,7 +66,7 @@
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label>Sito Internet</label>
-                        <input type="url" class="form-control" name="web" id="web" value="<%= artist.web %>">
+                        <input type="url" class="form-control" name="web" id="web" value="<%- artist.web %>">
                     </div>
                 </div>
             </div>
@@ -84,7 +99,6 @@
                 <textarea class="form-control" name="description" id="description" rows="15" required=""><%= artist.description %></textarea>
             </div>
             <input type="hidden" name="id" id="id" value="<%= artist._id %>">
-            <input type="hidden" name="slug" id="slug" value="<%= artist.slug %>">
             <input type="submit" class="btn btn-default" value="Salva">
         </form>
     </div>

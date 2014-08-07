@@ -16,5 +16,15 @@
 {
 	"fullname": "Contenuti Statici",
 	"slug": "contenuti-statici",
+	"show": 0
+}
+{
+	"fullname": "Elenco Musei Italiani",
+	"slug": "elenco-musei-italiani",
+	"show": 1
+}
+{
+	"fullname": "Notizie & Eventi",
+	"slug": "notizie-eventi",
 	"show": 1
 }

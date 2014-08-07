@@ -1,3 +1,4 @@
+<% title = 'Artista Contemporaneo ' + artist.fullname + ' | Galleria ' + artist.category.fullname + ' & Opere d\'Arte | Esposizioni Quadri e Dipinti in ' + artist.region.fullname %>
 <%- layout('layout') %>
 
 <div class="row">
@@ -16,7 +17,7 @@
                         <h3 data-toggle="tooltip" class="mytooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 20) %></h3>
                         <ul class="list-unstyled">
                             <li><%= row.technique.fullname %></li>
-                            <li>(<%= row.height %>x<%= row.width %>x<%= row.depth %> cm)</li>
+                            <li>(<%= row.height %>x<%= row.width %>x<%= row.depth %> <%= row.measure %>)</li>
                         </ul>
                         <p><a href="/opera-darte/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></p>
                     </div>

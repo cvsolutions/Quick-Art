@@ -1,31 +1,15 @@
+<% title = content.fullname %>
 <%- layout('../site/layout') %>
 
 <div class="row">
     <div class="col-xs-8">
         <h1><%= content.fullname %></h1>
-
-        <% articles.forEach( function (row){ %>
-        <div class="media">
-            <a class="pull-left" href="/blog/<%= row.slug %>">
-                <% if (row.picture) { %>
-                <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
-                <% } else { %>
-                <img src="/images/no-image.png" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
-                <% } %>
-            </a>
-
-            <div class="media-body">
-                <h4 class="media-heading"><%= row.fullname %></h4>
-                <p><%- truncate(row.description, 250) %></p>
-            </div>
-        </div>
-        <% }); %>
-
+        <%- include row-articles.ejs %>
     </div>
     <div class="col-xs-4">
         <div class="list-group">
             <% contents.forEach( function (row){ %>
-            <a href="/blog/articoli/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <a href="/blog/articoli/<%= row.slug %>" class="list-group-item <% if(row.slug == content.slug){ %>active<% } %>"><%= row.fullname %></a>
             <% }); %>
         </div>
         <div class="panel panel-default">

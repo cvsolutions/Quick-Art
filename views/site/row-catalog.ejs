@@ -6,7 +6,7 @@
             <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt="<%= row.fullname %>"/>
             <div class="caption">
                 <h3 data-toggle="tooltip" class="mytooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 20) %></h3>
-                <p><%= row.technique.fullname %>, (<%= row.height %>x<%= row.width %>x<%= row.depth %> cm)</p>
+                <p><%= row.technique.fullname %>, (<%= row.height %>x<%= row.width %>x<%= row.depth %> <%= row.measure %>)</p>
                 <p><a href="/opera-darte/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></p>
             </div>
         </div>

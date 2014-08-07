@@ -98,13 +98,7 @@ $(document).ready(function () {
      */
     $('#fullname').stringToSlug({
         setEvents: 'keyup keydown blur',
-        getPut: '#slug',
-        space: '-',
-        prefix: '',
-        suffix: '',
-        replace: '',
-        AND: 'and',
-        callback: false
+        getPut: '#slug'
     });
 
     /**
@@ -143,7 +137,7 @@ $(document).ready(function () {
                 render: function (data) {
                     return '<div class="btn-group">' +
                         '<a href="/administrator/artists/edit/' + data + '" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span></a>' +
-                        '<a href="/administrator/artists/delete/' + data + '" class="btn btn-default btn-sm" onClick="return confirm(\'Sei sicuro di voler cancellare?\');"><span class="glyphicon glyphicon-trash"></span></a>' +
+                        '<a href="/administrator/artists/delete/' + data + '" class="btn btn-default btn-sm" onclick="return confirm(\'Sei sicuro di voler cancellare?\');"><span class="glyphicon glyphicon-trash"></span></a>' +
                         '</div>';
                 }
             }
@@ -180,13 +174,16 @@ $(document).ready(function () {
                 render: function (data) {
                     return '<div class="btn-group">' +
                         '<a href="/administrator/articles/edit/' + data + '" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span></a>' +
-                        '<a href="/administrator/articles/delete/' + data + '" class="btn btn-default btn-sm" onClick="return confirm(\'Sei sicuro di voler cancellare?\');"><span class="glyphicon glyphicon-trash"></span></a>' +
+                        '<a href="/administrator/articles/delete/' + data + '" class="btn btn-default btn-sm" onclick="return confirm(\'Sei sicuro di voler cancellare?\');"><span class="glyphicon glyphicon-trash"></span></a>' +
                         '</div>';
                 }
             }
         ]
     });
 
+    /**
+     * filestyle
+     */
     $(':file').filestyle();
 
 });
