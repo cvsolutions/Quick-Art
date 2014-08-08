@@ -12,7 +12,8 @@
         </p>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li class="active"><a href="#biography" role="tab" data-toggle="tab">Biografia</a></li>
+            <li class="active"><a href="#gallery" role="tab" data-toggle="tab">Gallery</a></li>
+            <li><a href="#biography" role="tab" data-toggle="tab">Biografia</a></li>
             <li><a href="#reviews" role="tab" data-toggle="tab">Critiche</a></li>
             <li><a href="#exhibitions" role="tab" data-toggle="tab">Mostre</a></li>
         </ul>
@@ -20,7 +21,14 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div class="tab-pane active" id="biography">
+            <div class="tab-pane active" id="gallery">
+                <div class="fotorama" data-allowfullscreen="true" data-width="100%" data-nav="thumbs">
+                    <% photos.forEach( function (row){ %>
+                    <a href="/uploads/<%= row.picture %>"><img src="/uploads/<%= row.picture %>" data-caption="<%= row.fullname %>" alt="<%= row.fullname %>"/></a>
+                    <% }); %>
+                </div>
+            </div>
+            <div class="tab-pane" id="biography">
                 <p><%- helper.nl2br(artist.biography) %></p>
             </div>
             <div class="tab-pane" id="reviews">
@@ -30,13 +38,6 @@
                 <p><%- helper.nl2br(artist.exhibitions) %></p>
             </div>
         </div>
-        <br/>
-
-        <div class="fotorama" data-allowfullscreen="true" data-width="100%" data-ratio="800/600" data-nav="thumbs">
-            <% photos.forEach( function (row){ %>
-            <a href="/uploads/<%= row.picture %>"><img src="/uploads/<%= row.picture %>" data-caption="<%= row.fullname %>" alt=""/></a>
-            <% }); %>
-        </div>
     </div>
     <div class="col-xs-4">
 
@@ -44,12 +45,12 @@
             <div class="panel-heading">Informazioni</div>
             <div class="panel-body">
                 <ul class="list-unstyled">
-                    <li>Categoria: <%= artist.category.fullname %></li>
-                    <li>Regione: <%= artist.region.fullname %></li>
+                    <li>Categoria: <a href="/categoria/<%= artist.category.slug %>"><%= artist.category.fullname %></a></li>
+                    <li>Regione: <a href="/regione/<%= artist.region.slug %>"><%= artist.region.fullname %></a></li>
                     <li>Provincia: <%= artist.province.fullname %></li>
                     <li>Telefono: <%- artist.phone %></li>
                 </ul>
-                <p class="pull-right"><a href="" class="btn btn-default btn-sm">Contatta</a></p>
+                <p class="pull-right"><a href="#" class="btn btn-default btn-sm">Contatta</a></p>
             </div>
         </div>
 
@@ -95,3 +96,4 @@
         <p class="lead">Prodotti Correlati</p>
     </div>
 </div>
+

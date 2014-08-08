@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-8">
         <h1><%= photo.fullname %></h1>
-        <p><i>di: <%= photo.artist.fullname %></i></p>
+        <p><i>di: <a href="/artista/<%= photo.artist.slug %>"><%= photo.artist.fullname %></a></i></p>
         <p>
             <a href="/uploads/<%= photo.picture %>" class="js-fancybox" title="<%= photo.fullname %>" rel="picture">
                 <img src="/uploads/<%= photo.picture %>" class="img-responsive img-thumbnail" alt="<%= photo.fullname %>"/>
@@ -83,8 +83,44 @@
     </div>
 </div>
 
+<% if(related.length > 0){ %>
 <div class="row">
     <div class="col-xs-12">
+        <hr/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <p class="lead">Prodotti Correlati</p>
+    </div>
+</div>
+
+<div class="row">
+    <% related.forEach( function (row){ %>
+    <div class="col-xs-3">
+        <div class="media">
+            <a class="pull-left js-tooltip" data-toggle="tooltip" title="<%= row.height %>x<%= row.width %>x<%= row.depth %> <%= row.measure %>" href="/opera-darte/<%= row.slug %>">
+                <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+            </a>
+
+            <div class="media-body">
+                <h4 class="media-heading"><%= row.fullname %></h4>
+                <ul class="list-unstyled">
+                    <li><%= row.technique.fullname %></li>
+                    <li><%= row.artist.fullname %></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <% }); %>
+</div>
+<% } %>
+
+<% if(pictures.length > 0){ %>
+<div class="row">
+    <div class="col-xs-12">
+        <br/>
         <hr/>
     </div>
 </div>
@@ -102,7 +138,7 @@
             <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt="<%= row.fullname %>"/>
 
             <div class="caption">
-                <h3 data-toggle="tooltip" class="mytooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 20) %></h3>
+                <h3 data-toggle="tooltip" class="js-tooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 20) %></h3>
                 <p><%= row.technique.fullname %>, (<%= row.height %>x<%= row.width %>x<%= row.depth %> cm)</p>
                 <p><a href="/opera-darte/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></p>
             </div>
@@ -110,3 +146,4 @@
     </div>
     <% }); %>
 </div>
+<% } %>

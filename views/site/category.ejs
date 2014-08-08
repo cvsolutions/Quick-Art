@@ -9,6 +9,12 @@
         <%- include row-artists.ejs %>
     </div>
     <div class="col-xs-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p>Sei un Artista? Pubblica i tuoi lavori su questo Portale...</p>
+                <p><a href="/registrazione"><img src="/images/registrati.png" class="img-responsive" alt="Registrazione"/></a></p>
+            </div>
+        </div>
         <div class="list-group">
             <% categories.forEach( function (row){ %>
             <a href="/categoria/<%= row.slug %>" class="list-group-item <% if(row.slug == category.slug){ %>active<% } %>"><%= row.fullname %></a>

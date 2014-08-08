@@ -241,7 +241,7 @@ router.route('/gallery/add')
             price: req.body.price,
             year: req.body.year,
             artist: mongoose.Types.ObjectId(req.session.passport.user),
-            tags: req.body.tags.split(','),
+            tags: req.body.tags.toLocaleLowerCase().split(','),
             cover: cover,
             available: available,
             frame: frame,
@@ -329,7 +329,7 @@ router.route('/gallery/edit/:id')
             photo.code = req.body.code;
             photo.price = req.body.price;
             photo.year = req.body.year;
-            photo.tags = req.body.tags.split(',');
+            photo.tags = req.body.tags.toLocaleLowerCase().split(',');
             photo.cover = cover;
             photo.available = available;
             photo.frame = frame;

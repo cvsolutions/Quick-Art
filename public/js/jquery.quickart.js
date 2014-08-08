@@ -385,5 +385,5 @@ $(document).ready(function () {
     /**
      * tooltip
      */
-    $('.mytooltip').tooltip();
+    $('.js-tooltip').tooltip();
 });

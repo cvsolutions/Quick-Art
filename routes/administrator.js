@@ -124,7 +124,7 @@ router.route('/articles/add')
             description: req.body.description,
             picture: req.files.picture.name,
             content: mongoose.Types.ObjectId(req.body.content),
-            tags: req.body.tags.split(','),
+            tags: req.body.tags.toLocaleLowerCase().split(','),
             active: 1,
             home: home,
             registered: Date.now()
@@ -172,7 +172,7 @@ router.route('/articles/edit/:id')
             article.description = req.body.description;
             article.picture = picture;
             article.content = mongoose.Types.ObjectId(req.body.content);
-            article.tags = req.body.tags.split(',');
+            article.tags = req.body.tags.toLocaleLowerCase().split(',');
             article.active = active;
             article.home = home;
             article.save(function (err) {

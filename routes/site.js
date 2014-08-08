@@ -40,7 +40,7 @@ router.use(function (req, res, next) {
  * Benvenuti su Quick-Art
  */
 router.get('/', function (req, res, next) {
-    Photos.find({cover: 1}).populate('technique').sort({registered: 'desc'}).limit(3).exec(function (err, photos) {
+    Photos.find({}).populate('technique').sort({registered: 'desc'}).limit(3).exec(function (err, photos) {
         if (err) return next(err);
         Artists.find({active: 1}).populate('category').populate('region').populate('photo').sort({registered: 'desc'}).limit(3).exec(function (err, artists) {
             if (err) return next(err);
@@ -295,9 +295,20 @@ router.get('/opera-darte/:slug', function (req, res, next) {
                 artist: photo.artist._id
             }).populate('technique').sort({fullname: 'asc'}).exec(function (err, pictures) {
                 if (err) return next(err);
-                res.render('site/product', {
-                    photo: photo,
-                    pictures: pictures
+                Photos.find({
+                    _id: {
+                        '$ne': photo._id
+                    },
+                    tags: {
+                        '$in': photo.tags
+                    }
+                }).populate('artist').populate('technique').limit(4).exec(function (err, related) {
+                    if (err) return next(err);
+                    res.render('site/product', {
+                        photo: photo,
+                        pictures: pictures,
+                        related: related
+                    });
                 });
             });
         } else {
