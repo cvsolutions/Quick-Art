@@ -448,4 +448,23 @@ router.get('/photos-:id.json', function (req, res, next) {
     });
 });
 
+router.get('/autocomplete/artists.json', function (req, res, next) {
+    var q = req.query.query;
+    Artists.find({
+        fullname: new RegExp(q, 'i')
+    }, '_id fullname').exec(function (err, artists) {
+        if (err) return next(err);
+        // console.log(artists);
+        var obj = [];
+        for (var nam in artists) {
+            obj[nam] = {};
+            obj[nam]['value'] = artists[nam].fullname;
+            obj[nam]['data'] = artists[nam]._id;
+        }
+        res.status(200).send({
+            query: q,
+            suggestions: obj
+        });
+    });
+});
 module.exports = router;

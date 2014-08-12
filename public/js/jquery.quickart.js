@@ -455,4 +455,11 @@ $(document).ready(function () {
     });
 
 
+    $('#q').autocomplete({
+        serviceUrl: '/autocomplete/artists.json',
+        onSelect: function (suggestion) {
+            alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+        }
+    });
+
 });
