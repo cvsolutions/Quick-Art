@@ -123,6 +123,7 @@ router.route('/profile')
         });
     });
 
+
 /**
  * Check Permalink (Exclude profile)
  */
@@ -245,6 +246,7 @@ router.route('/gallery/add')
             cover: cover,
             available: available,
             frame: frame,
+            views: 1,
             registered: Date.now()
         }).save(function (err, image) {
                 if (!err) {
@@ -338,10 +340,8 @@ router.route('/gallery/edit/:id')
                     Artists.findById(image.artist, function (err, artist) {
                         if (cover == 1) {
                             artist.photo = mongoose.Types.ObjectId(image._id);
-                        } else {
-                            artist.photo = undefined;
+                            artist.save();
                         }
-                        artist.save();
                     });
                     res.status(200).send({
                         text: 'Operazione eseguita con successo!'

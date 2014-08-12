@@ -5,7 +5,7 @@
     <div class="panel-heading">Modifica Articolo</div>
     <div class="panel-body">
         <div id="result"></div>
-        <form id="js-articles-edit-form" method="post" enctype="application/x-www-form-urlencoded">
+        <form id="js-articles-edit-form" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
@@ -27,6 +27,7 @@
             <div class="form-group">
                 <label>Immagine</label>
                 <input type="file" name="picture" id="picture" accept="image/*">
+                <p><a href="/uploads/<%= article.picture %>" target="_blank"><%= article.picture %></a></p>
             </div>
             <div class="row">
                 <div class="col-xs-6">

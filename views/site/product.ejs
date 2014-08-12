@@ -11,18 +11,23 @@
             </a>
         </p>
 
-        <% if(photo.description != 'undefined'){ %>
+        <p class="text-danger"><i>Alcuni browser in base alle impostazioni del vostro computer possono cambiare leggermente la tonalità del dipinto.</i></p>
+
+        <% if(photo.description != undefined){ %>
         <p><%- helper.nl2br(photo.description) %></p>
+        <br/>
         <% } %>
 
         <% if(photo.tags){ %>
-        <ul class="list-inline">
+        <ul class="breadcrumb">
             <li>Tags:</li>
             <% photo.tags.forEach( function (tag){ %>
-            <li><a href="#"><%= tag %></a></li>
+            <li><a href="/tags/<%= tag %>"><%= tag %></a></li>
             <% }); %>
         </ul>
         <% } %>
+
+        <p>Totale visualizzazioni: <span><%= photo.views %></span></p>
 
     </div>
     <div class="col-xs-4">
@@ -36,17 +41,11 @@
                     <li>Anno: <%= photo.year %></li>
                     <li>Dimensione: <%= photo.height %>x<%= photo.width %>x<%= photo.depth %> <%= photo.measure %></li>
                 </ul>
+                <hr/>
+                <p class="lead"><%= helper.number_format(photo.price, 2, '.', ',') %> €</p>
                 <ul class="list-unstyled">
-                    <li><%= helper.number_format(photo.price, 2, '.', ',') %> € -
-                        <% if(photo.available == 1){ %>
-                        <span class="label label-success">Disponibile</span>
-                        <% } else{ %>
-                        <span class="label label-danger">NON Disponibile</span>
-                        <% } %>
-                    </li>
-                    <% if(photo.frame == 1){ %>
-                    <li class="text-muted">Quadro comprensivo di cornice
-                        <% } %>
+                    <% if(photo.available == 1){ %><li><span class="label label-success">Disponibile</span><% } else{ %><span class="label label-danger">NON Disponibile</span></li><% } %>
+                    <% if(photo.frame == 1){ %><li class="text-muted">Quadro comprensivo di cornice<% } %>
                 </ul>
             </div>
         </div>
@@ -118,9 +117,15 @@
 <% } %>
 
 <% if(pictures.length > 0){ %>
+
 <div class="row">
     <div class="col-xs-12">
-        <br/>
+        <p>&nbsp;</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
         <hr/>
     </div>
 </div>
@@ -139,8 +144,14 @@
 
             <div class="caption">
                 <h3 data-toggle="tooltip" class="js-tooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 20) %></h3>
-                <p><%= row.technique.fullname %>, (<%= row.height %>x<%= row.width %>x<%= row.depth %> cm)</p>
-                <p><a href="/opera-darte/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></p>
+                <ul class="list-unstyled">
+                    <li><%= row.technique.fullname %></li>
+                    <li><%= row.height %>x<%= row.width %>x<%= row.depth %> cm</li>
+                </ul>
+                <hr/>
+                <ul class="list-unstyled">
+                    <li><a href="/opera-darte/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></li>
+                </ul>
             </div>
         </div>
     </div>

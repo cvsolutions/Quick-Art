@@ -1,0 +1,128 @@
+<%- layout('layout') %>
+<%- include header.ejs %>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Modifica Artista</div>
+    <div class="panel-body">
+        <div id="result"></div>
+        <form id="js-artists-edit-form" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Nome & Cognome</label>
+                        <input type="text" class="form-control" name="fullname" id="fullname" value="<%= artist.fullname %>" required="">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Permalink</label>
+                        <input type="text" class="form-control" name="slug" id="slug" value="<%= artist.slug %>" required="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Indirizzo E-mail</label>
+                        <input type="email" class="form-control" name="usermail" id="usermail" value="<%= artist.usermail %>" required="">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="text" class="form-control" name="pwd" id="pwd" value="<%= artist.pwd %>" required="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Telefono</label>
+                        <input type="number" class="form-control" name="phone" id="phone" value="<%- artist.phone %>">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Collegamento pagina Facebook</label>
+                        <input type="url" class="form-control" name="facebook" id="facebook" value="<%- artist.facebook %>">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select class="form-control" name="category" id="category" data-selected="<%= artist.category %>" required="">
+                            <option value="">-</option>
+                            <% categories.forEach( function (row){ %>
+                            <option value="<%= row._id %>"><%= row.fullname %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Sito Internet</label>
+                        <input type="url" class="form-control" name="web" id="web" value="<%- artist.web %>">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Regione</label>
+                        <select class="form-control" name="region" id="region" data-selected="<%= artist.region %>" required="">
+                            <option value="">-</option>
+                            <% regions.forEach( function (row){ %>
+                            <option value="<%= row._id %>"><%= row.fullname %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Provincia</label>
+                        <select class="form-control" name="province" id="province" data-selected="<%= artist.province %>" required="">
+                            <option value="">-</option>
+                            <% provinces.forEach( function (row){ %>
+                            <option value="<%= row._id %>"><%= row.fullname %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#biography" role="tab" data-toggle="tab">Biografia</a></li>
+                <li><a href="#reviews" role="tab" data-toggle="tab">Critiche</a></li>
+                <li><a href="#exhibitions" role="tab" data-toggle="tab">Mostre</a></li>
+            </ul>
+            <br/>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="biography">
+                    <div class="form-group">
+                        <textarea class="form-control" name="biography" id="biography" rows="15" required=""><%- artist.biography %></textarea>
+                    </div>
+                </div>
+                <div class="tab-pane" id="reviews">
+                    <div class="form-group">
+                        <textarea class="form-control" name="reviews" id="reviews" rows="15"><%- artist.reviews %></textarea>
+                    </div>
+                </div>
+                <div class="tab-pane" id="exhibitions">
+                    <div class="form-group">
+                        <textarea class="form-control" name="exhibitions" id="exhibitions" rows="15"><%- artist.exhibitions %></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkbox">
+                <label><input type="checkbox" name="active" id="active" <% if (artist.active == 1) { %>checked <% } %>value="1"> Mostra sul sito</label>
+            </div>
+
+            <input type="hidden" name="id" id="id" value="<%= artist._id %>">
+            <input type="submit" class="btn btn-primary" value="Salva">
+        </form>
+    </div>
+</div>

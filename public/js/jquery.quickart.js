@@ -86,11 +86,9 @@ $(document).ready(function () {
                 cache: false,
                 statusCode: {
                     200: function (response) {
-                        var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
-                        $('html,body').animate({
-                            scrollTop: $('.container').offset().top
-                        }, 1000);
-                        $('#result').hide().html(output).slideDown();
+                        if (response.status === true) {
+                            window.location.href = '/conferma-registrazione';
+                        }
                     },
                     500: function (response) {
                         alert(response.responseJSON.err);
@@ -157,6 +155,9 @@ $(document).ready(function () {
                             scrollTop: $('.container').offset().top
                         }, 1000);
                         $('#result').hide().html(output).slideDown();
+                        setTimeout(function () {
+                            window.location.href = '/extranet/dashboard';
+                        }, 2000);
                     },
                     500: function (response) {
                         $.isLoading('hide');
@@ -256,6 +257,9 @@ $(document).ready(function () {
                             scrollTop: $('.container').offset().top
                         }, 1000);
                         $('#result').hide().html(output).slideDown();
+                        setTimeout(function () {
+                            window.location.href = '/extranet/gallery';
+                        }, 2000);
                     },
                     500: function (response) {
                         $.isLoading('hide');
@@ -386,4 +390,69 @@ $(document).ready(function () {
      * tooltip
      */
     $('.js-tooltip').tooltip();
+
+    /**
+     * dataTable
+     */
+    $('#js-gallery').dataTable({
+        "ajax": '/photos-' + $('h1').data('id') + '.json',
+        "language": {
+            "url": '/js/jquery.dataTables_messages_it.json'
+        },
+        "order": [
+            [1, 'desc']
+        ],
+        "lengthMenu": [
+            [5, 10],
+            [5, 10]
+        ],
+        "columns": [
+            {
+                'data': 'picture'
+            },
+            {
+                'data': 'fullname'
+            },
+            {
+                'data': 'technique.fullname'
+            },
+            {
+                'data': 'price'
+            }
+        ],
+        columnDefs: [
+            {
+                targets: 0,
+                data: 'picture',
+                searchable: false,
+                render: function (data, type, row) {
+                    return  '<a href="/opera-darte/' + row.slug + '"><img src="/uploads/' + data + '" width="64" height="64" alt=""></a>';
+                }
+            },
+            {
+                targets: 3,
+                data: 'price',
+                render: function (data) {
+                    return data.toFixed(2) + ' €';
+                }
+            },
+            {
+                targets: 4,
+                data: 'picture',
+                render: function (data, type, row) {
+                    return  row.height + 'x' + row.width + 'x' + row.depth + ' ' + row.measure;
+                }
+            },
+            {
+                targets: 5,
+                data: 'slug',
+                searchable: false,
+                render: function (data) {
+                    return '<a href="/opera-darte/' + data + '" class=""><span class="glyphicon glyphicon-search"></span></a>';
+                }
+            }
+        ]
+    });
+
+
 });

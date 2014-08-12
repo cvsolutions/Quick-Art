@@ -40,7 +40,7 @@ router.use(function (req, res, next) {
  * Benvenuti su Quick-Art
  */
 router.get('/', function (req, res, next) {
-    Photos.find({}).populate('technique').sort({registered: 'desc'}).limit(3).exec(function (err, photos) {
+    Photos.find({}).populate('technique').populate('artist').sort({registered: 'desc'}).limit(6).exec(function (err, photos) {
         if (err) return next(err);
         Artists.find({active: 1}).populate('category').populate('region').populate('photo').sort({registered: 'desc'}).limit(3).exec(function (err, artists) {
             if (err) return next(err);
@@ -91,7 +91,8 @@ router.get('/artisti-contemporanei', function (req, res, next) {
  * Catalogo Opere d'Arte
  */
 router.get('/catalogo-opere-arte', function (req, res, next) {
-    Photos.find({cover: 1}).populate('technique').sort({registered: 'desc'}).exec(function (err, photos) {
+    Photos.find({'cover': 1}).populate('technique').populate('artist').sort({registered: 'desc'}).exec(function (err, photos) {
+        console.log(photos);
         if (err) return next(err);
         Techniques.find({}).sort('').exec(function (err, techniques) {
             if (err) return next(err);
@@ -145,16 +146,24 @@ router.route('/registrazione')
             level: 1,
             active: 1,
             registered: Date.now()
-        }).save(function (err) {
+        }).save(function (err, user) {
                 if (!err) {
                     res.status(200).send({
-                        text: 'Complimenti, la registrazione è avvenuta con successo!'
+                        status: true,
+                        user: user
                     });
                 } else {
                     res.status(500).send(err);
                 }
             });
     });
+
+/**
+ * Conferma Registrazione
+ */
+router.get('/conferma-registrazione', function (req, res) {
+    res.render('site/registration-confirmation');
+});
 
 /**
  * Check Permalink (Registrazione)
@@ -266,10 +275,26 @@ router.get('/artista/:slug', function (req, res, next) {
                     province: artist.province
                 }).populate('category').populate('photo').sort({fullname: 'asc'}).limit(5).exec(function (err, surroundings) {
                     if (err) return next(err);
-                    res.render('site/artist', {
-                        artist: artist,
-                        photos: photos,
-                        surroundings: surroundings
+                    Photos.distinct('tags', {artist: artist._id}).exec(function (err, tags) {
+                        if (err) return next(err);
+                        Photos.find({
+                            artist: {
+                                '$ne': artist._id
+                            },
+                            tags: {
+                                '$in': tags
+                            }
+                        }).populate('theme').sort({fullname: 'asc'}).limit(4).exec(function (err, related) {
+                            if (err) return next(err);
+                            res.render('site/artist', {
+                                artist: artist,
+                                photos: photos,
+                                surroundings: surroundings,
+                                tags: tags,
+                                related: related
+                            });
+                        });
+
                     });
                 });
             });
@@ -288,26 +313,31 @@ router.get('/opera-darte/:slug', function (req, res, next) {
     }, function (err, photo) {
         if (err) return next(err);
         if (photo) {
-            Photos.find({
-                _id: {
-                    '$ne': photo._id
-                },
-                artist: photo.artist._id
-            }).populate('technique').sort({fullname: 'asc'}).exec(function (err, pictures) {
+
+            photo.views = (photo.views + 1);
+            photo.save(function (err) {
                 if (err) return next(err);
                 Photos.find({
                     _id: {
                         '$ne': photo._id
                     },
-                    tags: {
-                        '$in': photo.tags
-                    }
-                }).populate('artist').populate('technique').limit(4).exec(function (err, related) {
+                    artist: photo.artist._id
+                }).populate('technique').sort({fullname: 'asc'}).exec(function (err, pictures) {
                     if (err) return next(err);
-                    res.render('site/product', {
-                        photo: photo,
-                        pictures: pictures,
-                        related: related
+                    Photos.find({
+                        _id: {
+                            '$ne': photo._id
+                        },
+                        tags: {
+                            '$in': photo.tags
+                        }
+                    }).populate('artist').populate('technique').limit(4).exec(function (err, related) {
+                        if (err) return next(err);
+                        res.render('site/product', {
+                            photo: photo,
+                            pictures: pictures,
+                            related: related
+                        });
                     });
                 });
             });
@@ -321,8 +351,52 @@ router.get('/opera-darte/:slug', function (req, res, next) {
  * Search
  */
 router.get('/search', function (req, res, next) {
-    res.render('site/search', {
-        article: 0
+    var search = {};
+    if (req.query.q) search.tags = new RegExp(req.query.q, 'i');
+    if (req.query.technique) search.technique = req.query.technique;
+    if (req.query.theme) search.theme = req.query.theme;
+    if (req.query.price) search.price = req.query.price;
+    if (req.query.year) search.year = req.query.year;
+    if (req.query.height) search.height = req.query.height;
+    if (req.query.width) search.width = req.query.width;
+    if (req.query.depth) search.depth = req.query.depth;
+    if (req.query.measure) search.measure = req.query.measure;
+    if (req.query.tags) search.tags = {$in: req.query.tags.toLocaleLowerCase().split(',')};
+
+    Techniques.find({}).sort('').exec(function (err, techniques) {
+        if (err) return next(err);
+        Themes.find({}).sort('').exec(function (err, themes) {
+            if (err) return next(err);
+            // console.log(search);
+            Photos.find(search).populate('technique').populate('artist').sort({registered: 'desc'}).exec(function (err, photos) {
+                if (err) return next(err);
+                if (photos) {
+                    res.render('site/search', {
+                        techniques: techniques,
+                        themes: themes,
+                        photos: photos,
+                        query: req.query,
+                        measurements: ['cm', 'mm', 'px', 'mt']
+                    });
+                }
+            });
+        });
+    });
+});
+
+/**
+ * Tags
+ */
+router.get('/tags/:tag', function (req, res, next) {
+    Photos.find({
+        tags: new RegExp(req.param('tag'), 'i')
+    }).populate('technique').populate('artist').sort({views: 'desc'}).exec(function (err, photos) {
+        if (err) return next(err);
+        if (photos) {
+            res.render('site/tags', {
+                photos: photos
+            });
+        }
     });
 });
 
@@ -359,6 +433,18 @@ router.get('/glossario/:letter', function (req, res, next) {
         } else {
             res.status(404).render('site/404');
         }
+    });
+});
+
+/**
+ * Galleria Foto
+ */
+router.get('/photos-:id.json', function (req, res, next) {
+    Photos.find({artist: req.param('id')}).populate('technique').exec(function (err, photos) {
+        if (err) return next(err);
+        res.status(200).send({
+            data: photos
+        });
     });
 });
 

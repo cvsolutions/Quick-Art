@@ -30,6 +30,9 @@ var Administrators = mongoose.model('administrators');
 var Contents = mongoose.model('contents');
 var Articles = mongoose.model('articles');
 var Artists = mongoose.model('artists');
+var Regions = mongoose.model('regions');
+var Provinces = mongoose.model('provinces');
+var Categories = mongoose.model('categories');
 
 /**
  * isLoggedIn
@@ -76,6 +79,9 @@ router.get('/artists', isLoggedIn, function (req, res) {
     res.render('administrator/artists');
 });
 
+/**
+ * JSON Datatable
+ */
 router.get('/artists.json', isLoggedIn, function (req, res, next) {
     Artists.find({}).populate('category').populate('region').exec(function (err, artists) {
         if (err) return next(err);
@@ -84,6 +90,60 @@ router.get('/artists.json', isLoggedIn, function (req, res, next) {
         });
     });
 });
+
+/**
+ * Modifica Artista
+ */
+router.route('/artists/edit/:id')
+    .get(isLoggedIn, function (req, res, next) {
+        Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+            if (err) return next(err);
+            Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+                if (err) return next(err);
+                Provinces.find({}).sort({fullname: 'asc'}).exec(function (err, provinces) {
+                    var ID = req.param('id');
+                    if (err) return next(err);
+                    Artists.findById(ID, function (err, artist) {
+                        if (err) return next(err);
+                        res.render('administrator/artists-edit', {
+                            artist: artist,
+                            regions: regions,
+                            provinces: provinces,
+                            categories: categories
+                        });
+                    });
+                });
+            });
+        });
+    })
+    .post(isLoggedIn, function (req, res, next) {
+        var active = req.body.active == 1 ? 1 : 0;
+        Artists.findById(req.body.id, function (err, artist) {
+            artist.fullname = req.body.fullname;
+            artist.slug = req.body.slug;
+            artist.phone = req.body.phone;
+            artist.facebook = req.body.facebook;
+            artist.usermail = req.body.usermail;
+            artist.pwd = req.body.pwd;
+            artist.category = mongoose.Types.ObjectId(req.body.category);
+            artist.web = req.body.web;
+            artist.region = mongoose.Types.ObjectId(req.body.region);
+            artist.province = mongoose.Types.ObjectId(req.body.province);
+            artist.biography = req.body.biography;
+            artist.reviews = req.body.reviews;
+            artist.exhibitions = req.body.exhibitions;
+            artist.active = active;
+            artist.save(function (err) {
+                if (!err) {
+                    res.status(200).send({
+                        text: 'Operazione eseguita con successo!'
+                    });
+                } else {
+                    res.status(500).send(err);
+                }
+            });
+        });
+    });
 
 /**
  * Articoli

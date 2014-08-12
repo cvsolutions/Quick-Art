@@ -81,6 +81,7 @@ var Photos = Schema({
     cover: Number,
     available: Number,
     frame: Number,
+    views: Number,
     registered: Date
 }, {
     collection: 'photos'
