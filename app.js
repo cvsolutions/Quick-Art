@@ -145,6 +145,9 @@ app.use('/administrator', require('./routes/administrator'));
 app.use('/extranet', require('./routes/extranet'));
 app.use('/api', require('./routes/api'));
 
+/**
+ * 404 Error
+ */
 app.use(function (req, res) {
     res.status(404).render('site/404', {});
 });
