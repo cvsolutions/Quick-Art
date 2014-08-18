@@ -1,0 +1,22 @@
+<% title = 'Annunci Arte | Antiquariato | Quadri | Inserzioni gratuite | Vendo | Compro | Offro | Cerco' %>
+<%- layout('layout') %>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h1>Annunci Gratis</h1>
+        <p>Trovati 0 annunci economici gratuiti...</p>
+        <p>&nbsp;</p>
+    </div>
+    <div class="col-xs-4">
+        <div class="list-group">
+            <% categories.forEach( function (row){ %>
+            <a href="/categoria/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <% }); %>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include adsbygoogle-300-250.ejs %>
+            </div>
+        </div>
+    </div>
+</div>

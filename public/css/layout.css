@@ -30,3 +30,128 @@ label.error {
     font-weight: normal;
     color: #3399FF;
 }
+
+#mappa {
+    height: 319px;
+    position: relative;
+    left: 10px;
+    top: 10px;
+    margin: 0px;
+    padding: 0px;
+}
+
+img.imgOut {
+    position: absolute;
+    display: block;
+}
+
+#mappa a:hover img.imgOut {
+    filter: alpha(opacity=60);
+    -moz-opacity: .60;
+    opacity: .60;
+}
+
+#valle-daosta {
+    left: 5px;
+    top: 37px;
+    z-index: 1;
+}
+
+#piemonte {
+    left: 2px;
+    top: 27px;
+}
+
+#liguria {
+    left: 20px;
+    top: 77px;
+}
+
+#lombardia {
+    left: 41px;
+    top: 19px;
+}
+
+#trentino-alto-adige {
+    left: 80px;
+    top: 3px;
+    z-index: 2;
+}
+
+#veneto {
+    left: 85px;
+    top: 15px;
+}
+
+#friuli-venezia-giulia {
+    left: 120px;
+    top: 15px;
+    z-index: 3;
+}
+
+#emilia-romagna {
+    left: 55px;
+    top: 62px;
+}
+
+#toscana {
+    left: 66px;
+    top: 81px;
+}
+
+#marche {
+    left: 118px;
+    top: 96px;
+}
+
+#umbria {
+    left: 113px;
+    top: 108px;
+}
+
+#lazio {
+    left: 105px;
+    top: 132px;
+}
+
+#abruzzo {
+    left: 139px;
+    top: 128px;
+}
+
+#molise {
+    left: 160px;
+    top: 152px;
+    z-index: 4;
+}
+
+#puglia {
+    left: 182px;
+    top: 154px;
+}
+
+#campania {
+    left: 158px;
+    top: 169px;
+}
+
+#basilicata {
+    left: 194px;
+    top: 179px;
+    z-index: 5;
+}
+
+#calabria {
+    left: 205px;
+    top: 210px;
+}
+
+#sardegna {
+    left: 30px;
+    top: 175px;
+}
+
+#sicilia {
+    left: 130px;
+    top: 270px;
+}

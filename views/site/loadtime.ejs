@@ -1,0 +1,12 @@
+<script type="text/javascript">
+    var start = new Date();
+    var startsec = start.getTime();
+    var num = 0;
+    for (var i = 0; i < 250000; i++) {
+        num++;
+    }
+    var stop = new Date();
+    var stopsec = stop.getTime();
+    var loadtime = ( stopsec - startsec ) / 1000;
+    document.write("(caricati in: " + loadtime + " secondi)");
+</script>

@@ -15,6 +15,11 @@ var Articles = Schema({
             unique: true
         }
     },
+    subtitle: {
+        type: String,
+        trim: true,
+        required: true
+    },
     description: {
         type: String,
         trim: true,
@@ -33,10 +38,11 @@ var Articles = Schema({
     },
     tags: {
         type: Object,
-        required: false
+        required: true
     },
     active: Number,
     home: Number,
+    views: Number,
     registered: Date
 }, {
     collection: 'articles'

@@ -1,21 +1,22 @@
-<% title = article.fullname %>
+<% title = article.fullname + ' | ' + article.content.fullname %>
 <%- layout('../site/layout') %>
 
 <div class="row">
     <div class="col-xs-8">
         <h1><%= article.fullname %></h1>
-        <p><i>di: Vecchio Concetto, <a href="/blog/articoli/<%= article.content.slug %>"><%= article.content.fullname %></a> - <%= article.registered %></i></p>
-        <p><a href="/uploads/<%= article.picture %>" class="js-fancybox" rel="picture" title="<%= article.fullname %>"><img src="/uploads/<%= article.picture %>" class="img-responsive" alt="<%= article.fullname %>"/></a></p>
+        <p class="lead"><%= article.subtitle %></p>
+        <p><i>di: Vecchio Concetto, <a href="/blog/articoli/<%= article.content.slug %>"><%= article.content.fullname %></a> - <%= helper.date.format('l, d M Y', article.registered) %></i></p>
+        <p><a href="/uploads/<%= article.picture %>" class="js-fancybox thumbnail" rel="picture" title="<%= article.fullname %>"><img src="/uploads/<%= article.picture %>" class="img-responsive" alt="<%= article.fullname %>"/></a></p>
         <p><%- helper.nl2br(article.description) %></p>
-        <hr/>
         <% if(article.tags){ %>
-        <ul class="list-inline">
+        <ul class="breadcrumb">
             <li>Tags:</li>
             <% article.tags.forEach( function (tag){ %>
             <li><a href="/blog/tags/<%= tag %>"><%= tag %></a></li>
             <% }); %>
         </ul>
         <% } %>
+        <p class="text-muted">Totale visualizzazioni: <span><%= article.views %></span></p>
     </div>
     <div class="col-xs-4">
         <div class="list-group">
@@ -25,13 +26,19 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-body">
-                <%- include ../site/adsbygoogle-300-600.ejs %>
+                <%- include ../site/adsbygoogle-300-250.ejs %>
             </div>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">Art News - Quick-art (Feed RSS)</div>
             <div class="panel-body">
                 <p>Abbonati al servizio di Notizie utilizzando questo <a href="#">Feed RSS</a>. Troverai una lista completa delle ultime Notizie sull' Mondo dell' Arte ...</p>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">MUSEI NEL MONDO</div>
+            <div class="panel-body">
+                <p>Vai all'elenco completo di tutti i <a href="/blog/articoli/elenco-musei-italiani">Musei Italiani</a> e Internazionali ...</p>
             </div>
         </div>
     </div>

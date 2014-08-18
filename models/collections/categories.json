@@ -1,59 +1,253 @@
 {
 	"fullname": "Pittura",
-	"slug": "pittura"
+	"slug": "pittura",
+	"type": "gallery"
 }
 
 {
 	"fullname": "Scultura",
-	"slug": "scultura"
+	"slug": "scultura",
+	"type": "gallery"
 }
 
 {
 	"fullname": "Fotografia",
-	"slug": "fotografia"
+	"slug": "fotografia",
+	"type": "gallery"
 }
 
 {
 	"fullname": "Ceramica",
-	"slug": "ceramica"
+	"slug": "ceramica",
+	"type": "gallery"
 }
 
 {
 	"fullname": "Decoupage",
-	"slug": "decoupage"
+	"slug": "decoupage",
+	"type": "gallery"
 }
 
 {
 	"fullname": "Art and Company",
-	"slug": "art-and-company"
+	"slug": "art-and-company",
+	"type": "gallery"
 }
 
 {
 	"fullname": "Grafica and Design",
-	"slug": "grafica-and-design"
+	"slug": "grafica-and-design",
+	"type": "gallery"
 }
 
 {
 	"fullname": "Fumetti",
-	"slug": "fumetti"
+	"slug": "fumetti",
+	"type": "gallery"
 }
 
 {
 	"fullname": "Illustrazione",
-	"slug": "illustrazione"
+	"slug": "illustrazione",
+	"type": "gallery"
 }
 
 {
 	"fullname": "Body-Art",
-	"slug": "body-art"
+	"slug": "body-art",
+	"type": "gallery"
 }
 
 {
 	"fullname": "Architetti",
-	"slug": "architetti"
+	"slug": "architetti",
+	"type": "gallery"
 }
 
 {
 	"fullname": "Coding Art",
-	"slug": "coding-art"
+	"slug": "coding-art",
+	"type": "gallery"
+}
+
+{
+	"fullname": "Arte e antiquariato",
+	"slug": "arte-antiquariato",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Arte altro",
+	"slug": "arte-altro",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Arte contemporanea",
+	"slug": "arte-contemporanea",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Arte decorativa",
+	"slug": "arte-decorativa",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Arte etnica",
+	"slug": "arte-etnica",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Ceramiche e vetro",
+	"slug": "ceramiche-vetro",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Collezioni",
+	"slug": "collezioni",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Gallerie arte",
+	"slug": "gallerie-arte",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Libri e manoscritti",
+	"slug": "libri-manoscritti",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Mobili antichi",
+	"slug": "mobili-antichi",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Mostre arte",
+	"slug": "mostre-arte",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Oggetti antiquariato",
+	"slug": "oggetti-antiquariato",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Oro e argento",
+	"slug": "oro-argento",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Quadri disegni",
+	"slug": "quadri-disegni",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Sculture e stampe",
+	"slug": "sculture-stampe",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Tappeti e arazzi",
+	"slug": "tappeti-arazzi",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Vendita antiquariato",
+	"slug": "vendita-antiquariato",
+	"type": "advertising"
+}
+
+{
+	"fullname": "Gallerie di Arte",
+	"slug": "gallerie-arte",
+	"type": "directory"
+}
+
+{
+	"fullname": "Materiali d’arte",
+	"slug": "materiali-arte",
+	"type": "directory"
+}
+
+{
+	"fullname": "Associazioni artistiche",
+	"slug": "associazioni-artistiche",
+	"type": "directory"
+}
+
+{
+	"fullname": "Scuole e corsi d’arte",
+	"slug": "scuole-corsi-arte",
+	"type": "directory"
+}
+
+{
+	"fullname": "Letteratura",
+	"slug": "letteratura",
+	"type": "directory"
+}
+
+{
+	"fullname": "Body-Art",
+	"slug": "body-art",
+	"type": "directory"
+}
+
+{
+	"fullname": "Oggettistica Autore",
+	"slug": "oggettistica-autore",
+	"type": "directory"
+}
+
+{
+	"fullname": "Illustrazione",
+	"slug": "illustrazione",
+	"type": "directory"
+}
+
+{
+	"fullname": "Cultura",
+	"slug": "cultura",
+	"type": "directory"
+}
+
+
+{
+	"fullname": "Fumetti",
+	"slug": "fumetti",
+	"type": "directory"
+}
+
+
+{
+	"fullname": "Arti Visive",
+	"slug": "arti-visive",
+	"type": "directory"
+}
+
+{
+	"fullname": "Riproduzioni quadri a olio",
+	"slug": "riproduzioni-quadri-olio",
+	"type": "directory"
+}
+
+{
+	"fullname": "Fiere d’arte",
+	"slug": "fiere-arte",
+	"type": "directory"
 }

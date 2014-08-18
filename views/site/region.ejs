@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-8">
         <h1>Artisti in <%= region.fullname %></h1>
-        <p>Elenco completo di tutti gli artisti della nostra collezione.</p>
+        <p>In questa pagina, troverete tutti gli Artisti suddivisi per Provincia che hanno aderito alla nostra iniziativa. Cliccando sul nominativo, si potrà accedere alla Scheda personale di ognuno...</p>
         <p>&nbsp;</p>
         <%- include row-artists.ejs %>
     </div>
@@ -15,6 +15,31 @@
                 <p><a href="/registrazione"><img src="/images/registrati.png" class="img-responsive" alt="Registrazione"/></a></p>
             </div>
         </div>
+
+        <% if(artists.length > 0){ %>
+        <div class="panel panel-default">
+            <div class="panel-heading">Raffina la ricerca</div>
+            <div class="panel-body">
+                <form action="" method="get" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                        <label>Categorie</label>
+                        <div data-categories="<%- query.category %>" id="js-refine-categories" class="js-filter-list"></div>
+                    </div>
+
+                    <hr/>
+                    <div class="form-group">
+                        <label>Province</label>
+                        <div data-provinces="<%- query.province %>" id="js-refine-provinces" class="js-filter-list"></div>
+                    </div>
+
+                    <hr/>
+                    <input type="hidden" name="regions" id="js-regions" value="<%- query.region %>">
+                    <input type="submit" class="btn btn-default" value="Raffina">
+                </form>
+            </div>
+        </div>
+        <% } %>
+
         <div class="list-group">
             <% regions.forEach( function (row){ %>
             <a href="/regione/<%= row.slug %>" class="list-group-item <% if(row.slug == region.slug){ %>active<% } %>"><%= row.fullname %></a>
@@ -22,8 +47,13 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-body">
-                <%- include adsbygoogle-300-600.ejs %>
+                <%- include adsbygoogle-300-250.ejs %>
             </div>
+        </div>
+        <div class="list-group">
+            <% themes.forEach( function (row){ %>
+            <a href="/theme/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <% }); %>
         </div>
     </div>
 </div>

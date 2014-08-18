@@ -16,12 +16,14 @@
             <li class="active"><a href="#biography" role="tab" data-toggle="tab">Biografia</a></li>
             <li><a href="#reviews" role="tab" data-toggle="tab">Critiche</a></li>
             <li><a href="#exhibitions" role="tab" data-toggle="tab">Mostre</a></li>
+            <li><a href="#news" role="tab" data-toggle="tab">Eventi</a></li>
         </ul>
         <br/>
 
         <!-- Tab panes -->
         <div class="tab-content">
             <div class="tab-pane" id="gallery">
+                <% if(photos.length > 0){ %>
                 <div class="fotorama" data-allowfullscreen="true" data-width="100%" data-thumbwidth="150" data-thumbheight="100" data-nav="thumbs">
                     <% photos.forEach( function (row){ %>
                     <a href="/uploads/<%= row.picture %>"><img src="/uploads/<%= row.picture %>" data-caption="<%= row.fullname %>" alt="<%= row.fullname %>"/></a>
@@ -29,6 +31,7 @@
                 </div>
                 <br/>
                 <p class="text-danger"><i>Alcuni browser in base alle impostazioni del vostro computer possono cambiare leggermente la tonalità del dipinto.</i></p>
+                <% } %>
             </div>
             <div class="tab-pane active" id="biography">
                 <p><%- helper.nl2br(artist.biography) %></p>
@@ -59,6 +62,9 @@
                 <p><%- helper.nl2br(artist.exhibitions) %></p>
                 <% } %>
             </div>
+            <div class="tab-pane" id="news">
+                <p>...</p>
+            </div>
         </div>
     </div>
     <div class="col-xs-4">
@@ -72,7 +78,12 @@
                     <li>Provincia: <%= artist.province.fullname %></li>
                     <li>Telefono: <%- artist.phone %></li>
                 </ul>
-                <p class="pull-right"><a href="#" class="btn btn-default btn-sm">Contatta</a></p>
+                <hr/>
+                <div class="btn-group">
+                    <a href="mailto:<%- artist.usermail %>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-flag"></span> Email</a>
+                    <a href="<%- artist.web %>" target="_blank" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-globe"></span> Web</a>
+                    <a href="<%- artist.facebook %>" target="_blank" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span> Facebook</a>
+                </div>
             </div>
         </div>
 
@@ -82,6 +93,7 @@
             </div>
         </div>
 
+        <% if(surroundings.length > 0){ %>
         <div class="panel panel-default">
             <div class="panel-heading">Artisti a <%= artist.province.fullname %></div>
             <div class="panel-body">
@@ -103,6 +115,7 @@
                 <% }); %>
             </div>
         </div>
+        <% } %>
 
     </div>
 </div>
@@ -120,44 +133,13 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-6">
+        <p class="lead">Prodotti Correlati</p>
+    </div>
+    <div class="col-xs-6">
         <p class="lead">Prodotti Correlati</p>
     </div>
 </div>
 
-<div class="row">
-    <% related.forEach( function (row){ %>
-    <div class="col-xs-3">
-        <div class="media">
-            <a class="pull-left js-tooltip" data-toggle="tooltip" title="<%= row.fullname %>" href="/opera-darte/<%= row.slug %>">
-                <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
-            </a>
 
-            <div class="media-body">
-                <h4 class="media-heading"><%= row.theme.fullname %></h4>
-                <ul class="list-unstyled">
-                    <li>a partire da <%= helper.number_format(row.price, 2, '.', ',') %> €</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <% }); %>
-</div>
 
-<div class="row">
-    <div class="col-xs-12">
-        <p>&nbsp;</p>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12">
-        <br/>
-        <ul class="breadcrumb">
-            <li>Tags:</li>
-            <% tags.forEach( function (tag){ %>
-            <li><a href="/tags/<%= tag %>"><%= tag %></a></li>
-            <% }); %>
-        </ul>
-    </div>
-</div>

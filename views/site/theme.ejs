@@ -1,0 +1,24 @@
+<% title = theme.fullname + ' | Arte Moderna | Collezione Opere d\'Arte' %>
+<%- layout('layout') %>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h1><%= theme.fullname %></h1>
+        <p class="lead">Catalogo delle Opere d'Arte dell'Archivio Contemporaneo</p>
+        <p>Trovati <%= photos.length %> risultati <%- include loadtime.ejs %></p>
+        <% col = 6 %>
+        <%- include row-catalog.ejs %>
+    </div>
+    <div class="col-xs-4">
+        <div class="list-group">
+            <% themes.forEach( function (row){ %>
+            <a href="/theme/<%= row.slug %>" class="list-group-item <% if(row.slug == theme.slug){ %>active<% } %>"><%= row.fullname %></a>
+            <% }); %>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include adsbygoogle-300-250.ejs %>
+            </div>
+        </div>
+    </div>
+</div>

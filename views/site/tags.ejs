@@ -1,23 +1,25 @@
-<% title = 'Risultati della ricerca' %>
+<% title = 'Tags' %>
 <%- layout('layout') %>
 
 <div class="row">
-    <div class="col-xs-12">
-        <h1>Risultati della ricerca</h1>
+    <div class="col-xs-8">
+        <h1>Tags</h1>
         <p class="lead">Catalogo delle Opere d'Arte dell'Archivio Contemporaneo</p>
-        <script type="text/javascript">
-            var start = new Date();
-            var startsec = start.getTime();
-            var num = 0;
-            for (var i = 0; i < 250000; i++) {
-                num++;
-            }
-            var stop = new Date();
-            var stopsec = stop.getTime();
-            var loadtime = ( stopsec - startsec ) / 1000;
-            document.write("(caricati in: " + loadtime + " secondi)");
-        </script>
+        <p>Trovati <%= photos.length %> risultati <%- include loadtime.ejs %></p>
+    </div>
+    <div class="col-xs-4">
+        <form action="/search" method="get" enctype="application/x-www-form-urlencoded">
+            <div class="form-group">
+                <label>Ricerca (separare le parole con una virgola)</label>
+                <input type="text" class="form-control" name="tags" id="tags" value="" data-role="tagsinput" placeholder="vaso, fiori">
+            </div>
+            <input type="hidden" name="technique[]" id="technique" value="">
+            <input type="hidden" name="theme[]" id="theme" value="">
+            <input type="hidden" name="year[]" id="year" value="">
+            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> CERCA</button>
+        </form>
     </div>
 </div>
 
+<% col = 4 %>
 <%- include row-catalog.ejs %>

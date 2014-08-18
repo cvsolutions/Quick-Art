@@ -1,26 +1,35 @@
 <div class="row">
-    <% if(photos.length > 0){ %>
-    <% photos.forEach( function (row){ %>
-    <div class="col-xs-4">
-        <div class="thumbnail">
-            <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt="<%= row.fullname %>"/>
 
-            <div class="caption">
-                <h3 data-toggle="tooltip" class="js-tooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 25) %></h3>
-                <ul class="list-unstyled">
-                    <li><i>di: <a href="/artista/<%= row.artist.slug %>"><%= row.artist.fullname %></a></i></li>
-                    <li><%= row.technique.fullname %></li>
-                    <li><%= row.height %>x<%= row.width %>x<%= row.depth %> <%= row.measure %></li>
-                </ul>
-                <hr/>
-                <ul class="list-inline">
-                    <li><%= helper.number_format(row.price, 2, '.', ',') %> €</li>
-                    <li class="pull-right"><a href="/opera-darte/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></li>
-                </ul>
+    <% if(photos.length > 0){ %>
+
+    <% photos.forEach( function (row){ %>
+    <div class="">
+        <div class="col-xs-<%= col %>">
+            <div class="thumbnail">
+                <a href="/opera-darte/<%= row.slug %>">
+                    <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt="<%= row.fullname %>"/>
+                </a>
+
+                <div class="caption">
+                    <h3 data-toggle="tooltip" class="js-tooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 25) %></h3>
+                    <ul class="list-unstyled">
+                        <li><i>di: <a href="/artista/<%= row.artist.slug %>"><%= row.artist.fullname %></a></i></li>
+                        <li class="js-hide-technique" data-id="<%= row.technique._id %>"><%= row.technique.fullname %></li>
+                        <li class="js-hide-theme hidden" data-id="<%= row.theme._id %>"><%= row.theme.fullname %></li>
+                        <li class="js-hide-year hidden" data-id="<%= row.year %>"><%= row.year %></li>
+                        <li><%= row.height %>x<%= row.width %>x<%= row.depth %> <%= row.measure %></li>
+                    </ul>
+                    <hr/>
+                    <ul class="list-inline">
+                        <li><%= helper.number_format(row.price, 2, '.', ',') %> €</li>
+                        <li class="pull-right"><a href="/opera-darte/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
     <% }); %>
+
     <% } else { %>
     <div class="col-xs-12">
         <div class="alert alert-warning alert-dismissible" role="alert">
@@ -32,4 +41,5 @@
         </div>
     </div>
     <% } %>
+
 </div>

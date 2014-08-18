@@ -76,7 +76,7 @@ var Photos = Schema({
     },
     tags: {
         type: Object,
-        required: false
+        required: true
     },
     cover: Number,
     available: Number,

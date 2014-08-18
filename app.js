@@ -21,6 +21,7 @@ require('./models/themes');
 require('./models/techniques');
 require('./models/photos');
 require('./models/definitions');
+require('./models/advertising');
 
 /**
  * Connect Mongo DB
@@ -142,6 +143,7 @@ app.use('/', require('./routes/site'));
 app.use('/blog', require('./routes/blog'));
 app.use('/administrator', require('./routes/administrator'));
 app.use('/extranet', require('./routes/extranet'));
+app.use('/api', require('./routes/api'));
 
 app.use(function (req, res) {
     res.status(404).render('site/404', {});

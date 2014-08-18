@@ -64,7 +64,7 @@ router.route('/')
  * Dashboard
  */
 router.get('/dashboard', isLoggedIn, function (req, res, next) {
-    Administrators.findById(req.session.passport.user, function (err, admin) {
+    Administrators.findById(req.session.passport.user).exec(function (err, admin) {
         if (err) return next(err);
         res.render('administrator/dashboard', {
             user: admin
@@ -80,30 +80,26 @@ router.get('/artists', isLoggedIn, function (req, res) {
 });
 
 /**
- * JSON Datatable
- */
-router.get('/artists.json', isLoggedIn, function (req, res, next) {
-    Artists.find({}).populate('category').populate('region').exec(function (err, artists) {
-        if (err) return next(err);
-        res.status(200).send({
-            data: artists
-        });
-    });
-});
-
-/**
  * Modifica Artista
  */
 router.route('/artists/edit/:id')
     .get(isLoggedIn, function (req, res, next) {
-        Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+        Regions.find({}).sort({
+            fullname: 'asc'
+        }).exec(function (err, regions) {
             if (err) return next(err);
-            Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+            Categories.find({
+                type: 'gallery'
+            }).sort({
+                fullname: 'asc'
+            }).exec(function (err, categories) {
                 if (err) return next(err);
-                Provinces.find({}).sort({fullname: 'asc'}).exec(function (err, provinces) {
+                Provinces.find({}).sort({
+                    fullname: 'asc'
+                }).exec(function (err, provinces) {
                     var ID = req.param('id');
                     if (err) return next(err);
-                    Artists.findById(ID, function (err, artist) {
+                    Artists.findById(ID).exec(function (err, artist) {
                         if (err) return next(err);
                         res.render('administrator/artists-edit', {
                             artist: artist,
@@ -153,23 +149,13 @@ router.get('/articles', isLoggedIn, function (req, res) {
 });
 
 /**
- * Articoli JSON
- */
-router.get('/articles.json', isLoggedIn, function (req, res, next) {
-    Articles.find({}).populate('content').exec(function (err, articles) {
-        if (err) return next(err);
-        res.status(200).send({
-            data: articles
-        });
-    });
-});
-
-/**
  * Nuovo Articolo
  */
 router.route('/articles/add')
     .get(isLoggedIn, function (req, res, next) {
-        Contents.find({}).sort({fullname: 'asc'}).exec(function (err, contents) {
+        Contents.find({}).sort({
+            fullname: 'asc'
+        }).exec(function (err, contents) {
             if (err) return next(err);
             res.render('administrator/articles-add', {
                 contents: contents
@@ -178,25 +164,27 @@ router.route('/articles/add')
     })
     .post(isLoggedIn, function (req, res) {
         var home = req.body.home == 1 ? 1 : 0;
-        new Articles({
+        Articles({
             fullname: req.body.fullname,
             slug: req.body.slug,
+            subtitle: req.body.subtitle,
             description: req.body.description,
             picture: req.files.picture.name,
             content: mongoose.Types.ObjectId(req.body.content),
             tags: req.body.tags.toLocaleLowerCase().split(','),
             active: 1,
             home: home,
+            views: 1,
             registered: Date.now()
         }).save(function (err) {
-                if (!err) {
-                    res.status(200).send({
-                        text: 'Operazione eseguita con successo!'
-                    });
-                } else {
-                    res.status(500).send(err);
-                }
-            });
+            if (!err) {
+                res.status(200).send({
+                    text: 'Operazione eseguita con successo!'
+                });
+            } else {
+                res.status(500).send(err);
+            }
+        });
     });
 
 /**
@@ -204,10 +192,12 @@ router.route('/articles/add')
  */
 router.route('/articles/edit/:id')
     .get(isLoggedIn, function (req, res, next) {
-        Contents.find({}).sort({fullname: 'asc'}).exec(function (err, contents) {
+        Contents.find({}).sort({
+            fullname: 'asc'
+        }).exec(function (err, contents) {
             if (err) return next(err);
             var ID = req.param('id');
-            Articles.findById(ID, function (err, article) {
+            Articles.findById(ID).exec(function (err, article) {
                 res.render('administrator/articles-edit', {
                     contents: contents,
                     article: article
@@ -216,19 +206,23 @@ router.route('/articles/edit/:id')
         });
     })
     .post(isLoggedIn, function (req, res, next) {
-        Articles.findById(req.body.id, function (err, article) {
+        Articles.findById(req.body.id).exec(function (err, article) {
+
             var active = req.body.active == 1 ? 1 : 0;
             var home = req.body.home == 1 ? 1 : 0;
             var picture = article.picture;
+
             if (req.files.picture) {
                 picture = req.files.picture.name;
                 var target_path = './public/uploads/' + article.picture;
-                fs.unlink(target_path, function () {
+                fs.unlink(target_path, function (err) {
                     if (err) return next(err);
                 });
             }
+
             article.fullname = req.body.fullname;
             article.slug = req.body.slug;
+            article.subtitle = req.body.subtitle;
             article.description = req.body.description;
             article.picture = picture;
             article.content = mongoose.Types.ObjectId(req.body.content);

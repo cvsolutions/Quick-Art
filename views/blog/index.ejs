@@ -4,8 +4,27 @@
 <div class="row">
     <div class="col-xs-8">
         <h1>Art Blog</h1>
-        <hr/>
-        <%- include row-articles.ejs %>
+        <p class="lead">IL SITO DELLA STORIA DELL'ARTE ITALIANA</p>
+        <p>Questo sito è dedicato alla storia delle arti; esso propone pertanto un viaggio nel tempo per ricostruire la storia dei manufatti artistici creati dall'uomo: dai graffiti preistorici nelle grotte ai graffiti metropolitani contemporanei; dai menhir megalitici ai grattacieli; dalle Veneri del Paleolitico alle sculture in piazza della Public Àrt, dal bisonte di Altamira alle opere di Videoart contemporanee; dall'utensile in pietra scheggiata al supertecnologico oggetto di design industriale.</p>
+        <p>Tra gli albori della Preistoria e l'età che stiamo vivendo sono proprio le opere d'arte a segnare, come impronta indelebile, i mille modi con cui l'uomo, in ogni luogo del pianeta, ha interpretato se stesso e il mondo, affidando ad un affresco, ad una statua, ad un dipinto, al disegno di una città il compito di testimoniarlo per sempre... </p>
+
+        <% last.forEach( function (row){ %>
+        <br/>
+
+        <div class="thumbnail">
+            <a href="/blog/<%= row.slug %>">
+                <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-800" alt="<%= row.fullname %>"/>
+            </a>
+
+            <div class="caption">
+                <h3><%= row.fullname %></h3>
+                <ul class="list-unstyled">
+                    <li class="text-muted"><i><%= row.content.fullname %>, <%= helper.date.format('l, d M Y', row.registered) %></i></li>
+                    <li><%= row.subtitle %></li>
+                </ul>
+            </div>
+        </div>
+        <% }); %>
     </div>
     <div class="col-xs-4">
         <div class="list-group">
@@ -25,4 +44,38 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <hr/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <p>&nbsp;</p>
+    </div>
+</div>
+
+<div class="row">
+    <% articles.forEach( function (row){ %>
+    <div class="col-xs-4">
+        <div class="media">
+            <a class="pull-left" href="/blog/<%= row.slug %>">
+                <% if (row.picture) { %>
+                <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                <% } else { %>
+                <img src="/images/no-image.png" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                <% } %>
+            </a>
+
+            <div class="media-body">
+                <h4 class="media-heading"><%= row.fullname %></h4>
+                <p><%= row.content.fullname %></p>
+            </div>
+        </div>
+        <br/>
+    </div>
+    <% }); %>
 </div>

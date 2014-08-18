@@ -39,22 +39,64 @@ router.use(function (req, res, next) {
 /**
  * Benvenuti su Quick-Art
  */
-router.get('/', function (req, res, next) {
-    Photos.find({}).populate('technique').populate('artist').sort({registered: 'desc'}).limit(6).exec(function (err, photos) {
-        if (err) return next(err);
-        Artists.find({active: 1}).populate('category').populate('region').populate('photo').sort({registered: 'desc'}).limit(3).exec(function (err, artists) {
+router.route('/')
+    .get(function (req, res, next) {
+        Photos.find({}).populate('technique').populate('artist').sort({
+            registered: 'desc'
+        }).limit(6).exec(function (err, photos) {
             if (err) return next(err);
-            Articles.find({active: 1}).populate('content').sort({registered: 'desc'}).exec(function (err, articles) {
+            Artists.find({
+                active: 1
+            }).populate('category').populate('region').populate('photo').sort({
+                registered: 'desc'
+            }).limit(3).exec(function (err, artists) {
                 if (err) return next(err);
-                res.render('site/index', {
-                    photos: photos,
-                    artists: artists,
-                    articles: articles
+                Articles.find({
+                    active: 1
+                }).populate('content').sort({
+                    registered: 'desc'
+                }).exec(function (err, articles) {
+                    if (err) return next(err);
+                    Regions.find({}).sort({
+                        fullname: 'asc'
+                    }).exec(function (err, regions) {
+                        if (err) return next(err);
+                        Categories.find({
+                            type: 'gallery'
+                        }).sort({
+                            fullname: 'asc'
+                        }).exec(function (err, categories) {
+                            if (err) return next(err);
+                            Themes.find({}).sort({
+                                fullname: 'asc'
+                            }).exec(function (err, themes) {
+                                if (err) return next(err);
+                                res.render('site/index', {
+                                    photos: photos,
+                                    artists: artists,
+                                    articles: articles,
+                                    regions: regions,
+                                    categories: categories,
+                                    themes: themes
+                                });
+                            });
+                        });
+                    });
                 });
             });
         });
+    })
+    .post(function (req, res, next) {
+        var artist = req.body.artist;
+        if (artist) {
+            Artists.findById(artist).exec(function (err, row) {
+                if (err) return next(err);
+                res.redirect('/artista/' + row.slug);
+            });
+        } else {
+            return next();
+        }
     });
-});
 
 /**
  * Login Failure
@@ -67,13 +109,21 @@ router.get('/login-failure', function (req, res) {
  * Artisti Contemporanei
  */
 router.get('/artisti-contemporanei', function (req, res, next) {
-    Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+    Regions.find({}).sort({
+        fullname: 'asc'
+    }).exec(function (err, regions) {
         if (err) return next(err);
-        Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+        Categories.find({
+            type: 'gallery'
+        }).sort({
+            fullname: 'asc'
+        }).exec(function (err, categories) {
             if (err) return next(err);
-            Artists.count({active: 1}, function (err, allartists) {
+            Artists.count({
+                active: 1
+            }).exec(function (err, allartists) {
                 if (err) return next(err);
-                Photos.count({}, function (err, allphotos) {
+                Photos.count({}).exec(function (err, allphotos) {
                     if (err) return next(err);
                     res.render('site/artists', {
                         regions: regions,
@@ -91,12 +141,19 @@ router.get('/artisti-contemporanei', function (req, res, next) {
  * Catalogo Opere d'Arte
  */
 router.get('/catalogo-opere-arte', function (req, res, next) {
-    Photos.find({'cover': 1}).populate('technique').populate('artist').sort({registered: 'desc'}).exec(function (err, photos) {
-        console.log(photos);
+    Photos.find({
+        cover: 1
+    }).populate('technique').populate('artist').sort({
+        registered: 'desc'
+    }).exec(function (err, photos) {
         if (err) return next(err);
-        Techniques.find({}).sort('').exec(function (err, techniques) {
+        Techniques.find({}).sort({
+            fullname: 'asc'
+        }).exec(function (err, techniques) {
             if (err) return next(err);
-            Themes.find({}).sort('').exec(function (err, themes) {
+            Themes.find({}).sort({
+                fullname: 'asc'
+            }).exec(function (err, themes) {
                 if (err) return next(err);
                 res.render('site/catalog', {
                     techniques: techniques,
@@ -113,11 +170,19 @@ router.get('/catalogo-opere-arte', function (req, res, next) {
  */
 router.route('/registrazione')
     .get(function (req, res, next) {
-        Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+        Regions.find({}).sort({
+            fullname: 'asc'
+        }).exec(function (err, regions) {
             if (err) return next(err);
-            Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+            Categories.find({
+                type: 'gallery'
+            }).sort({
+                fullname: 'asc'
+            }).exec(function (err, categories) {
                 if (err) return next(err);
-                Provinces.find({}).sort({fullname: 'asc'}).exec(function (err, provinces) {
+                Provinces.find({}).sort({
+                    fullname: 'asc'
+                }).exec(function (err, provinces) {
                     if (err) return next(err);
                     res.render('site/registration', {
                         regions: regions,
@@ -129,7 +194,7 @@ router.route('/registrazione')
         });
     })
     .post(function (req, res) {
-        new Artists({
+        Artists({
             fullname: req.body.fullname,
             slug: req.body.slug,
             phone: req.body.phone,
@@ -147,15 +212,15 @@ router.route('/registrazione')
             active: 1,
             registered: Date.now()
         }).save(function (err, user) {
-                if (!err) {
-                    res.status(200).send({
-                        status: true,
-                        user: user
-                    });
-                } else {
-                    res.status(500).send(err);
-                }
-            });
+            if (!err) {
+                res.status(200).send({
+                    status: true,
+                    user: user
+                });
+            } else {
+                res.status(500).send(err);
+            }
+        });
     });
 
 /**
@@ -166,59 +231,45 @@ router.get('/conferma-registrazione', function (req, res) {
 });
 
 /**
- * Check Permalink (Registrazione)
- */
-router.post('/check-slug', function (req, res, next) {
-    Artists.findOne({
-        slug: req.body.slug,
-        active: 1
-    }, function (err, result) {
-        if (err) return next(err);
-        if (result) {
-            res.status(200).send(false);
-        } else {
-            res.status(200).send(true);
-        }
-    });
-});
-
-/**
- * Check UserMail (Registrazione)
- */
-router.post('/check-usermail', function (req, res, next) {
-    Artists.findOne({
-        usermail: req.body.usermail,
-        active: 1
-    }, function (err, result) {
-        // console.log(result);
-        if (err) return next(err);
-        if (result) {
-            res.status(200).send(false);
-        } else {
-            res.status(200).send(true);
-        }
-    });
-});
-
-/**
  * Artisti Contemporanei
  * Categoria: Pittura
  */
 router.get('/categoria/:slug', function (req, res, next) {
-    Categories.findOne({slug: req.param('slug')}, function (err, category) {
+    Categories.findOne({
+        slug: req.param('slug'),
+        type: 'gallery'
+    }).exec(function (err, category) {
         if (err) return next(err);
         if (category) {
-            Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+            Categories.find({
+                type: 'gallery'
+            }).sort({
+                fullname: 'asc'
+            }).exec(function (err, categories) {
                 if (err) return next(err);
-                Artists.find({
-                    category: category._id,
-                    active: 1
-                }).populate('photo').populate('province').sort({fullname: 'asc'}).exec(function (err, artists) {
+
+                var search = {};
+                search.category = category._id;
+                search.active = 1;
+                if (req.query.region && req.query.region.length > 0) search.region = {$in: req.query.region};
+                if (req.query.province && req.query.province.length > 0) search.province = {$in: req.query.province};
+                // console.log(search);
+
+                Artists.find(search).populate('photo').populate('region').populate('category').populate('province').sort({
+                    fullname: 'asc'
+                }).exec(function (err, artists) {
                     if (err) return next(err);
-                    res.render('site/category', {
-                        category: category,
-                        categories: categories,
-                        artists: artists
+                    Themes.find({}).sort({
+                        fullname: 'asc'
+                    }).exec(function (err, themes) {
+                        if (err) return next(err);
+                        res.render('site/category', {
+                            category: category,
+                            categories: categories,
+                            artists: artists,
+                            themes: themes,
+                            query: req.query
+                        });
                     });
                 });
             });
@@ -233,20 +284,38 @@ router.get('/categoria/:slug', function (req, res, next) {
  * Regione: Sicilia
  */
 router.get('/regione/:slug', function (req, res, next) {
-    Regions.findOne({slug: req.param('slug')}, function (err, region) {
+    Regions.findOne({
+        slug: req.param('slug'
+        )}).exec(function (err, region) {
         if (err) return next(err);
         if (region) {
-            Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+            Regions.find({}).sort({
+                fullname: 'asc'
+            }).exec(function (err, regions) {
                 if (err) return next(err);
-                Artists.find({
-                    region: region._id,
-                    active: 1
-                }).populate('photo').populate('province').sort({fullname: 'asc'}).exec(function (err, artists) {
+
+                var search = {};
+                search.region = region._id;
+                search.active = 1;
+                if (req.query.category && req.query.category.length > 0) search.category = {$in: req.query.category};
+                if (req.query.province && req.query.province.length > 0) search.province = {$in: req.query.province};
+                // console.log(search);
+
+                Artists.find(search).populate('photo').populate('region').populate('category').populate('province').sort({
+                    fullname: 'asc'
+                }).exec(function (err, artists) {
                     if (err) return next(err);
-                    res.render('site/region', {
-                        region: region,
-                        regions: regions,
-                        artists: artists
+                    Themes.find({}).sort({
+                        fullname: 'asc'
+                    }).exec(function (err, themes) {
+                        if (err) return next(err);
+                        res.render('site/region', {
+                            region: region,
+                            regions: regions,
+                            artists: artists,
+                            themes: themes,
+                            query: req.query
+                        });
                     });
                 });
             });
@@ -263,45 +332,41 @@ router.get('/artista/:slug', function (req, res, next) {
     Artists.findOne({
         slug: req.param('slug'),
         active: 1
-    }, function (err, artist) {
+    }).populate('category').populate('region').populate('province').exec(function (err, artist) {
         if (err) return next(err);
         if (artist) {
-            Photos.find({artist: artist._id}).populate('technique').sort({fullname: 'asc'}).exec(function (err, photos) {
+            Photos.find({
+                artist: artist._id
+            }).populate('technique').sort({
+                fullname: 'asc'
+            }).exec(function (err, photos) {
                 if (err) return next(err);
                 Artists.find({
                     _id: {
                         '$ne': artist._id
                     },
                     province: artist.province
-                }).populate('category').populate('photo').sort({fullname: 'asc'}).limit(5).exec(function (err, surroundings) {
+                }).populate('category').populate('photo').sort({
+                    fullname: 'asc'
+                }).limit(5).exec(function (err, surroundings) {
                     if (err) return next(err);
-                    Photos.distinct('tags', {artist: artist._id}).exec(function (err, tags) {
+                    Themes.find({}).sort({
+                        fullname: 'asc'
+                    }).exec(function (err, themes) {
                         if (err) return next(err);
-                        Photos.find({
-                            artist: {
-                                '$ne': artist._id
-                            },
-                            tags: {
-                                '$in': tags
-                            }
-                        }).populate('theme').sort({fullname: 'asc'}).limit(4).exec(function (err, related) {
-                            if (err) return next(err);
-                            res.render('site/artist', {
-                                artist: artist,
-                                photos: photos,
-                                surroundings: surroundings,
-                                tags: tags,
-                                related: related
-                            });
+                        res.render('site/artist', {
+                            artist: artist,
+                            photos: photos,
+                            surroundings: surroundings,
+                            themes: themes
                         });
-
                     });
                 });
             });
         } else {
             res.status(404).render('site/404');
         }
-    }).populate('category').populate('region').populate('province');
+    });
 });
 
 /**
@@ -310,10 +375,9 @@ router.get('/artista/:slug', function (req, res, next) {
 router.get('/opera-darte/:slug', function (req, res, next) {
     Photos.findOne({
         slug: req.param('slug')
-    }, function (err, photo) {
+    }).populate('technique').populate('theme').populate('artist').exec(function (err, photo) {
         if (err) return next(err);
         if (photo) {
-
             photo.views = (photo.views + 1);
             photo.save(function (err) {
                 if (err) return next(err);
@@ -322,7 +386,9 @@ router.get('/opera-darte/:slug', function (req, res, next) {
                         '$ne': photo._id
                     },
                     artist: photo.artist._id
-                }).populate('technique').sort({fullname: 'asc'}).exec(function (err, pictures) {
+                }).populate('technique').sort({
+                    fullname: 'asc'
+                }).exec(function (err, pictures) {
                     if (err) return next(err);
                     Photos.find({
                         _id: {
@@ -344,31 +410,39 @@ router.get('/opera-darte/:slug', function (req, res, next) {
         } else {
             res.status(404).render('site/404');
         }
-    }).populate('technique').populate('theme').populate('artist');
+    });
 });
 
 /**
- * Search
+ * Risultati della ricerca
  */
 router.get('/search', function (req, res, next) {
     var search = {};
-    if (req.query.q) search.tags = new RegExp(req.query.q, 'i');
-    if (req.query.technique) search.technique = req.query.technique;
-    if (req.query.theme) search.theme = req.query.theme;
+    if (req.query.q) search.fullname = new RegExp(req.query.q, 'i');
+    if (req.query.technique && req.query.technique.length > 0) search.technique = {$in: req.query.technique};
+    if (req.query.theme && req.query.theme.length > 0) search.theme = {$in: req.query.theme};
     if (req.query.price) search.price = req.query.price;
-    if (req.query.year) search.year = req.query.year;
+    if (req.query.year && req.query.year.length > 0) search.year = {$in: req.query.year};
     if (req.query.height) search.height = req.query.height;
     if (req.query.width) search.width = req.query.width;
     if (req.query.depth) search.depth = req.query.depth;
     if (req.query.measure) search.measure = req.query.measure;
+    if (req.query.artist) search.artist = req.query.artist;
     if (req.query.tags) search.tags = {$in: req.query.tags.toLocaleLowerCase().split(',')};
+    // console.log(req.query);
 
-    Techniques.find({}).sort('').exec(function (err, techniques) {
+    Techniques.find({}).sort({
+        fullname: 'asc'
+    }).exec(function (err, techniques) {
         if (err) return next(err);
-        Themes.find({}).sort('').exec(function (err, themes) {
+        Themes.find({}).sort({
+            fullname: 'asc'
+        }).exec(function (err, themes) {
             if (err) return next(err);
             // console.log(search);
-            Photos.find(search).populate('technique').populate('artist').sort({registered: 'desc'}).exec(function (err, photos) {
+            Photos.find(search).populate('technique').populate('artist').populate('theme').sort({
+                registered: 'desc'
+            }).exec(function (err, photos) {
                 if (err) return next(err);
                 if (photos) {
                     res.render('site/search', {
@@ -385,17 +459,21 @@ router.get('/search', function (req, res, next) {
 });
 
 /**
- * Tags
+ * Tags (Mare)
  */
 router.get('/tags/:tag', function (req, res, next) {
     Photos.find({
         tags: new RegExp(req.param('tag'), 'i')
-    }).populate('technique').populate('artist').sort({views: 'desc'}).exec(function (err, photos) {
+    }).populate('technique').populate('artist').sort({
+        views: 'desc'
+    }).exec(function (err, photos) {
         if (err) return next(err);
         if (photos) {
             res.render('site/tags', {
                 photos: photos
             });
+        } else {
+            res.status(404).render('site/404');
         }
     });
 });
@@ -404,7 +482,9 @@ router.get('/tags/:tag', function (req, res, next) {
  * Glossario d'Arte
  */
 router.get('/glossario-darte', function (req, res, next) {
-    Definitions.find({}).sort({fullname: 'asc'}).exec(function (err, definitions) {
+    Definitions.find({}).sort({
+        fullname: 'asc'
+    }).exec(function (err, definitions) {
         if (err) return next(err);
         Definitions.distinct('letter').exec(function (err, letters) {
             if (err) return next(err);
@@ -417,10 +497,14 @@ router.get('/glossario-darte', function (req, res, next) {
 });
 
 /**
- * Lettere Glossario d'Arte
+ * Lettera (A) Glossario d'Arte
  */
 router.get('/glossario/:letter', function (req, res, next) {
-    Definitions.find({letter: req.param('letter')}).sort({fullname: 'asc'}).exec(function (err, definitions) {
+    Definitions.find({
+        letter: req.param('letter')
+    }).sort({
+        fullname: 'asc'
+    }).exec(function (err, definitions) {
         if (err) return next(err);
         if (definitions) {
             Definitions.distinct('letter').exec(function (err, letters) {
@@ -437,34 +521,106 @@ router.get('/glossario/:letter', function (req, res, next) {
 });
 
 /**
- * Galleria Foto
+ * Tipologia (Natura Morta)
  */
-router.get('/photos-:id.json', function (req, res, next) {
-    Photos.find({artist: req.param('id')}).populate('technique').exec(function (err, photos) {
+router.get('/theme/:slug', function (req, res, next) {
+    Themes.find({}).sort({
+        fullname: 'asc'
+    }).exec(function (err, themes) {
         if (err) return next(err);
-        res.status(200).send({
-            data: photos
+        Themes.findOne({
+            slug: req.param('slug')
+        }).exec(function (err, theme) {
+            if (err) return next(err);
+            if (theme) {
+                Photos.find({
+                    theme: theme._id
+                }).populate('artist').populate('technique').populate('theme').sort({
+                    fullname: 'asc'
+                }).exec(function (err, photos) {
+                    if (err) return next(err);
+                    res.render('site/theme', {
+                        themes: themes,
+                        theme: theme,
+                        photos: photos
+                    });
+                });
+            } else {
+                res.status(404).render('site/404');
+            }
         });
     });
 });
 
-router.get('/autocomplete/artists.json', function (req, res, next) {
-    var q = req.query.query;
-    Artists.find({
-        fullname: new RegExp(q, 'i')
-    }, '_id fullname').exec(function (err, artists) {
+/**
+ * Tecniche & Strumenti Per Artisti
+ */
+router.get('/tecniche-strumenti', function (req, res, next) {
+    Techniques.find({}).sort({
+        fullname: 'asc'
+    }).exec(function (err, techniques) {
         if (err) return next(err);
-        // console.log(artists);
-        var obj = [];
-        for (var nam in artists) {
-            obj[nam] = {};
-            obj[nam]['value'] = artists[nam].fullname;
-            obj[nam]['data'] = artists[nam]._id;
-        }
-        res.status(200).send({
-            query: q,
-            suggestions: obj
+        res.render('site/techniques', {
+            techniques: techniques
         });
     });
 });
+
+/**
+ * Tecnica (Acrilico su Multistrato)
+ */
+router.get('/tecnica/:slug', function (req, res, next) {
+    Techniques.find({}).sort({
+        fullname: 'asc'
+    }).exec(function (err, techniques) {
+        if (err) return next(err);
+        Techniques.findOne({
+            slug: req.param('slug')
+        }).exec(function (err, technique) {
+            if (err) return next(err);
+            if (technique) {
+                Photos.find(
+                    {
+                        technique: technique._id
+                    }
+                ).populate('artist').populate('technique').populate('theme').sort({
+                        fullname: 'asc'
+                    }).exec(function (err, photos) {
+                        if (err) return next(err);
+                        res.render('site/technique', {
+                            techniques: techniques,
+                            technique: technique,
+                            photos: photos
+                        });
+                    });
+            } else {
+                res.status(404).render('site/404');
+            }
+        });
+    });
+});
+
+/**
+ * Art Directory Scambio link
+ */
+router.get('/art-directory', function (req, res, next) {
+    res.render('site/directory', {
+    });
+});
+
+/**
+ * Annunci Gratis
+ */
+router.get('/annunci-arte', function (req, res, next) {
+    Categories.find({
+        type: 'advertising'
+    }).exec(function (err, categories) {
+        if (err) return next(err);
+        res.render('site/advertising', {
+            categories: categories
+        });
+    });
+});
+
+
 module.exports = router;

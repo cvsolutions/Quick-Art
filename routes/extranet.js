@@ -61,10 +61,23 @@ router.route('/')
     }));
 
 /**
+ * Hai dimenticato la password?
+ */
+router.route('/password').
+    get(function (req, res) {
+        res.render('extranet/password');
+    })
+    .post(function (req, res, next) {
+        res.status(200).send({
+            text: 'I tuoi dati sono stati inviati.'
+        });
+    });
+
+/**
  * Dashboard
  */
 router.get('/dashboard', isLoggedIn, function (req, res, next) {
-    Artists.findById(req.session.passport.user, function (err, artist) {
+    Artists.findById(req.session.passport.user).exec(function (err, artist) {
         if (err) return next(err);
         res.render('extranet/dashboard', {
             user: artist
@@ -77,13 +90,21 @@ router.get('/dashboard', isLoggedIn, function (req, res, next) {
  */
 router.route('/profile')
     .get(isLoggedIn, function (req, res, next) {
-        Regions.find({}).sort({fullname: 'asc'}).exec(function (err, regions) {
+        Regions.find({}).sort({
+            fullname: 'asc'
+        }).exec(function (err, regions) {
             if (err) return next(err);
-            Categories.find({}).sort({fullname: 'asc'}).exec(function (err, categories) {
+            Categories.find({
+                type: 'gallery'
+            }).sort({
+                fullname: 'asc'
+            }).exec(function (err, categories) {
                 if (err) return next(err);
-                Provinces.find({}).sort({fullname: 'asc'}).exec(function (err, provinces) {
+                Provinces.find({}).sort({
+                    fullname: 'asc'
+                }).exec(function (err, provinces) {
                     if (err) return next(err);
-                    Artists.findById(req.session.passport.user, function (err, artist) {
+                    Artists.findById(req.session.passport.user).exec(function (err, artist) {
                         if (err) return next(err);
                         res.render('extranet/profile', {
                             artist: artist,
@@ -123,50 +144,13 @@ router.route('/profile')
         });
     });
 
-
-/**
- * Check Permalink (Exclude profile)
- */
-router.post('/check-exclude-slug', isLoggedIn, function (req, res) {
-    Artists.findOne({
-        _id: {
-            '$ne': req.body.id
-        },
-        slug: req.body.slug,
-        active: 1
-    }, function (err, result) {
-        if (result) {
-            res.status(200).send(false);
-        } else {
-            res.status(200).send(true);
-        }
-    });
-});
-
-/**
- * Check Usermail (Exclude profile)
- */
-router.post('/check-exclude-usermail', isLoggedIn, function (req, res) {
-    Artists.findOne({
-        _id: {
-            '$ne': req.body.id
-        },
-        usermail: req.body.usermail,
-        active: 1
-    }, function (err, result) {
-        if (result) {
-            res.status(200).send(false);
-        } else {
-            res.status(200).send(true);
-        }
-    });
-});
-
 /**
  * Photo Gallery
  */
 router.get('/gallery', isLoggedIn, function (req, res, next) {
-    Photos.find({artist: req.session.passport.user}).count().exec(function (err, total) {
+    Photos.find({
+        artist: req.session.passport.user
+    }).count().exec(function (err, total) {
         if (err) return next(err);
         res.render('extranet/gallery', {
             total: total
@@ -175,45 +159,23 @@ router.get('/gallery', isLoggedIn, function (req, res, next) {
 });
 
 /**
- * json photos
- */
-router.get('/gallery/photos.json', isLoggedIn, function (req, res, next) {
-    Photos.find({artist: req.session.passport.user}).populate('technique').exec(function (err, photos) {
-        if (err) return next(err);
-        res.status(200).send({
-            data: photos
-        });
-    });
-});
-
-/**
- * Check Permalink Picture
- */
-router.post('/check-picture-slug', function (req, res, next) {
-    Photos.findOne({
-        slug: req.body.slug
-    }, function (err, result) {
-        if (err) return next(err);
-        if (result) {
-            res.status(200).send(false);
-        } else {
-            res.status(200).send(true);
-        }
-    });
-});
-
-/**
  * Aggiungi Foto
  */
 router.route('/gallery/add')
     .get(isLoggedIn, function (req, res, next) {
-        Photos.find({artist: req.session.passport.user}).count().exec(function (err, total) {
+        Photos.find({
+            artist: req.session.passport.userù
+        }).count().exec(function (err, total) {
             if (err) return next(err);
             if (total >= 6) res.redirect('/extranet/gallery');
         });
-        Techniques.find({}).sort({fullname: 'asc'}).exec(function (err, techniques) {
+        Techniques.find({}).sort({
+            fullname: 'asc'
+        }).exec(function (err, techniques) {
             if (err) return next(err);
-            Themes.find({}).sort({fullname: 'asc'}).exec(function (err, themes) {
+            Themes.find({}).sort({
+                fullname: 'asc'
+            }).exec(function (err, themes) {
                 if (err) return next(err);
                 res.render('extranet/gallery-add', {
                     techniques: techniques,
@@ -227,7 +189,7 @@ router.route('/gallery/add')
         var cover = req.body.cover == 1 ? 1 : 0;
         var available = req.body.available == 1 ? 1 : 0;
         var frame = req.body.frame == 1 ? 1 : 0;
-        new Photos({
+        Photos({
             fullname: req.body.fullname,
             slug: req.body.slug,
             technique: mongoose.Types.ObjectId(req.body.technique),
@@ -249,51 +211,37 @@ router.route('/gallery/add')
             views: 1,
             registered: Date.now()
         }).save(function (err, image) {
-                if (!err) {
-                    if (cover == 1) {
-                        Artists.findById(req.session.passport.user, function (err, artist) {
-                            artist.photo = mongoose.Types.ObjectId(image._id);
-                            artist.save();
-                        });
-                    }
-                    res.status(200).send({
-                        text: 'Operazione eseguita con successo!'
+            if (!err) {
+                if (cover == 1) {
+                    Artists.findById(req.session.passport.user).exec(function (err, artist) {
+                        artist.photo = mongoose.Types.ObjectId(image._id);
+                        artist.save();
                     });
-                } else {
-                    res.status(500).send(err);
                 }
-            });
+                res.status(200).send({
+                    text: 'Operazione eseguita con successo!'
+                });
+            } else {
+                res.status(500).send(err);
+            }
+        });
     });
-
-/**
- * Check Permalink (Exclude Picture)
- */
-router.post('/check-exclude-picture-slug', isLoggedIn, function (req, res) {
-    Photos.findOne({
-        _id: {
-            '$ne': req.body.id
-        },
-        slug: req.body.slug
-    }, function (err, result) {
-        if (result) {
-            res.status(200).send(false);
-        } else {
-            res.status(200).send(true);
-        }
-    });
-});
 
 /**
  * Modifica Foto
  */
 router.route('/gallery/edit/:id')
     .get(isLoggedIn, function (req, res, next) {
-        Techniques.find({}).sort({fullname: 'asc'}).exec(function (err, techniques) {
+        Techniques.find({}).sort({
+            fullname: 'asc'
+        }).exec(function (err, techniques) {
             if (err) return next(err);
-            Themes.find({}).sort({fullname: 'asc'}).exec(function (err, themes) {
+            Themes.find({}).sort({
+                fullname: 'asc'
+            }).exec(function (err, themes) {
                 if (err) return next(err);
                 var ID = req.param('id');
-                Photos.findById(ID, function (err, photo) {
+                Photos.findById(ID).exec(function (err, photo) {
                     res.render('extranet/gallery-edit', {
                         techniques: techniques,
                         themes: themes,
@@ -305,19 +253,24 @@ router.route('/gallery/edit/:id')
         });
     })
     .post(isLoggedIn, function (req, res) {
+
         var ID = req.body.id;
         var cover = req.body.cover == 1 ? 1 : 0;
         var available = req.body.available == 1 ? 1 : 0;
         var frame = req.body.frame == 1 ? 1 : 0;
+
         Photos.findById(ID, function (err, photo) {
+
             var picture = photo.picture;
+
             if (req.files.picture) {
                 picture = req.files.picture.name;
                 var target_path = './public/uploads/' + photo.picture;
-                fs.unlink(target_path, function () {
+                fs.unlink(target_path, function (err) {
                     if (err) return console.error(err);
                 });
             }
+
             photo.fullname = req.body.fullname;
             photo.slug = req.body.slug;
             photo.technique = mongoose.Types.ObjectId(req.body.technique);
@@ -337,7 +290,7 @@ router.route('/gallery/edit/:id')
             photo.frame = frame;
             photo.save(function (err, image) {
                 if (!err) {
-                    Artists.findById(image.artist, function (err, artist) {
+                    Artists.findById(image.artist).exec(function (err, artist) {
                         if (cover == 1) {
                             artist.photo = mongoose.Types.ObjectId(image._id);
                             artist.save();
@@ -359,7 +312,7 @@ router.route('/gallery/edit/:id')
 router.get('/gallery/delete/:id', isLoggedIn, function (req, res, next) {
     Photos.findById(req.params.id, function (err, photo) {
         var target_path = './public/uploads/' + photo.picture;
-        fs.unlink(target_path, function () {
+        fs.unlink(target_path, function (err) {
             if (err) return next(err);
         });
         photo.remove(function (err) {

@@ -1,0 +1,24 @@
+<% title = technique.fullname + ' | Tecniche & Strumenti' %>
+<%- layout('layout') %>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h1><%= technique.fullname %></h1>
+        <p class="lead">Catalogo delle Opere d'Arte dell'Archivio Contemporaneo</p>
+        <p>Trovati <%= photos.length %> risultati <%- include loadtime.ejs %></p>
+        <% col = 6 %>
+        <%- include row-catalog.ejs %>
+    </div>
+    <div class="col-xs-4">
+        <div class="list-group">
+            <% techniques.forEach( function (row){ %>
+            <a href="/tecnica/<%= row.slug %>" class="list-group-item <% if(row.slug == technique.slug){ %>active<% } %>"><%= row.fullname %></a>
+            <% }); %>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include adsbygoogle-300-250.ejs %>
+            </div>
+        </div>
+    </div>
+</div>

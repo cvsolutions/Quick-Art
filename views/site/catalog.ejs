@@ -24,14 +24,14 @@
                 <div class="row">
                     <div class="col-xs-4">
                         <div class="form-group">
-                            <label>Quadro</label>
-                            <input type="search" class="form-control" name="q" id="q" placeholder="">
+                            <label>Nome Opera</label>
+                            <input type="search" class="form-control" name="q" id="js-q-photos" autocomplete="off" placeholder="">
                         </div>
                     </div>
                     <div class="col-xs-2">
                         <div class="form-group">
                             <label>Tecnica</label>
-                            <select class="form-control" name="technique" id="technique">
+                            <select class="form-control" name="technique[]" id="technique">
                                 <option value="">-</option>
                                 <% techniques.forEach( function (row){ %>
                                 <option value="<%= row._id %>"><%= row.fullname %></option>
@@ -42,7 +42,7 @@
                     <div class="col-xs-2">
                         <div class="form-group">
                             <label>Categoria</label>
-                            <select class="form-control" name="theme" id="theme">
+                            <select class="form-control" name="theme[]" id="theme">
                                 <option value="">-</option>
                                 <% themes.forEach( function (row){ %>
                                 <option value="<%= row._id %>"><%= row.fullname %></option>
@@ -59,6 +59,7 @@
                     <div class="col-xs-2">
                         <div class="form-group">
                             <label>&nbsp;</label>
+                            <input type="hidden" name="year[]" id="year" value="">
                             <button type="submit" class="btn btn-default btn-block btn-lg"><span class="glyphicon glyphicon-search"></span> CERCA</button>
                         </div>
                     </div>
@@ -70,24 +71,12 @@
 
 <div class="row">
     <div class="col-xs-6">
-        <p>
-            <script type="text/javascript">
-                var start = new Date();
-                var startsec = start.getTime();
-                var num = 0;
-                for (var i = 0; i < 250000; i++) {
-                    num++;
-                }
-                var stop = new Date();
-                var stopsec = stop.getTime();
-                var loadtime = ( stopsec - startsec ) / 1000;
-                document.write("(caricati in: " + loadtime + " secondi)");
-            </script>
-        </p>
+        <p><%- include loadtime.ejs %></p>
     </div>
     <div class="col-xs-6">
-        <p class="pull-right"><a href="/search">Ricerca Avanzata</a></p>
+        <p class="pull-right"><a href="/search?q=&technique[]=&theme[]=&price=&year[]=">Ricerca Avanzata</a></p>
     </div>
 </div>
 
+<% col = 4 %>
 <%- include row-catalog.ejs %>

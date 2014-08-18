@@ -1,0 +1,23 @@
+<% title = 'Tecniche & Strumenti per l\'Arte | Tecniche Artistiche' %>
+<%- layout('layout') %>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h1>Tecniche & Strumenti Per Artisti</h1>
+        <p>In questa sezione approfondiremo ulteriormente l'analisi degli elementi costitutivi dell'immagine, ponendo però maggiormente l'attenzione sugli aspetti relativi alla produzione concreta di un disegno, di un <strong>dipinto</strong> o di un'opera plastica anziché su quelli inerenti alla loro fruizione. Se quindi nelle unità precedenti abbiamo affrontato l'analisi del linguaggio visivo e i problemi relativi alla percezione e alla lettura dell'immagine, ora ci occuperemo dell'uso concreto delle <strong>tecniche pittoriche</strong> e plastiche e del disegno. Quando esaminiamo <strong>un'opera d'arte</strong> non possiamo limitarci alla valutazone delle caratteristiche morfologiche degli elementi che la costituiscono, degli equilibri compositivi e dei meccanismi percettivi da essa attivati; dobbiamo piuttosto tenere presente che essa è un oggetto concreto, prodotto con tecniche e materiali ben definiti, scelti consapevolmente dall'artista. Poche, anche minime varizioni degli impasti cromatici, delle tecniche di stesura del <strong>colore</strong> o dei supporti possono modificare in modo significativo il contenuto di un'immagine.</p>
+        <p>Soprattutto per chi intende produrre concretamente disegni, dipinti o illustrazioni è quindi indispensabile possedere una padronanza sicura delle tecniche e dei procedimenti operativi specifici. Per facilitare l'acquisizione delle abilità necessarie per il passaggio dalla fase di ideazione a quella di realizzazione di un oggetto artistico si è pensato di iniziare questa seconda sezione con lo studio dei procedimenti operativi inerenti al disegno, che è da sempre considerato l'elemento di base nella produzione e progettazione di immagini di qualsiasi tipo. Imparare a tracciare con uno strumento guidato dalla mano i segni suggeriti dalla mente, infatti, non è semplice e per facilitare queste operazioni sono stati studiati appositi procedimenti che vanno a lungo sperimentati. La trattazione delle tecniche relative al disegno è supportata da numerosi approfondimenti di carattere teorico e operativo riguardanti in particolare il disegno della figura umana, da sempre uno dei soggetti privilegiati dagli <strong>artisti</strong>.</p>
+        <p>Il disegno viene inoltre proposto come strumento per pensare, cioè progettare immagini e manufatti di ogni tipo (graffito, illustrazione, decorazione, design). In seguito si propone lo studio dei caratteri peculiari della <strong>pittura</strong> e della <strong>scultura</strong>, delle principali tecniche pittoriche e plastiche e la loro sperimentazione. A questo proposito è necessario precisare che le ricerche artistiche dell'ultimo secolo hanno rivoluzionato le tecniche tradizionali della pittura, del disegno e della scultura. Al giorno d'oggi, se per un artista è indispensabile conoscere i procedimenti di tipo tradizionale, lo è altrettanto sperimentare nuovi strumenti e soluzioni tecniche, nuovi materiali prodotti dall'industria e le loro possibili combinazioni. L'artista deve perciò essere consapevole della sua massima libertà tecnica ed espressiva. Le immagini presenti nel testo permettono di osservare differenti soluzioni grafiche, plastiche o pittoriche in modo da suggerire alcune delle infinite possibilità espressive di tecniche e materiali, stimolando quindi la ricerca e la sperimentazione personali.</p>
+    </div>
+    <div class="col-xs-4">
+        <div class="list-group">
+            <% techniques.forEach( function (row){ %>
+            <a href="/tecnica/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <% }); %>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include adsbygoogle-300-250.ejs %>
+            </div>
+        </div>
+    </div>
+</div>

@@ -14,6 +14,11 @@ var Categories = Schema({
         index: {
             unique: true
         }
+    },
+    type: {
+        type: String,
+        trim: true,
+        required: true
     }
 }, {
     collection: 'categories'

@@ -11,9 +11,10 @@
 
     <div class="media-body">
         <h4 class="media-heading"><%= row.fullname %></h4>
-        <p><%- truncate(row.description, 250) %></p>
+        <p><%= row.subtitle %></p>
     </div>
 </div>
+<hr/>
 <% }); %>
 <% } else { %>
 <div class="alert alert-warning alert-dismissible" role="alert">

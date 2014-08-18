@@ -4,15 +4,20 @@
     <% artists.forEach( function (row){ %>
     <div class="col-xs-6">
         <div class="thumbnail">
-            <% if (row.photo) { %>
-            <img src="/uploads/<%= row.photo.picture %>" class="img-responsive js-rc-350" alt="<%= row.fullname %>"/>
-            <% } else { %>
-            <img src="/images/no-image.png" class="img-responsive js-rc-350" alt="<%= row.fullname %>"/>
-            <% } %>
+            <a href="/artista/<%= row.slug %>">
+                <% if (row.photo) { %>
+                <img src="/uploads/<%= row.photo.picture %>" class="img-responsive js-rc-350" alt="<%= row.fullname %>"/>
+                <% } else { %>
+                <img src="/images/no-image.png" class="img-responsive js-rc-350" alt="<%= row.fullname %>"/>
+                <% } %>
+            </a>
+
             <div class="caption">
                 <h3><%= row.fullname %></h3>
                 <ul class="list-unstyled">
-                    <li><%= row.province.fullname %></li>
+                    <li class="js-hide-region hidden" data-id="<%= row.region._id %>"><%= row.region.fullname %></li>
+                    <li class="js-hide-category hidden" data-id="<%= row.category._id %>"><%= row.category.fullname %></li>
+                    <li class="js-hide-province" data-id="<%= row.province._id %>"><%= row.province.fullname %></li>
                 </ul>
                 <hr/>
                 <ul class="list-unstyled">
@@ -34,4 +39,5 @@
         </div>
     </div>
     <% } %>
+
 </div>

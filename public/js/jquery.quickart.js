@@ -63,16 +63,24 @@ $(document).ready(function () {
                 email: true,
                 required: true,
                 remote: {
-                    url: '/check-usermail',
+                    url: '/api/check-usermail',
                     type: 'POST'
                 }
             },
             slug: {
                 required: true,
                 remote: {
-                    url: '/check-slug',
+                    url: '/api/check-slug',
                     type: 'POST'
                 }
+            }
+        },
+        messages: {
+            usermail: {
+                remote: 'Esiste già un account per il tuo indirizzo E-mail'
+            },
+            slug: {
+                remote: 'Nickname già esistente'
             }
         },
         submitHandler: function (form) {
@@ -106,6 +114,60 @@ $(document).ready(function () {
     $('#js-login-form').validate();
 
     /**
+     * Password Smarrita
+     */
+    $('#js-password-form').validate({
+        rules: {
+            usermail: {
+                email: true,
+                required: true,
+                remote: {
+                    url: '/api/check-password-usermail',
+                    type: 'POST'
+                }
+            }
+        },
+        messages: {
+            usermail: {
+                remote: 'Si è verificato un errore durante l\'invio della Password'
+            }
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                url: '/extranet/password',
+                type: 'POST',
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                cache: false,
+                beforeSend: function () {
+                    $.isLoading({
+                        text: 'Loading',
+                        position: 'overlay'
+                    });
+                },
+                statusCode: {
+                    200: function (response) {
+                        $.isLoading('hide');
+                        var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
+                        $('html,body').animate({
+                            scrollTop: $('.container').offset().top
+                        }, 1000);
+                        $('#result').hide().html(output).slideDown();
+                    },
+                    500: function (response) {
+                        $.isLoading('hide');
+                        alert(response.responseJSON.err);
+                        $('.form-control').val('');
+                    }
+                }
+            });
+            return true;
+        }
+    });
+
+    /**
      * Modifica Profilo
      */
     $('#js-profile-form').validate({
@@ -114,7 +176,7 @@ $(document).ready(function () {
                 email: true,
                 required: true,
                 remote: {
-                    url: '/extranet/check-exclude-usermail',
+                    url: '/api/check-exclude-usermail',
                     type: 'POST',
                     data: {
                         id: $('#id').val()
@@ -124,12 +186,20 @@ $(document).ready(function () {
             slug: {
                 required: true,
                 remote: {
-                    url: '/extranet/check-exclude-slug',
+                    url: '/api/check-exclude-slug',
                     type: 'POST',
                     data: {
                         id: $('#id').val()
                     }
                 }
+            }
+        },
+        messages: {
+            usermail: {
+                remote: 'Esiste già un account per il tuo indirizzo E-mail'
+            },
+            slug: {
+                remote: 'Nickname già esistente'
             }
         },
         submitHandler: function (form) {
@@ -178,9 +248,14 @@ $(document).ready(function () {
             slug: {
                 required: true,
                 remote: {
-                    url: '/extranet/check-picture-slug',
+                    url: '/api/check-picture-slug',
                     type: 'POST'
                 }
+            }
+        },
+        messages: {
+            slug: {
+                remote: '...'
             }
         },
         submitHandler: function (form) {
@@ -226,12 +301,17 @@ $(document).ready(function () {
             slug: {
                 required: true,
                 remote: {
-                    url: '/extranet/check-exclude-picture-slug',
+                    url: '/api/check-exclude-picture-slug',
                     type: 'POST',
                     data: {
                         id: $('#id').val()
                     }
                 }
+            }
+        },
+        messages: {
+            slug: {
+                remote: '...'
             }
         },
         submitHandler: function (form) {
@@ -299,7 +379,7 @@ $(document).ready(function () {
      * dataTable
      */
     $('#js-full-gallery').dataTable({
-        "ajax": '/extranet/gallery/photos.json',
+        "ajax": '/api/gallery/photos',
         "language": {
             "url": '/js/jquery.dataTables_messages_it.json'
         },
@@ -380,9 +460,21 @@ $(document).ready(function () {
         vertical: "center"
     });
 
+    /**
+     * resizecrop
+     */
     $('.js-rc-64').resizecrop({
         width: 64,
         height: 64,
+        vertical: "center"
+    });
+
+    /**
+     * resizecrop
+     */
+    $('.js-rc-800').resizecrop({
+        width: 800,
+        height: 200,
         vertical: "center"
     });
 
@@ -395,7 +487,7 @@ $(document).ready(function () {
      * dataTable
      */
     $('#js-gallery').dataTable({
-        "ajax": '/photos-' + $('h1').data('id') + '.json',
+        "ajax": '/api/photos/' + $('h1').data('id'),
         "language": {
             "url": '/js/jquery.dataTables_messages_it.json'
         },
@@ -454,12 +546,216 @@ $(document).ready(function () {
         ]
     });
 
-
-    $('#q').autocomplete({
-        serviceUrl: '/autocomplete/artists.json',
+    /**
+     * autocomplete
+     */
+    $('#js-q-artists').autocomplete({
+        serviceUrl: '/api/autocomplete/artists',
         onSelect: function (suggestion) {
-            alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+            $('#artist').val(suggestion.data);
         }
     });
+
+    /**
+     * autocomplete
+     */
+    $('#js-q-photos').autocomplete({
+        serviceUrl: '/api/autocomplete/photos',
+        onSelect: function (suggestion) {
+            // alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+        }
+    });
+
+    /**
+     * Raffina la ricerca
+     * @type {{}}
+     */
+    var techniques = {};
+    $('.js-hide-technique').each(function () {
+        var name = $(this).text();
+        var id = $(this).data('id');
+        techniques[id] = name;
+    });
+
+    // console.log(techniques);
+    $.each(techniques, function (id, name) {
+        var input = $('<input/>').attr({
+            'type': 'checkbox',
+            'name': 'technique[]',
+            'class': 'js-refine js-technique',
+            'value': id
+        });
+
+        var label = $('<label/>').html(name).prepend(input);
+        var html_str = $('<div/>').attr({
+            'class': 'checkbox'
+        }).append(label);
+
+        $('#js-refine-techniques').append(html_str);
+
+        var tt = technique.split(',');
+        $.each(tt, function (i, val) {
+            $('.js-refine[value="' + val + '"]').attr('checked', true);
+        });
+
+        $('.js-technique').click(function () {
+            $('#technique').find('option').removeAttr('selected');
+        });
+    });
+
+    /**
+     * Raffina la ricerca
+     * @type {{}}
+     */
+    var themes = {};
+    $('.js-hide-theme').each(function () {
+        var name = $(this).text();
+        var id = $(this).data('id');
+        themes[id] = name;
+    });
+
+    $.each(themes, function (id, name) {
+        var input = $('<input/>').attr({
+            'type': 'checkbox',
+            'name': 'theme[]',
+            'class': 'js-refine js-theme',
+            'value': id
+        });
+
+        var label = $('<label/>').html(name).prepend(input);
+        var html_str = $('<div/>').attr({
+            'class': 'checkbox'
+        }).append(label);
+
+        $('#js-refine-themes').append(html_str);
+
+        var tm = theme.split(',');
+        $.each(tm, function (i, val) {
+            $('.js-refine[value="' + val + '"]').attr('checked', true);
+        });
+
+        $('.js-theme').click(function () {
+            $('#theme').find('option').removeAttr('selected');
+        });
+    });
+
+    /**
+     * Raffina la ricerca
+     * @type {{}}
+     */
+    var years = {};
+    $('.js-hide-year').each(function () {
+        var name = $(this).text();
+        var id = $(this).data('id');
+        years[id] = name;
+    });
+
+    $.each(years, function (id, name) {
+        var input = $('<input/>').attr({
+            'type': 'checkbox',
+            'name': 'year[]',
+            'class': 'js-refine js-year',
+            'value': id
+        });
+
+        var label = $('<label/>').html(name).prepend(input);
+        var html_str = $('<div/>').attr({
+            'class': 'checkbox'
+        }).append(label);
+
+        $('#js-refine-years').append(html_str);
+
+        var year = $('#year').data('selected');
+        var years = year.length > 0 ? year.split(',') : year;
+        $.each(years, function (i, val) {
+            $('.js-refine[value="' + val + '"]').attr('checked', true);
+        });
+
+        $('.js-year').click(function () {
+            $('#year').val('');
+        });
+    });
+
+    /**
+     * Raffina la ricerca
+     * @type {{}}
+     */
+    var regions = {};
+    $('.js-hide-region').each(function () {
+        var name = $(this).text();
+        var id = $(this).data('id');
+        regions[id] = name;
+    });
+
+    $.each(regions, function (id, name) {
+        var input = $('<input/>').attr({
+            'type': 'checkbox',
+            'name': 'region[]',
+            'class': 'js-refine',
+            'value': id
+        });
+
+        var label = $('<label/>').html(name).prepend(input);
+        var html_str = $('<div/>').attr({
+            'class': 'checkbox'
+        }).append(label);
+
+        $('#js-refine-regions').append(html_str);
+    });
+
+    /**
+     * Raffina la ricerca
+     * @type {{}}
+     */
+    var provinces = {};
+    $('.js-hide-province').each(function () {
+        var name = $(this).text();
+        var id = $(this).data('id');
+        provinces[id] = name;
+    });
+
+    $.each(provinces, function (id, name) {
+        var input = $('<input/>').attr({
+            'type': 'checkbox',
+            'name': 'province[]',
+            'class': 'js-refine',
+            'value': id
+        });
+
+        var label = $('<label/>').html(name).prepend(input);
+        var html_str = $('<div/>').attr({
+            'class': 'checkbox'
+        }).append(label);
+
+        $('#js-refine-provinces').append(html_str);
+    });
+
+    /**
+     * Raffina la ricerca
+     * @type {{}}
+     */
+    var categories = {};
+    $('.js-hide-category').each(function () {
+        var name = $(this).text();
+        var id = $(this).data('id');
+        categories[id] = name;
+    });
+
+    $.each(categories, function (id, name) {
+        var input = $('<input/>').attr({
+            'type': 'checkbox',
+            'name': 'category[]',
+            'class': 'js-refine',
+            'value': id
+        });
+
+        var label = $('<label/>').html(name).prepend(input);
+        var html_str = $('<div/>').attr({
+            'class': 'checkbox'
+        }).append(label);
+
+        $('#js-refine-categories').append(html_str);
+    });
+
 
 });

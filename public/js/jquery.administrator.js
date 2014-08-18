@@ -179,7 +179,7 @@ $(document).ready(function () {
      * Artists
      */
     $('#js-full-artists').dataTable({
-        "ajax": '/administrator/artists.json',
+        "ajax": '/api/artists',
         "language": {
             "url": '/js/jquery.dataTables_messages_it.json'
         },
@@ -222,7 +222,7 @@ $(document).ready(function () {
      * Articles
      */
     $('#js-full-articles').dataTable({
-        "ajax": '/administrator/articles.json',
+        "ajax": '/api/articles',
         "language": {
             "url": '/js/jquery.dataTables_messages_it.json'
         },
