@@ -12,7 +12,7 @@
         <br/>
 
         <div class="thumbnail">
-            <a href="/blog/<%= row.slug %>">
+            <a href="/blog/<%= row.rid %>/<%= row.slug %>">
                 <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-800" alt="<%= row.fullname %>"/>
             </a>
 
@@ -62,7 +62,7 @@
     <% articles.forEach( function (row){ %>
     <div class="col-xs-4">
         <div class="media">
-            <a class="pull-left" href="/blog/<%= row.slug %>">
+            <a class="pull-left" href="/blog/<%= row.rid %>/<%= row.slug %>">
                 <% if (row.picture) { %>
                 <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
                 <% } else { %>

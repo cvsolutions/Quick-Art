@@ -35,22 +35,6 @@
             </div>
             <div class="tab-pane active" id="biography">
                 <p><%- helper.nl2br(artist.biography) %></p>
-                <br/>
-                <hr/>
-                <div class="table-responsive">
-                    <table class="table" id="js-gallery">
-                        <thead>
-                        <tr>
-                            <th>Foto</th>
-                            <th>Titolo</th>
-                            <th>Tecnica</th>
-                            <th>Prezzo</th>
-                            <th>Dimensione</th>
-                            <th>Dettaglio</th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
             </div>
             <div class="tab-pane" id="reviews">
                 <% if(artist.reviews != undefined){ %>
@@ -63,7 +47,7 @@
                 <% } %>
             </div>
             <div class="tab-pane" id="news">
-                <p>...</p>
+                <%- include ../blog/row-articles.ejs %>
             </div>
         </div>
     </div>
@@ -82,7 +66,6 @@
                 <div class="btn-group">
                     <a href="mailto:<%- artist.usermail %>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-flag"></span> Email</a>
                     <a href="<%- artist.web %>" target="_blank" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-globe"></span> Web</a>
-                    <a href="<%- artist.facebook %>" target="_blank" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span> Facebook</a>
                 </div>
             </div>
         </div>
@@ -99,7 +82,7 @@
             <div class="panel-body">
                 <% surroundings.forEach( function (row){ %>
                 <div class="media">
-                    <a class="pull-left" href="/artista/<%= row.slug %>">
+                    <a class="pull-left" href="/artista/<%= row.rid %>/<%= row.slug %>">
                         <% if (row.photo) { %>
                         <img src="/uploads/<%= row.photo.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
                         <% } else { %>
@@ -133,11 +116,35 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-6">
-        <p class="lead">Prodotti Correlati</p>
+    <div class="col-xs-12">
+        <p>&nbsp;</p>
     </div>
-    <div class="col-xs-6">
-        <p class="lead">Prodotti Correlati</p>
+</div>
+
+<div class="row">
+    <div class="col-xs-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p>Sei un Artista? Pubblica i tuoi lavori su questo Portale...</p>
+                <p><a href="/registrazione"><img src="/images/registrati.png" alt="Registrazione"/></a></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-8">
+        <div class="table-responsive">
+            <table class="table" id="js-gallery">
+                <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Titolo</th>
+                    <th>Tecnica</th>
+                    <th>Prezzo</th>
+                    <th>Dimensione</th>
+                    <th>Dettaglio</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
     </div>
 </div>
 

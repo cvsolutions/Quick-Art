@@ -118,7 +118,6 @@ router.route('/artists/edit/:id')
             artist.fullname = req.body.fullname;
             artist.slug = req.body.slug;
             artist.phone = req.body.phone;
-            artist.facebook = req.body.facebook;
             artist.usermail = req.body.usermail;
             artist.pwd = req.body.pwd;
             artist.category = mongoose.Types.ObjectId(req.body.category);
@@ -157,20 +156,28 @@ router.route('/articles/add')
             fullname: 'asc'
         }).exec(function (err, contents) {
             if (err) return next(err);
-            res.render('administrator/articles-add', {
-                contents: contents
+            Artists.find({}).sort({
+                fullname: 'asc'
+            }).exec(function (err, artists) {
+                if (err) return next(err);
+                res.render('administrator/articles-add', {
+                    contents: contents,
+                    artists: artists
+                });
             });
         });
     })
     .post(isLoggedIn, function (req, res) {
         var home = req.body.home == 1 ? 1 : 0;
         Articles({
+            rid: Math.floor(Math.random() * 99999),
             fullname: req.body.fullname,
             slug: req.body.slug,
             subtitle: req.body.subtitle,
             description: req.body.description,
             picture: req.files.picture.name,
             content: mongoose.Types.ObjectId(req.body.content),
+            artist: mongoose.Types.ObjectId(req.body.artist),
             tags: req.body.tags.toLocaleLowerCase().split(','),
             active: 1,
             home: home,
@@ -198,9 +205,15 @@ router.route('/articles/edit/:id')
             if (err) return next(err);
             var ID = req.param('id');
             Articles.findById(ID).exec(function (err, article) {
-                res.render('administrator/articles-edit', {
-                    contents: contents,
-                    article: article
+                Artists.find({}).sort({
+                    fullname: 'asc'
+                }).exec(function (err, artists) {
+                    if (err) return next(err);
+                    res.render('administrator/articles-edit', {
+                        contents: contents,
+                        article: article,
+                        artists: artists
+                    });
                 });
             });
         });
@@ -226,6 +239,7 @@ router.route('/articles/edit/:id')
             article.description = req.body.description;
             article.picture = picture;
             article.content = mongoose.Types.ObjectId(req.body.content);
+            article.artist = mongoose.Types.ObjectId(req.body.artist);
             article.tags = req.body.tags.toLocaleLowerCase().split(',');
             article.active = active;
             article.home = home;

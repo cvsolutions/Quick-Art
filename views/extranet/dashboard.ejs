@@ -7,7 +7,7 @@
         <p class="lead">L'accesso a quest'area è concesso solamente agli espositori già iscritti.</p>
 
         <div class="media">
-            <a class="pull-left" href="/artista/<%= user.slug %>">
+            <a class="pull-left" href="/artista/<%= user.rid %>/<%= user.slug %>">
                 <img class="media-object" src="<%- gravatar.url(user.usermail, {s: '64', r: 'pg', d: '404'}) %>" alt="">
             </a>
 

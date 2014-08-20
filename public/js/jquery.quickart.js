@@ -66,21 +66,11 @@ $(document).ready(function () {
                     url: '/api/check-usermail',
                     type: 'POST'
                 }
-            },
-            slug: {
-                required: true,
-                remote: {
-                    url: '/api/check-slug',
-                    type: 'POST'
-                }
             }
         },
         messages: {
             usermail: {
                 remote: 'Esiste già un account per il tuo indirizzo E-mail'
-            },
-            slug: {
-                remote: 'Nickname già esistente'
             }
         },
         submitHandler: function (form) {
@@ -182,24 +172,11 @@ $(document).ready(function () {
                         id: $('#id').val()
                     }
                 }
-            },
-            slug: {
-                required: true,
-                remote: {
-                    url: '/api/check-exclude-slug',
-                    type: 'POST',
-                    data: {
-                        id: $('#id').val()
-                    }
-                }
             }
         },
         messages: {
             usermail: {
                 remote: 'Esiste già un account per il tuo indirizzo E-mail'
-            },
-            slug: {
-                remote: 'Nickname già esistente'
             }
         },
         submitHandler: function (form) {
@@ -244,20 +221,6 @@ $(document).ready(function () {
      * Aggiungi Foto
      */
     $('#js-gallery-add-form').validate({
-        rules: {
-            slug: {
-                required: true,
-                remote: {
-                    url: '/api/check-picture-slug',
-                    type: 'POST'
-                }
-            }
-        },
-        messages: {
-            slug: {
-                remote: '...'
-            }
-        },
         submitHandler: function (form) {
             $.ajax({
                 url: '/extranet/gallery/add',
@@ -297,23 +260,6 @@ $(document).ready(function () {
      * Modifica Foto
      */
     $('#js-gallery-edit-form').validate({
-        rules: {
-            slug: {
-                required: true,
-                remote: {
-                    url: '/api/check-exclude-picture-slug',
-                    type: 'POST',
-                    data: {
-                        id: $('#id').val()
-                    }
-                }
-            }
-        },
-        messages: {
-            slug: {
-                remote: '...'
-            }
-        },
         submitHandler: function (form) {
             $.ajax({
                 url: '/extranet/gallery/edit/' + $('#id').val(),
@@ -363,14 +309,6 @@ $(document).ready(function () {
      * stringToSlug
      */
     $('#fullname').stringToSlug({
-        setEvents: 'keyup keydown blur',
-        getPut: '#slug'
-    });
-
-    /**
-     * stringToSlug
-     */
-    $('#slug').stringToSlug({
         setEvents: 'keyup keydown blur',
         getPut: '#slug'
     });
@@ -518,7 +456,7 @@ $(document).ready(function () {
                 data: 'picture',
                 searchable: false,
                 render: function (data, type, row) {
-                    return  '<a href="/opera-darte/' + row.slug + '"><img src="/uploads/' + data + '" width="64" height="64" alt=""></a>';
+                    return  '<a href="/opera-darte/' + row.rid + '/' + row.slug + '"><img src="/uploads/' + data + '" width="64" height="64" alt=""></a>';
                 }
             },
             {
@@ -539,8 +477,8 @@ $(document).ready(function () {
                 targets: 5,
                 data: 'slug',
                 searchable: false,
-                render: function (data) {
-                    return '<a href="/opera-darte/' + data + '" class=""><span class="glyphicon glyphicon-search"></span></a>';
+                render: function (data, type, row) {
+                    return '<a href="/opera-darte/' + row.rid + '/' + data + '" class=""><span class="glyphicon glyphicon-search"></span></a>';
                 }
             }
         ]

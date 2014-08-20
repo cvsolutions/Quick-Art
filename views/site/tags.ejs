@@ -1,9 +1,9 @@
-<% title = 'Tags' %>
+<% title = tag + ' | Opere d\'Arte' %>
 <%- layout('layout') %>
 
 <div class="row">
     <div class="col-xs-8">
-        <h1>Tags</h1>
+        <h1><%= tag %></h1>
         <p class="lead">Catalogo delle Opere d'Arte dell'Archivio Contemporaneo</p>
         <p>Trovati <%= photos.length %> risultati <%- include loadtime.ejs %></p>
     </div>

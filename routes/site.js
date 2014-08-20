@@ -91,7 +91,7 @@ router.route('/')
         if (artist) {
             Artists.findById(artist).exec(function (err, row) {
                 if (err) return next(err);
-                res.redirect('/artista/' + row.slug);
+                res.redirect('/artista/' + row.rid + '/' + row.slug);
             });
         } else {
             return next();
@@ -195,10 +195,10 @@ router.route('/registrazione')
     })
     .post(function (req, res) {
         Artists({
+            rid: Math.floor(Math.random() * 99999),
             fullname: req.body.fullname,
             slug: req.body.slug,
             phone: req.body.phone,
-            facebook: req.body.facebook,
             usermail: req.body.usermail,
             pwd: req.body.pwd,
             category: mongoose.Types.ObjectId(req.body.category),
@@ -328,8 +328,9 @@ router.get('/regione/:slug', function (req, res, next) {
 /**
  * Artista
  */
-router.get('/artista/:slug', function (req, res, next) {
+router.get('/artista/:rid/:slug', function (req, res, next) {
     Artists.findOne({
+        rid: req.param('rid'),
         slug: req.param('slug'),
         active: 1
     }).populate('category').populate('region').populate('province').exec(function (err, artist) {
@@ -354,11 +355,20 @@ router.get('/artista/:slug', function (req, res, next) {
                         fullname: 'asc'
                     }).exec(function (err, themes) {
                         if (err) return next(err);
-                        res.render('site/artist', {
-                            artist: artist,
-                            photos: photos,
-                            surroundings: surroundings,
-                            themes: themes
+                        Articles.find({
+                            artist: artist._id,
+                            active: 1
+                        }).sort({
+                            registered: 'desc'
+                        }).exec(function (err, articles) {
+                            if (err) return next(err);
+                            res.render('site/artist', {
+                                artist: artist,
+                                photos: photos,
+                                surroundings: surroundings,
+                                themes: themes,
+                                articles: articles
+                            });
                         });
                     });
                 });
@@ -372,8 +382,9 @@ router.get('/artista/:slug', function (req, res, next) {
 /**
  * Opera d'Arte
  */
-router.get('/opera-darte/:slug', function (req, res, next) {
+router.get('/opera-darte/:rid/:slug', function (req, res, next) {
     Photos.findOne({
+        rid: req.param('rid'),
         slug: req.param('slug')
     }).populate('technique').populate('theme').populate('artist').exec(function (err, photo) {
         if (err) return next(err);
@@ -470,6 +481,7 @@ router.get('/tags/:tag', function (req, res, next) {
         if (err) return next(err);
         if (photos) {
             res.render('site/tags', {
+                tag: req.param('tag'),
                 photos: photos
             });
         } else {
@@ -604,7 +616,13 @@ router.get('/tecnica/:slug', function (req, res, next) {
  * Art Directory Scambio link
  */
 router.get('/art-directory', function (req, res, next) {
-    res.render('site/directory', {
+    Categories.find({
+        type: 'directory'
+    }).exec(function (err, categories) {
+        if (err) return next(err);
+        res.render('site/directory', {
+            categories: categories
+        });
     });
 });
 

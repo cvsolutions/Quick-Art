@@ -25,12 +25,19 @@ $(document).ready(function () {
     var province = $('#province').data('selected');
 
     /**
+     * artist
+     * @type {*|jQuery}
+     */
+    var artist = $('#artist').data('selected');
+
+    /**
      * selected option
      */
     $("#content option[value='" + content + "']").attr('selected', 'selected');
     $("#category option[value='" + category + "']").attr('selected', 'selected');
     $("#region option[value='" + region + "']").attr('selected', 'selected');
     $("#province option[value='" + province + "']").attr('selected', 'selected');
+    $("#artist option[value='" + artist + "']").attr('selected', 'selected');
 
     /**
      * Validate Login

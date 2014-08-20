@@ -111,11 +111,12 @@ router.get('/tags/:tag', function (req, res, next) {
 /**
  * Dettaglio Articolo
  */
-router.get('/:slug', function (req, res, next) {
+router.get('/:rid/:slug', function (req, res, next) {
     Articles.findOne({
+        rid: req.param('rid'),
         slug: req.param('slug'),
         active: 1
-    }).populate('content').exec(function (err, article) {
+    }).populate('content').populate('artist').exec(function (err, article) {
         if (err) return next(err);
         if (article) {
             article.views = (article.views + 1);

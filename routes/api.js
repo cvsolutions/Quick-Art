@@ -18,22 +18,6 @@ var Articles = mongoose.model('articles');
 var express = require('express');
 var router = express.Router();
 
-/**
- * Check Permalink (Registrazione)
- */
-router.post('/check-slug', function (req, res, next) {
-    Artists.findOne({
-        slug: req.body.slug,
-        active: 1
-    }).exec(function (err, result) {
-        if (err) return next(err);
-        if (result) {
-            res.status(200).send(false);
-        } else {
-            res.status(200).send(true);
-        }
-    });
-});
 
 /**
  * Check UserMail (Registrazione)
@@ -154,25 +138,6 @@ router.get('/articles', function (req, res, next) {
 });
 
 /**
- * Check Permalink (Exclude profile)
- */
-router.post('/check-exclude-slug', function (req, res) {
-    Artists.findOne({
-        _id: {
-            '$ne': req.body.id
-        },
-        slug: req.body.slug,
-        active: 1
-    }).exec(function (err, result) {
-        if (result) {
-            res.status(200).send(false);
-        } else {
-            res.status(200).send(true);
-        }
-    });
-});
-
-/**
  * Check Usermail (Exclude profile)
  */
 router.post('/check-exclude-usermail', function (req, res) {
@@ -202,40 +167,6 @@ router.get('/gallery/photos', function (req, res, next) {
         res.status(200).send({
             data: photos
         });
-    });
-});
-
-/**
- * Check Permalink Picture
- */
-router.post('/check-picture-slug', function (req, res, next) {
-    Photos.findOne({
-        slug: req.body.slug
-    }).exec(function (err, result) {
-        if (err) return next(err);
-        if (result) {
-            res.status(200).send(false);
-        } else {
-            res.status(200).send(true);
-        }
-    });
-});
-
-/**
- * Check Permalink (Exclude Picture)
- */
-router.post('/check-exclude-picture-slug', function (req, res) {
-    Photos.findOne({
-        _id: {
-            '$ne': req.body.id
-        },
-        slug: req.body.slug
-    }).exec(function (err, result) {
-        if (result) {
-            res.status(200).send(false);
-        } else {
-            res.status(200).send(true);
-        }
     });
 });
 

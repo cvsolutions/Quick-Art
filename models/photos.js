@@ -2,6 +2,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Photos = Schema({
+    rid: {
+        type: Number,
+        trim: true,
+        required: true,
+        index: {
+            unique: true
+        }
+    },
     fullname: {
         type: String,
         trim: true,
@@ -10,10 +18,7 @@ var Photos = Schema({
     slug: {
         type: String,
         trim: true,
-        required: true,
-        index: {
-            unique: true
-        }
+        required: true
     },
     technique: {
         type: Schema.Types.ObjectId,

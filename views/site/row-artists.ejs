@@ -4,7 +4,7 @@
     <% artists.forEach( function (row){ %>
     <div class="col-xs-6">
         <div class="thumbnail">
-            <a href="/artista/<%= row.slug %>">
+            <a href="/artista/<%= row.rid %>/<%= row.slug %>">
                 <% if (row.photo) { %>
                 <img src="/uploads/<%= row.photo.picture %>" class="img-responsive js-rc-350" alt="<%= row.fullname %>"/>
                 <% } else { %>
@@ -21,7 +21,7 @@
                 </ul>
                 <hr/>
                 <ul class="list-unstyled">
-                    <li><a href="/artista/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></li>
+                    <li><a href="/artista/<%= row.rid %>/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></li>
                 </ul>
             </div>
         </div>

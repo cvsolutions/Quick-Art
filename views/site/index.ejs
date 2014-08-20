@@ -124,7 +124,7 @@
             <div class="panel-body">
                 <% artists.forEach( function (row){ %>
                 <div class="media">
-                    <a class="pull-left" href="/artista/<%= row.slug %>">
+                    <a class="pull-left" href="/artista/<%= row.rid %>/<%= row.slug %>">
                         <% if (row.photo) { %>
                         <img src="/uploads/<%= row.photo.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
                         <% } else { %>
@@ -178,7 +178,7 @@
     <% articles.forEach( function (row){ %>
     <div class="col-xs-4">
         <div class="media">
-            <a class="pull-left" href="/blog/<%= row.slug %>">
+            <a class="pull-left" href="/blog/<%= row.rid %>/<%= row.slug %>">
                 <% if (row.picture) { %>
                 <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
                 <% } else { %>

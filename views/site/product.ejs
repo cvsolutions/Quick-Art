@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-8">
         <h1><%= photo.fullname %></h1>
-        <p><i>di: <a href="/artista/<%= photo.artist.slug %>"><%= photo.artist.fullname %></a></i></p>
+        <p><i>di: <a href="/artista/<%= photo.artist.rid %>/<%= photo.artist.slug %>"><%= photo.artist.fullname %></a></i></p>
         <p>
             <a href="/uploads/<%= photo.picture %>" class="js-fancybox" title="<%= photo.fullname %>" rel="picture">
                 <img src="/uploads/<%= photo.picture %>" class="img-responsive img-thumbnail" alt="<%= photo.fullname %>"/>
@@ -97,7 +97,7 @@
     <% related.forEach( function (row){ %>
     <div class="col-xs-3">
         <div class="media">
-            <a class="pull-left js-tooltip" data-toggle="tooltip" title="<%= row.height %>x<%= row.width %>x<%= row.depth %> <%= row.measure %>" href="/opera-darte/<%= row.slug %>">
+            <a class="pull-left js-tooltip" data-toggle="tooltip" title="<%= row.height %>x<%= row.width %>x<%= row.depth %> <%= row.measure %>" href="/opera-darte/<%= row.rid %>/<%= row.slug %>">
                 <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
             </a>
 
@@ -130,7 +130,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <p class="lead">Guarda altri quadri di <a href="/artista/<%= photo.artist.slug %>"><%= photo.artist.fullname %></a> (scelti a caso)</p>
+        <p class="lead">Guarda altri quadri di <a href="/artista/<%= photo.artist.rid %>/<%= photo.artist.slug %>"><%= photo.artist.fullname %></a> (scelti a caso)</p>
     </div>
 </div>
 
@@ -138,7 +138,7 @@
     <% pictures.forEach( function (row){ %>
     <div class="col-xs-4">
         <div class="thumbnail">
-            <a href="/opera-darte/<%= row.slug %>">
+            <a href="/opera-darte/<%= row.rid %>/<%= row.slug %>">
                 <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt="<%= row.fullname %>"/>
             </a>
 
@@ -151,7 +151,7 @@
                 <hr/>
                 <ul class="list-inline">
                     <li><%= helper.number_format(row.price, 2, '.', ',') %> €</li>
-                    <li class="pull-right"><a href="/opera-darte/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></li>
+                    <li class="pull-right"><a href="/opera-darte/<%= row.rid %>/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></li>
                 </ul>
             </div>
         </div>

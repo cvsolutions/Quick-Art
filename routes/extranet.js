@@ -122,7 +122,6 @@ router.route('/profile')
             artist.fullname = req.body.fullname;
             artist.slug = req.body.slug;
             artist.phone = req.body.phone;
-            artist.facebook = req.body.facebook;
             artist.usermail = req.body.usermail;
             artist.pwd = req.body.pwd;
             artist.category = mongoose.Types.ObjectId(req.body.category);
@@ -190,6 +189,7 @@ router.route('/gallery/add')
         var available = req.body.available == 1 ? 1 : 0;
         var frame = req.body.frame == 1 ? 1 : 0;
         Photos({
+            rid: Math.floor(Math.random() * 99999),
             fullname: req.body.fullname,
             slug: req.body.slug,
             technique: mongoose.Types.ObjectId(req.body.technique),

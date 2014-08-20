@@ -1,7 +1,7 @@
 <% if(articles.length > 0){ %>
 <% articles.forEach( function (row){ %>
 <div class="media">
-    <a class="pull-left" href="/blog/<%= row.slug %>">
+    <a class="pull-left" href="/blog/<%= row.rid %>/<%= row.slug %>">
         <% if (row.picture) { %>
         <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
         <% } else { %>

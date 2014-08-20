@@ -2,6 +2,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Articles = Schema({
+    rid: {
+        type: Number,
+        trim: true,
+        required: true,
+        index: {
+            unique: true
+        }
+    },
     fullname: {
         type: String,
         trim: true,
@@ -35,6 +43,10 @@ var Articles = Schema({
     content: {
         type: Schema.Types.ObjectId,
         ref: 'contents'
+    },
+    artist: {
+        type: Schema.Types.ObjectId,
+        ref: 'artists'
     },
     tags: {
         type: Object,

@@ -15,8 +15,8 @@
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Permalink</label>
-                        <input type="text" class="form-control" name="slug" id="slug" value="<%= artist.slug %>" required="">
+                        <label>Telefono</label>
+                        <input type="number" class="form-control" name="phone" id="phone" value="<%- artist.phone %>">
                     </div>
                 </div>
             </div>
@@ -31,20 +31,6 @@
                     <div class="form-group">
                         <label>Password</label>
                         <input type="text" class="form-control" name="pwd" id="pwd" value="<%= artist.pwd %>" required="">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        <label>Telefono</label>
-                        <input type="number" class="form-control" name="phone" id="phone" value="<%- artist.phone %>">
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        <label>Collegamento pagina Facebook</label>
-                        <input type="url" class="form-control" name="facebook" id="facebook" value="<%- artist.facebook %>">
                     </div>
                 </div>
             </div>
@@ -122,6 +108,7 @@
             </div>
 
             <input type="hidden" name="id" id="id" value="<%= artist._id %>">
+            <input type="hidden" name="slug" id="slug" value="<%= artist.slug %>">
             <input type="submit" class="btn btn-primary" value="Salva">
         </form>
     </div>

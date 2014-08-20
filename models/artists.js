@@ -2,6 +2,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Artists = Schema({
+    rid: {
+        type: Number,
+        trim: true,
+        required: true,
+        index: {
+            unique: true
+        }
+    },
     fullname: {
         type: String,
         trim: true,
@@ -10,17 +18,9 @@ var Artists = Schema({
     slug: {
         type: String,
         trim: true,
-        required: true,
-        index: {
-            unique: true
-        }
+        required: true
     },
     phone: {
-        type: String,
-        trim: true,
-        required: false
-    },
-    facebook: {
         type: String,
         trim: true,
         required: false

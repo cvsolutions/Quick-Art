@@ -18,8 +18,7 @@
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Permalink</label>
-                        <input type="text" class="form-control" name="slug" id="slug" value="<%= photo.slug %>" required="">
+
                     </div>
                 </div>
             </div>
@@ -116,6 +115,7 @@
                 <label><input type="checkbox" name="frame" id="frame" <% if (photo.frame == 1) { %>checked <% } %>value="1"> Quadro comprensivo di cornice</label>
             </div>
             <input type="hidden" name="id" id="id" value="<%= photo._id %>">
+            <input type="hidden" name="slug" id="slug" value="<%= photo.slug %>">
             <input type="submit" class="btn btn-default" value="Salva">
         </form>
     </div>

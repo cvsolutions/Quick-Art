@@ -15,8 +15,13 @@
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Permalink</label>
-                        <input type="text" class="form-control" name="slug" id="slug" value="<%= article.slug %>" required="">
+                        <label>Artista</label>
+                        <select class="form-control" name="artist" id="artist" data-selected="<%= article.artist %>" required="">
+                            <option value="">-</option>
+                            <% artists.forEach( function (row){ %>
+                            <option value="<%= row._id %>"><%= row.fullname %></option>
+                            <% }); %>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -57,6 +62,7 @@
                 <label><input type="checkbox" name="home" id="home" <% if (article.home == 1) { %>checked <% } %>value="1"> Mostra in Homepage</label>
             </div>
             <input type="hidden" name="id" id="id" value="<%= article._id %>">
+            <input type="hidden" name="slug" id="slug" value="<%= article.slug %>">
             <input type="submit" class="btn btn-primary" value="Salva">
         </form>
     </div>
