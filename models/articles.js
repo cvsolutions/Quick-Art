@@ -52,6 +52,7 @@ var Articles = Schema({
         type: Object,
         required: true
     },
+    year: Number,
     active: Number,
     home: Number,
     views: Number,

@@ -18,9 +18,9 @@ var Articles = mongoose.model('articles');
 var express = require('express');
 var router = express.Router();
 
-
 /**
- * Check UserMail (Registrazione)
+ * Verifico che l'indirizzo E-mail
+ * NON esiste in fase di registrazione
  */
 router.post('/check-usermail', function (req, res, next) {
     Artists.findOne({
@@ -38,7 +38,7 @@ router.post('/check-usermail', function (req, res, next) {
 });
 
 /**
- * Check UserMail (Password Smarrita)
+ * Verifico che esiste l'indirizzo Email
  */
 router.post('/check-password-usermail', function (req, res, next) {
     Artists.findOne({
@@ -51,20 +51,6 @@ router.post('/check-password-usermail', function (req, res, next) {
         } else {
             res.status(200).send(false);
         }
-    });
-});
-
-/**
- * Galleria Foto
- */
-router.get('/photos/:id', function (req, res, next) {
-    Photos.find({
-        artist: req.param('id')
-    }).populate('technique').exec(function (err, photos) {
-        if (err) return next(err);
-        res.status(200).send({
-            data: photos
-        });
     });
 });
 
@@ -114,7 +100,7 @@ router.get('/autocomplete/photos', function (req, res, next) {
 });
 
 /**
- * JSON Datatable
+ * Tutti gli Artisti
  */
 router.get('/artists', function (req, res, next) {
     Artists.find({}).populate('category').populate('region').exec(function (err, artists) {
@@ -126,10 +112,10 @@ router.get('/artists', function (req, res, next) {
 });
 
 /**
- * Articoli JSON
+ * Tutti gli Articoli
  */
 router.get('/articles', function (req, res, next) {
-    Articles.find({}).populate('content').exec(function (err, articles) {
+    Articles.find({}).populate('content').populate('artist').exec(function (err, articles) {
         if (err) return next(err);
         res.status(200).send({
             data: articles
@@ -138,7 +124,8 @@ router.get('/articles', function (req, res, next) {
 });
 
 /**
- * Check Usermail (Exclude profile)
+ * Verifico che NON esiste l'indirizzo E-mail
+ * escludento quello dell'Artista stesso
  */
 router.post('/check-exclude-usermail', function (req, res) {
     Artists.findOne({
@@ -157,7 +144,7 @@ router.post('/check-exclude-usermail', function (req, res) {
 });
 
 /**
- * json photos
+ * Tutte le immagini per ogni Artista
  */
 router.get('/gallery/photos', function (req, res, next) {
     Photos.find({
@@ -166,6 +153,20 @@ router.get('/gallery/photos', function (req, res, next) {
         if (err) return next(err);
         res.status(200).send({
             data: photos
+        });
+    });
+});
+
+/**
+ * Tutti gli Eventi per ogni Artista
+ */
+router.get('/news/articles', function (req, res, next) {
+    Articles.find({
+        artist: req.session.passport.user
+    }).exec(function (err, articles) {
+        if (err) return next(err);
+        res.status(200).send({
+            data: articles
         });
     });
 });

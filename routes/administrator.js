@@ -169,6 +169,7 @@ router.route('/articles/add')
     })
     .post(isLoggedIn, function (req, res) {
         var home = req.body.home == 1 ? 1 : 0;
+        var today = new Date();
         Articles({
             rid: Math.floor(Math.random() * 99999),
             fullname: req.body.fullname,
@@ -179,6 +180,7 @@ router.route('/articles/add')
             content: mongoose.Types.ObjectId(req.body.content),
             artist: mongoose.Types.ObjectId(req.body.artist),
             tags: req.body.tags.toLocaleLowerCase().split(','),
+            year: today.getFullYear(),
             active: 1,
             home: home,
             views: 1,

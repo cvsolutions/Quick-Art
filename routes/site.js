@@ -55,7 +55,7 @@ router.route('/')
                     active: 1
                 }).populate('content').sort({
                     registered: 'desc'
-                }).exec(function (err, articles) {
+                }).limit(3).exec(function (err, articles) {
                     if (err) return next(err);
                     Regions.find({}).sort({
                         fullname: 'asc'

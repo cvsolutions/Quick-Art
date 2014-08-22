@@ -55,16 +55,7 @@
                 <p><a href="/registrazione"><img src="/images/registrati.png" alt="Registrazione"/></a></p>
             </div>
         </div>
-        <div class="well">
-            <form action="/" method="post" enctype="application/x-www-form-urlencoded">
-                <div class="form-group">
-                    <input type="search" class="form-control" name="q" id="js-q-artists" autocomplete="off" placeholder="Cerca Artisti, Pittori Contemporanei...">
-                </div>
-                <p><a href="/catalogo-opere-arte">Catalogo Opere d'Arte?</a></p>
-                <input type="hidden" name="artist" id="artist" value="">
-                <input type="submit" class="btn btn-primary btn-block btn-lg" value="CERCA">
-            </form>
-        </div>
+        <%- include search-artists.ejs %>
     </div>
 </div>
 
@@ -126,9 +117,9 @@
                 <div class="media">
                     <a class="pull-left" href="/artista/<%= row.rid %>/<%= row.slug %>">
                         <% if (row.photo) { %>
-                        <img src="/uploads/<%= row.photo.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <img src="/uploads/<%= row.photo.picture %>" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
                         <% } else { %>
-                        <img src="/images/no-image.png" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <img src="/images/no-image.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
                         <% } %>
                     </a>
 
@@ -180,9 +171,9 @@
         <div class="media">
             <a class="pull-left" href="/blog/<%= row.rid %>/<%= row.slug %>">
                 <% if (row.picture) { %>
-                <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                <img src="/uploads/<%= row.picture %>" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
                 <% } else { %>
-                <img src="/images/no-image.png" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                <img src="/images/no-image.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
                 <% } %>
             </a>
 

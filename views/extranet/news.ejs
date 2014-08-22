@@ -1,0 +1,27 @@
+<% title = 'Notizie & Eventi' %>
+<%- layout('../site/layout') %>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h1>Notizie & Eventi</h1>
+        <p>Modifica o cancella le tue news, gli eventi, le mostre personali, e gli avvenimenti artistici.</p>
+        <br/>
+        <p><a href="/extranet/news/add" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Aggiungi Articolo</a></p>
+        <br/>
+
+        <div class="table-responsive">
+            <table class="table" id="js-full-articles">
+                <thead>
+                <tr>
+                    <th>Titolo</th>
+                    <th>Pubblicazione</th>
+                    <th>Operazioni</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <%- include sidebar.ejs %>
+    </div>
+</div>

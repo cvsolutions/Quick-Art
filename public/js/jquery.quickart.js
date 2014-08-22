@@ -299,14 +299,22 @@ $(document).ready(function () {
     });
 
     /**
-     * keyup hide result
+     * Nasconde il messaggio di Notifica
      */
     $('form').keyup(function () {
         $('#result').slideUp();
     });
 
     /**
-     * stringToSlug
+     * Annulla l'ID per la ricerca
+     */
+    $('#js-q-artists').keyup(function () {
+        $('#artist').val('');
+    });
+
+
+    /**
+     * StringToSlug
      */
     $('#fullname').stringToSlug({
         setEvents: 'keyup keydown blur',
@@ -314,7 +322,7 @@ $(document).ready(function () {
     });
 
     /**
-     * dataTable
+     * Tutte le foto di ogni Artista
      */
     $('#js-full-gallery').dataTable({
         "ajax": '/api/gallery/photos',
@@ -362,17 +370,17 @@ $(document).ready(function () {
     });
 
     /**
-     * filestyle
+     * Filestyle
      */
     $(':file').filestyle();
 
     /**
-     * fancybox
+     * Fancybox
      */
     $('.js-fancybox').fancybox();
 
     /**
-     * resizecrop
+     * Resizecrop
      */
     $('.js-rc-350').resizecrop({
         width: 350,
@@ -381,7 +389,7 @@ $(document).ready(function () {
     });
 
     /**
-     * resizecrop
+     * Resizecrop
      */
     $('.js-rc-240').resizecrop({
         width: 240,
@@ -390,7 +398,7 @@ $(document).ready(function () {
     });
 
     /**
-     * resizecrop
+     * Resizecrop
      */
     $('.js-rc-480').resizecrop({
         width: 480,
@@ -399,7 +407,7 @@ $(document).ready(function () {
     });
 
     /**
-     * resizecrop
+     * Resizecrop
      */
     $('.js-rc-64').resizecrop({
         width: 64,
@@ -408,7 +416,7 @@ $(document).ready(function () {
     });
 
     /**
-     * resizecrop
+     * Resizecrop
      */
     $('.js-rc-800').resizecrop({
         width: 800,
@@ -417,75 +425,12 @@ $(document).ready(function () {
     });
 
     /**
-     * tooltip
+     * Tooltip
      */
     $('.js-tooltip').tooltip();
 
     /**
-     * dataTable
-     */
-    $('#js-gallery').dataTable({
-        "ajax": '/api/photos/' + $('h1').data('id'),
-        "language": {
-            "url": '/js/jquery.dataTables_messages_it.json'
-        },
-        "order": [
-            [1, 'desc']
-        ],
-        "lengthMenu": [
-            [5, 10],
-            [5, 10]
-        ],
-        "columns": [
-            {
-                'data': 'picture'
-            },
-            {
-                'data': 'fullname'
-            },
-            {
-                'data': 'technique.fullname'
-            },
-            {
-                'data': 'price'
-            }
-        ],
-        columnDefs: [
-            {
-                targets: 0,
-                data: 'picture',
-                searchable: false,
-                render: function (data, type, row) {
-                    return  '<a href="/opera-darte/' + row.rid + '/' + row.slug + '"><img src="/uploads/' + data + '" width="64" height="64" alt=""></a>';
-                }
-            },
-            {
-                targets: 3,
-                data: 'price',
-                render: function (data) {
-                    return data.toFixed(2) + ' €';
-                }
-            },
-            {
-                targets: 4,
-                data: 'picture',
-                render: function (data, type, row) {
-                    return  row.height + 'x' + row.width + 'x' + row.depth + ' ' + row.measure;
-                }
-            },
-            {
-                targets: 5,
-                data: 'slug',
-                searchable: false,
-                render: function (data, type, row) {
-                    return '<a href="/opera-darte/' + row.rid + '/' + data + '" class=""><span class="glyphicon glyphicon-search"></span></a>';
-                }
-            }
-        ]
-    });
-
-    /**
-     * autocomplete
+     * Autocomplete Artists
      */
     $('#js-q-artists').autocomplete({
         serviceUrl: '/api/autocomplete/artists',
@@ -495,7 +440,7 @@ $(document).ready(function () {
     });
 
     /**
-     * autocomplete
+     * Autocomplete Photos
      */
     $('#js-q-photos').autocomplete({
         serviceUrl: '/api/autocomplete/photos',
@@ -695,5 +640,119 @@ $(document).ready(function () {
         $('#js-refine-categories').append(html_str);
     });
 
+    /**
+     * Tutti gli Eventi di ogni Artista
+     */
+    $('#js-full-articles').dataTable({
+        "ajax": '/api/news/articles',
+        "language": {
+            "url": '/js/jquery.dataTables_messages_it.json'
+        },
+        "order": [
+            [1, 'desc']
+        ],
+        "columns": [
+            {
+                'data': 'fullname'
+            },
+            {
+                'data': 'registered'
+            }
+        ],
+        columnDefs: [
+            {
+                targets: 2,
+                data: '_id',
+                searchable: false,
+                render: function (data) {
+                    return '<div class="btn-group">' +
+                        '<a href="/extranet/news/edit/' + data + '" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span></a>' +
+                        '<a href="/extranet/news/delete/' + data + '" class="btn btn-default btn-sm" onclick="return confirm(\'Sei sicuro di voler cancellare?\');"><span class="glyphicon glyphicon-trash"></span></a>' +
+                        '</div>';
+                }
+            }
+        ]
+    });
+
+    /**
+     * Aggiungi Articolo
+     */
+    $('#js-articles-add-form').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                url: '/extranet/news/add',
+                type: 'POST',
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                cache: false,
+                beforeSend: function () {
+                    $.isLoading({
+                        text: 'Loading',
+                        position: 'overlay'
+                    });
+                },
+                statusCode: {
+                    200: function (response) {
+                        $.isLoading('hide');
+                        var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
+                        $('html,body').animate({
+                            scrollTop: $('.container').offset().top
+                        }, 1000);
+                        $('#result').hide().html(output).slideDown();
+                    },
+                    500: function (response) {
+                        $.isLoading('hide');
+                        alert(response.responseJSON.err);
+                        $('.form-control').val('');
+                    }
+                }
+            });
+            return true;
+        }
+    });
+
+    /**
+     * Modifica Articolo
+     */
+    $('#js-articles-edit-form').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                url: '/extranet/news/edit/' + $('#id').val(),
+                type: 'POST',
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                cache: false,
+                beforeSend: function () {
+                    $.isLoading({
+                        text: 'Loading',
+                        position: 'overlay'
+                    });
+                },
+                statusCode: {
+                    200: function (response) {
+                        $.isLoading('hide');
+                        var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
+                        $('html,body').animate({
+                            scrollTop: $('.container').offset().top
+                        }, 1000);
+                        $('#result').hide().html(output).slideDown();
+                        setTimeout(function () {
+                            window.location.href = '/extranet/news';
+                        }, 2000);
+                    },
+                    500: function (response) {
+                        $.isLoading('hide');
+                        alert(response.responseJSON.err);
+                        $('.form-control').val('');
+                    }
+                }
+            });
+            return true;
+        }
+    });
 
 });

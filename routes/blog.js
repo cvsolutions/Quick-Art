@@ -101,6 +101,7 @@ router.get('/tags/:tag', function (req, res, next) {
         }).exec(function (err, articles) {
             if (err) return next(err);
             res.render('blog/tags', {
+                tag: req.param('tag'),
                 contents: contents,
                 articles: articles
             });

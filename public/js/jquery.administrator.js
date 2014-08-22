@@ -234,7 +234,7 @@ $(document).ready(function () {
             "url": '/js/jquery.dataTables_messages_it.json'
         },
         "order": [
-            [2, 'desc']
+            [3, 'desc']
         ],
         "columns": [
             {
@@ -244,12 +244,15 @@ $(document).ready(function () {
                 'data': 'content.fullname'
             },
             {
+                'data': 'artist.fullname'
+            },
+            {
                 'data': 'registered'
             }
         ],
         columnDefs: [
             {
-                targets: 3,
+                targets: 4,
                 data: '_id',
                 searchable: false,
                 render: function (data) {

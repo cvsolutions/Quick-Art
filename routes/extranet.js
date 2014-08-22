@@ -33,6 +33,7 @@ var Artists = mongoose.model('artists');
 var Techniques = mongoose.model('techniques');
 var Themes = mongoose.model('themes');
 var Photos = mongoose.model('photos');
+var Articles = mongoose.model('articles');
 
 /**
  * isLoggedIn
@@ -163,7 +164,7 @@ router.get('/gallery', isLoggedIn, function (req, res, next) {
 router.route('/gallery/add')
     .get(isLoggedIn, function (req, res, next) {
         Photos.find({
-            artist: req.session.passport.userù
+            artist: req.session.passport.user
         }).count().exec(function (err, total) {
             if (err) return next(err);
             if (total >= 6) res.redirect('/extranet/gallery');
@@ -242,12 +243,17 @@ router.route('/gallery/edit/:id')
                 if (err) return next(err);
                 var ID = req.param('id');
                 Photos.findById(ID).exec(function (err, photo) {
-                    res.render('extranet/gallery-edit', {
-                        techniques: techniques,
-                        themes: themes,
-                        photo: photo,
-                        measurements: ['cm', 'mm', 'px', 'mt']
-                    });
+                    if (err) return next(err);
+                    if (photo && photo.artist == req.session.passport.user) {
+                        res.render('extranet/gallery-edit', {
+                            techniques: techniques,
+                            themes: themes,
+                            photo: photo,
+                            measurements: ['cm', 'mm', 'px', 'mt']
+                        });
+                    } else {
+                        res.status(404).render('site/404');
+                    }
                 });
             });
         });
@@ -318,6 +324,117 @@ router.get('/gallery/delete/:id', isLoggedIn, function (req, res, next) {
         photo.remove(function (err) {
             if (!err) {
                 res.redirect('/extranet/gallery');
+            }
+        });
+    });
+});
+
+/**
+ * Notizie & Eventi
+ */
+router.get('/news', isLoggedIn, function (req, res) {
+    res.render('extranet/news');
+});
+
+/**
+ * Aggiungi Articolo
+ */
+router.route('/news/add')
+    .get(isLoggedIn, function (req, res) {
+        res.render('extranet/news-add');
+    })
+    .post(isLoggedIn, function (req, res) {
+        var today = new Date();
+        Articles({
+            rid: Math.floor(Math.random() * 99999),
+            fullname: req.body.fullname,
+            slug: req.body.slug,
+            subtitle: req.body.subtitle,
+            description: req.body.description,
+            picture: req.files.picture.name,
+            content: mongoose.Types.ObjectId('53e1fe85c5c357280c150ce4'),
+            artist: mongoose.Types.ObjectId(req.session.passport.user),
+            tags: req.body.tags.toLocaleLowerCase().split(','),
+            year: today.getFullYear(),
+            active: 1,
+            home: 1,
+            views: 1,
+            registered: Date.now()
+        }).save(function (err) {
+            if (!err) {
+                res.status(200).send({
+                    text: 'Operazione eseguita con successo!'
+                });
+            } else {
+                res.status(500).send(err);
+            }
+        });
+    });
+
+/**
+ * Modifica Articolo
+ */
+router.route('/news/edit/:id')
+    .get(isLoggedIn, function (req, res, next) {
+        var ID = req.param('id');
+        Articles.findById(ID).exec(function (err, article) {
+            if (err) return next(err);
+            if (article && article.artist == req.session.passport.user) {
+                res.render('extranet/news-edit', {
+                    article: article
+                });
+            } else {
+                res.status(404).render('site/404');
+            }
+        });
+    })
+    .post(isLoggedIn, function (req, res) {
+        Articles.findById(req.body.id).exec(function (err, article) {
+
+            var active = req.body.active == 1 ? 1 : 0;
+            var home = req.body.home == 1 ? 1 : 0;
+            var picture = article.picture;
+
+            if (req.files.picture) {
+                picture = req.files.picture.name;
+                var target_path = './public/uploads/' + article.picture;
+                fs.unlink(target_path, function (err) {
+                    if (err) return next(err);
+                });
+            }
+
+            article.fullname = req.body.fullname;
+            article.slug = req.body.slug;
+            article.subtitle = req.body.subtitle;
+            article.description = req.body.description;
+            article.picture = picture;
+            article.tags = req.body.tags.toLocaleLowerCase().split(',');
+            article.active = active;
+            article.home = home;
+            article.save(function (err) {
+                if (!err) {
+                    res.status(200).send({
+                        text: 'Operazione eseguita con successo!'
+                    });
+                } else {
+                    res.status(500).send(err);
+                }
+            });
+        });
+    });
+
+/**
+ * Elimina Articolo
+ */
+router.get('/news/delete/:id', isLoggedIn, function (req, res, next) {
+    Articles.findById(req.params.id, function (err, article) {
+        var target_path = './public/uploads/' + article.picture;
+        fs.unlink(target_path, function (err) {
+            if (err) return next(err);
+        });
+        article.remove(function (err) {
+            if (!err) {
+                res.redirect('/extranet/news');
             }
         });
     });

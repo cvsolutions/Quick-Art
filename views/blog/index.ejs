@@ -32,6 +32,7 @@
             <a href="/blog/articoli/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
             <% }); %>
         </div>
+        <%- include ../site/search-artists.ejs %>
         <div class="panel panel-default">
             <div class="panel-body">
                 <%- include ../site/adsbygoogle-300-250.ejs %>
@@ -64,9 +65,9 @@
         <div class="media">
             <a class="pull-left" href="/blog/<%= row.rid %>/<%= row.slug %>">
                 <% if (row.picture) { %>
-                <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                <img src="/uploads/<%= row.picture %>" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
                 <% } else { %>
-                <img src="/images/no-image.png" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                <img src="/images/no-image.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
                 <% } %>
             </a>
 

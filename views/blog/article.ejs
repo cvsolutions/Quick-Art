@@ -5,7 +5,7 @@
     <div class="col-xs-8">
         <h1><%= article.fullname %></h1>
         <p class="lead"><%= article.subtitle %></p>
-        <p><i>di: <%= article.artist.fullname %>, <a href="/blog/articoli/<%= article.content.slug %>"><%= article.content.fullname %></a> - <%= helper.date.format('l, d M Y', article.registered) %></i></p>
+        <p><i>di: <a href="/artista/<%= article.artist.rid %>/<%= article.artist.slug %>"><%= article.artist.fullname %></a>, <a href="/blog/articoli/<%= article.content.slug %>"><%= article.content.fullname %></a> - <%= helper.date.format('l, d M Y', article.registered) %></i></p>
         <p><a href="/uploads/<%= article.picture %>" class="js-fancybox thumbnail" rel="picture" title="<%= article.fullname %>"><img src="/uploads/<%= article.picture %>" class="img-responsive" alt="<%= article.fullname %>"/></a></p>
         <p><%- helper.nl2br(article.description) %></p>
         <% if(article.tags){ %>
@@ -21,7 +21,7 @@
     <div class="col-xs-4">
         <div class="list-group">
             <% related.forEach( function (row){ %>
-            <a href="/blog/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <a href="/blog/<%= row.rid %>/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
             <% }); %>
         </div>
         <div class="panel panel-default">

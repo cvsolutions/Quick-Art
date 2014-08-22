@@ -35,15 +35,21 @@
             <div class="panel-body">
                 <ul class="list-unstyled">
                     <li>Codice: <%- photo.code %></li>
-                    <li>Tecnica: <%= photo.technique.fullname %></li>
+                    <li>Tecnica: <a href="/tecnica/<%= photo.technique.slug %>"><%= photo.technique.fullname %></a></li>
                     <li>Anno: <%= photo.year %></li>
                     <li>Dimensione: <%= photo.height %>x<%= photo.width %>x<%= photo.depth %> <%= photo.measure %></li>
                 </ul>
                 <hr/>
                 <p class="lead"><%= helper.number_format(photo.price, 2, '.', ',') %> €</p>
                 <ul class="list-unstyled">
-                    <% if(photo.available == 1){ %><li><span class="label label-success">Disponibile</span><% } else{ %><span class="label label-danger">NON Disponibile</span></li><% } %>
-                    <% if(photo.frame == 1){ %><li class="text-muted">Quadro comprensivo di cornice<% } %>
+                    <% if(photo.available == 1){ %>
+                    <li><span class="label label-success">Disponibile</span>
+                        <% } else{ %>
+                        <span class="label label-danger">NON Disponibile</span></li>
+                    <% } %>
+                    <% if(photo.frame == 1){ %>
+                    <li class="text-muted">Quadro comprensivo di cornice
+                        <% } %>
                 </ul>
             </div>
         </div>
@@ -98,7 +104,7 @@
     <div class="col-xs-3">
         <div class="media">
             <a class="pull-left js-tooltip" data-toggle="tooltip" title="<%= row.height %>x<%= row.width %>x<%= row.depth %> <%= row.measure %>" href="/opera-darte/<%= row.rid %>/<%= row.slug %>">
-                <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                <img src="/uploads/<%= row.picture %>" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
             </a>
 
             <div class="media-body">
@@ -113,7 +119,6 @@
     <% }); %>
 </div>
 <% } %>
-
 <% if(pictures.length > 0){ %>
 
 <div class="row">
@@ -135,7 +140,16 @@
 </div>
 
 <div class="row">
-    <% pictures.forEach( function (row){ %>
+    <% pictures.forEach( function (row, i){ %>
+    <% if (i == 3) { %>
+    <div class="col-xs-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include adsbygoogle-300-250.ejs %>
+            </div>
+        </div>
+    </div>
+    <% } %>
     <div class="col-xs-4">
         <div class="thumbnail">
             <a href="/opera-darte/<%= row.rid %>/<%= row.slug %>">
@@ -146,7 +160,7 @@
                 <h3 data-toggle="tooltip" class="js-tooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 25) %></h3>
                 <ul class="list-unstyled">
                     <li><%= row.technique.fullname %></li>
-                    <li><%= row.height %>x<%= row.width %>x<%= row.depth %> cm</li>
+                    <li><%= row.height %>x<%= row.width %>x<%= row.depth %> <%= row.measure %></li>
                 </ul>
                 <hr/>
                 <ul class="list-inline">

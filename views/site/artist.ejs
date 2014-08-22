@@ -47,7 +47,9 @@
                 <% } %>
             </div>
             <div class="tab-pane" id="news">
-                <%- include ../blog/row-articles.ejs %>
+                <div class="articles">
+                    <%- include ../blog/row-articles.ejs %>
+                </div>
             </div>
         </div>
     </div>
@@ -84,9 +86,9 @@
                 <div class="media">
                     <a class="pull-left" href="/artista/<%= row.rid %>/<%= row.slug %>">
                         <% if (row.photo) { %>
-                        <img src="/uploads/<%= row.photo.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <img src="/uploads/<%= row.photo.picture %>" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
                         <% } else { %>
-                        <img src="/images/no-image.png" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <img src="/images/no-image.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
                         <% } %>
                     </a>
 
@@ -131,19 +133,24 @@
         </div>
     </div>
     <div class="col-xs-8">
-        <div class="table-responsive">
-            <table class="table" id="js-gallery">
-                <thead>
-                <tr>
-                    <th>Foto</th>
-                    <th>Titolo</th>
-                    <th>Tecnica</th>
-                    <th>Prezzo</th>
-                    <th>Dimensione</th>
-                    <th>Dettaglio</th>
-                </tr>
-                </thead>
-            </table>
+        <div class="row">
+            <% photos.forEach( function (row){ %>
+            <div class="col-xs-6">
+                <div class="media">
+                    <a class="pull-left js-tooltip" data-toggle="tooltip" title="<%= helper.number_format(row.price, 2, '.', ',') %> €" href="/opera-darte/<%= row.rid %>/<%= row.slug %>">
+                        <img src="/uploads/<%= row.picture %>" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading"><%= row.fullname %></h4>
+                        <ul class="list-unstyled">
+                            <li><%= row.technique.fullname %></li>
+                            <li><%= row.height %>x<%= row.width %>x<%= row.depth %> <%= row.measure %></li>
+                        </ul>
+                    </div>
+                </div>
+                <br/>
+            </div>
+            <% }); %>
         </div>
     </div>
 </div>

@@ -1,0 +1,48 @@
+<% title = 'Modifica Articolo' %>
+<%- layout('../site/layout') %>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h1>Modifica Articolo</h1>
+        <p>Modifica quì le tue news, gli eventi, le mostre personali, e gli avvenimenti artistici che ritieni opportuno segnalarci.</p>
+        <p>&nbsp;</p>
+
+        <div id="result"></div>
+        <form id="js-articles-edit-form" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Titolo</label>
+                <input type="text" class="form-control" name="fullname" id="fullname" value="<%= article.fullname %>" required="">
+            </div>
+            <div class="form-group">
+                <label>Sotto Titolo</label>
+                <input type="text" class="form-control" name="subtitle" id="subtitle" value="<%= article.subtitle %>" required="">
+            </div>
+            <div class="form-group">
+                <label>Descrizione</label>
+                <textarea class="form-control" name="description" id="description" rows="10"><%= article.description %></textarea>
+            </div>
+            <div class="form-group">
+                <label>Immagine</label>
+                <input type="file" name="picture" id="picture" accept="image/*">
+                <p class="help-block">(Dimensioni minime: 640x480 px; Peso MAX consentito: 2 MB)</p>
+                <p class="help-block"><a href="/uploads/<%= article.picture %>" class="js-fancybox" rel="picture"><%= article.picture %></a></p>
+            </div>
+            <div class="form-group">
+                <label>Tags (separare le parole con una virgola e uno spazio)</label>
+                <input type="text" class="form-control" name="tags" id="tags" value="<%= article.tags %>" data-role="tagsinput" required="">
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="active" id="active" <% if (article.active == 1) { %>checked <% } %>value="1"> Mostra sul sito</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="home" id="home" <% if (article.home == 1) { %>checked <% } %>value="1"> Mostra in Homepage</label>
+            </div>
+            <input type="hidden" name="id" id="id" value="<%= article._id %>">
+            <input type="hidden" name="slug" id="slug" value="<%= article.slug %>">
+            <input type="submit" class="btn btn-default" value="Salva">
+        </form>
+    </div>
+    <div class="col-xs-4">
+        <%- include sidebar.ejs %>
+    </div>
+</div>

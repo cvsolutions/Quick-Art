@@ -3,15 +3,19 @@
 <div class="media">
     <a class="pull-left" href="/blog/<%= row.rid %>/<%= row.slug %>">
         <% if (row.picture) { %>
-        <img src="/uploads/<%= row.picture %>" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+        <img src="/uploads/<%= row.picture %>" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
         <% } else { %>
-        <img src="/images/no-image.png" class="img-responsive media-object js-rc-64" alt="<%= row.fullname %>"/>
+        <img src="/images/no-image.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
         <% } %>
     </a>
 
     <div class="media-body">
         <h4 class="media-heading"><%= row.fullname %></h4>
-        <p><%= row.subtitle %></p>
+        <ul class="list-unstyled">
+            <li><i><%= helper.date.format('l, d M Y', row.registered) %></i></li>
+            <li><%= row.subtitle %></li>
+            <li class="pull-right"><a href="/blog/<%= row.rid %>/<%= row.slug %>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span> dettagli</a></li>
+        </ul>
     </div>
 </div>
 <hr/>
