@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Nome & Cognome</label>
+                        <label><span class="text-danger">*</span> Nome & Cognome</label>
                         <input type="text" class="form-control" name="fullname" id="fullname" value="<%= artist.fullname %>" required="">
                     </div>
                 </div>
@@ -26,21 +26,21 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Indirizzo E-mail</label>
+                        <label><span class="text-danger">*</span> Indirizzo E-mail</label>
                         <input type="email" class="form-control" name="usermail" id="usermail" value="<%= artist.usermail %>" required="">
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" class="form-control" name="pwd" id="pwd" value="<%= artist.pwd %>" required="">
+                        <p><a href="/extranet/edit-password">Clicca quì per modificare la Password</a></p>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Categoria</label>
+                        <label><span class="text-danger">*</span> Categoria</label>
                         <select class="form-control" name="category" id="category" data-selected="<%= artist.category %>" required="">
                             <option value="">-</option>
                             <% categories.forEach( function (row){ %>
@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Regione</label>
+                        <label><span class="text-danger">*</span> Regione</label>
                         <select class="form-control" name="region" id="region" data-selected="<%= artist.region %>" required="">
                             <option value="">-</option>
                             <% regions.forEach( function (row){ %>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Provincia</label>
+                        <label><span class="text-danger">*</span> Provincia</label>
                         <select class="form-control" name="province" id="province" data-selected="<%= artist.province %>" required="">
                             <option value="">-</option>
                             <% provinces.forEach( function (row){ %>

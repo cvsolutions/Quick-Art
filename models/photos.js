@@ -40,6 +40,7 @@ var Photos = Schema({
             unique: true
         }
     },
+    metadata: Object,
     height: {
         type: Number,
         trim: true,
@@ -86,8 +87,8 @@ var Photos = Schema({
     cover: Number,
     available: Number,
     frame: Number,
-    views: Number,
-    registered: Date
+    registered: Date,
+    modification: Date
 }, {
     collection: 'photos'
 });

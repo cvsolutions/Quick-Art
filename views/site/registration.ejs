@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Nome & Cognome</label>
+                        <label><span class="text-danger">*</span> Nome & Cognome</label>
                         <input type="text" class="form-control" name="fullname" id="fullname" value="" required="">
                     </div>
                 </div>
@@ -26,13 +26,13 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Indirizzo E-mail</label>
+                        <label><span class="text-danger">*</span> Indirizzo E-mail</label>
                         <input type="email" class="form-control" name="usermail" id="usermail" value="" required="">
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Password</label>
+                        <label><span class="text-danger">*</span> Password</label>
                         <input type="password" class="form-control" name="pwd" id="pwd" value="" required="">
                     </div>
                 </div>
@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Categoria</label>
+                        <label><span class="text-danger">*</span> Categoria</label>
                         <select class="form-control" name="category" id="category" required="">
                             <option value="">-</option>
                             <% categories.forEach( function (row){ %>
@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Regione</label>
+                        <label><span class="text-danger">*</span> Regione</label>
                         <select class="form-control" name="region" id="region" required="">
                             <option value="">-</option>
                             <% regions.forEach( function (row){ %>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Provincia</label>
+                        <label><span class="text-danger">*</span> Provincia</label>
                         <select class="form-control" name="province" id="province" required="">
                             <option value="">-</option>
                             <% provinces.forEach( function (row){ %>
@@ -107,10 +107,10 @@
             </div>
 
             <div class="checkbox">
-                <label><input type="checkbox" name="accept" id="accept" value="1" checked required=""> Accetto il regolamento</label>
+                <label><input type="checkbox" name="accept" id="accept" value="1" checked required=""> <span class="text-danger">*</span> Accetto il regolamento</label>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox" name="privacy" id="privacy" value="1" checked required=""> Ho preso visione dell’informativa al trattamento dei dati</label>
+                <label><input type="checkbox" name="privacy" id="privacy" value="1" checked required=""> <span class="text-danger">*</span> Ho preso visione dell’informativa al trattamento dei dati</label>
             </div>
             <input type="hidden" name="slug" id="slug" value="">
             <input type="submit" class="btn btn-default" value="Registrati">

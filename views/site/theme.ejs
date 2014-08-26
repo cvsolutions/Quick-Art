@@ -12,7 +12,7 @@
     <div class="col-xs-4">
         <div class="list-group">
             <% themes.forEach( function (row){ %>
-            <a href="/theme/<%= row.slug %>" class="list-group-item <% if(row.slug == theme.slug){ %>active<% } %>"><%= row.fullname %></a>
+            <a href="/tema/<%= row.slug %>" class="list-group-item <% if(row.slug == theme.slug){ %>active<% } %>"><%= row.fullname %></a>
             <% }); %>
         </div>
         <div class="panel panel-default">

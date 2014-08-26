@@ -45,6 +45,12 @@ $(document).ready(function () {
     var measure = $('#measure').data('selected');
 
     /**
+     * Tags
+     * @type {string}
+     */
+    var alerTags = 'Il campo Tags non può essere vuoto!';
+
+    /**
      * selected option
      */
     $("#category option[value='" + category + "']").attr('selected', 'selected');
@@ -218,10 +224,58 @@ $(document).ready(function () {
     });
 
     /**
+     * Modifica Password
+     */
+    $('#js-edit-password-form').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                url: '/extranet/edit-password',
+                type: 'POST',
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                cache: false,
+                beforeSend: function () {
+                    $.isLoading({
+                        text: 'Loading',
+                        position: 'overlay'
+                    });
+                },
+                statusCode: {
+                    200: function (response) {
+                        $.isLoading('hide');
+                        var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
+                        $('html,body').animate({
+                            scrollTop: $('.container').offset().top
+                        }, 1000);
+                        $('#result').hide().html(output).slideDown();
+                        setTimeout(function () {
+                            window.location.href = '/extranet/dashboard';
+                        }, 2000);
+                    },
+                    500: function (response) {
+                        $.isLoading('hide');
+                        alert(response.responseJSON.err);
+                        $('.form-control').val('');
+                    }
+                }
+            });
+            return true;
+        }
+    });
+
+    /**
      * Aggiungi Foto
      */
     $('#js-gallery-add-form').validate({
         submitHandler: function (form) {
+            var tags = $('#tags').val();
+            if (tags == '') {
+                alert(alerTags);
+                $("#tags").focus();
+                return false;
+            }
             $.ajax({
                 url: '/extranet/gallery/add',
                 type: 'POST',
@@ -261,6 +315,12 @@ $(document).ready(function () {
      */
     $('#js-gallery-edit-form').validate({
         submitHandler: function (form) {
+            var tags = $('#tags').val();
+            if (tags == '') {
+                alert(alerTags);
+                $("#tags").focus();
+                return false;
+            }
             $.ajax({
                 url: '/extranet/gallery/edit/' + $('#id').val(),
                 type: 'POST',
@@ -679,6 +739,12 @@ $(document).ready(function () {
      */
     $('#js-articles-add-form').validate({
         submitHandler: function (form) {
+            var tags = $('#tags').val();
+            if (tags == '') {
+                alert(alerTags);
+                $("#tags").focus();
+                return false;
+            }
             $.ajax({
                 url: '/extranet/news/add',
                 type: 'POST',
@@ -718,6 +784,12 @@ $(document).ready(function () {
      */
     $('#js-articles-edit-form').validate({
         submitHandler: function (form) {
+            var tags = $('#tags').val();
+            if (tags == '') {
+                alert(alerTags);
+                $("#tags").focus();
+                return false;
+            }
             $.ajax({
                 url: '/extranet/news/edit/' + $('#id').val(),
                 type: 'POST',

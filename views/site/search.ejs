@@ -30,7 +30,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Categoria</label>
+                    <label>Tema</label>
                     <select class="form-control" data-selected="<%- query.theme %>" name="theme[]" id="theme">
                         <option value="">-</option>
                         <% themes.forEach( function (row){ %>
@@ -100,7 +100,7 @@
 
                     <hr/>
                     <div class="form-group">
-                        <label>Categoria</label>
+                        <label>Tema</label>
                         <div id="js-refine-themes" class="js-filter-list"></div>
                     </div>
 
@@ -112,7 +112,7 @@
 
                     <hr/>
                     <ul class="list-inline">
-                        <li><a href="/search?q=&technique[]=&theme[]=&price=&year[]=">Cancella ricerca</a></li>
+                        <li><a href="/search?technique[]=&theme[]=&year[]=">Cancella ricerca</a></li>
                         <li class="pull-right"><a class="btn btn-default" onclick="document.search.submit()">Raffina</a></li>
                     </ul>
                 </div>

@@ -1,18 +1,16 @@
-<% title = 'Art Directory | Scambio Links | Awards | Artisti' %>
+<% title = 'Art Directory | ' + category.fullname %>
 <%- layout('layout') %>
 
 <div class="row">
     <div class="col-xs-8">
-        <h1>Art Directory Scambio Links</h1>
-        <p>Se vuoi scambiare un link con il nostro Portale, inserisci un link reciproco usando le seguenti informazioni e riempi il form sottostante.</p>
-        <p>Appena il tuo link sarà verificato, verrai aggiunto all’elenco nei successivi 7-10 giorni.</p>
-        <p>* I siti non riguardanti l’Arte non saranno inclusi.</p>
+        <h1><%= category.fullname %></h1>
+        <p>...</p>
         <p>&nbsp;</p>
     </div>
     <div class="col-xs-4">
         <div class="list-group">
             <% categories.forEach( function (row){ %>
-            <a href="/directory/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <a href="/directory/<%= row.slug %>" class="list-group-item <% if(row.slug == category.slug){ %>active<% } %>">Categoria <%= row.fullname %></a>
             <% }); %>
         </div>
         <div class="panel panel-default">

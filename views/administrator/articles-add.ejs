@@ -9,13 +9,13 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Titolo</label>
+                        <label><span class="text-danger">*</span> Titolo</label>
                         <input type="text" class="form-control" name="fullname" id="fullname" value="" required="">
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Artista</label>
+                        <label><span class="text-danger">*</span> Artista</label>
                         <select class="form-control" name="artist" id="artist" required="">
                             <option value="">-</option>
                             <% artists.forEach( function (row){ %>
@@ -26,20 +26,20 @@
                 </div>
             </div>
             <div class="form-group">
-                <label>Sotto Titolo</label>
+                <label><span class="text-danger">*</span> Sotto Titolo</label>
                 <input type="text" class="form-control" name="subtitle" id="subtitle" value="" required="">
             </div>
             <div class="form-group">
-                <label>Descrizione</label>
+                <label><span class="text-danger">*</span> Descrizione</label>
                 <textarea class="form-control" name="description" id="description" rows="15" required=""></textarea>
             </div>
             <div class="form-group">
-                <label>Immagine</label>
+                <label><span class="text-danger">*</span> Immagine</label>
                 <input type="file" name="picture" id="picture" accept="image/*" required="">
             </div>
             <div class="row">
                 <div class="col-xs-6">
-                    <label>Categoria</label>
+                    <label><span class="text-danger">*</span> Categoria</label>
                     <select class="form-control" name="content" id="content" required="">
                         <option value="">-</option>
                         <% contents.forEach( function (row){ %>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Tags (separare le parole con una virgola e uno spazio)</label>
+                        <label><span class="text-danger">*</span> Tags (separare le parole con una virgola e uno spazio)</label>
                         <input type="text" class="form-control" name="tags" id="tags" value="" data-role="tagsinput" required="">
                     </div>
                 </div>

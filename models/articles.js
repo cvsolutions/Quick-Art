@@ -55,8 +55,8 @@ var Articles = Schema({
     year: Number,
     active: Number,
     home: Number,
-    views: Number,
-    registered: Date
+    registered: Date,
+    modification: Date
 }, {
     collection: 'articles'
 });

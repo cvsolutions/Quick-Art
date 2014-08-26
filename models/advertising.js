@@ -2,6 +2,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Advertising = Schema({
+    rid: {
+        type: Number,
+        trim: true,
+        required: true,
+        index: {
+            unique: true
+        }
+    },
     fullname: {
         type: String,
         trim: true,
@@ -41,6 +49,8 @@ var Advertising = Schema({
         required: true
     },
     views: Number,
+    active: Number,
+    ip: String,
     registered: Date
 }, {
     collection: 'advertising'

@@ -18,6 +18,8 @@
         "native-view-helpers": "0.x",
         "html-truncate": "1.x",
         "gravatar": "1.x",
+        "sha1": "1.x",
+        "exif": "0.x",
         "multer": "0.x"
     }
 }

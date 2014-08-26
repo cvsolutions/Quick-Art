@@ -6,6 +6,7 @@ var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
+var sha1 = require('sha1');
 
 /**
  * Models
@@ -22,6 +23,7 @@ require('./models/techniques');
 require('./models/photos');
 require('./models/definitions');
 require('./models/advertising');
+require('./models/directories');
 
 /**
  * Connect Mongo DB
@@ -61,10 +63,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
 app.use(multer({
-    dest: './public/uploads/',
-    rename: function (fieldname, filename) {
-        return Date.now() + '_' + filename.replace(/\W+/g, '-').toLowerCase()
-    }
+    dest: './public/uploads/'
 }));
 
 app.use(bodyParser.urlencoded({
@@ -111,7 +110,7 @@ passport.use('administrator-local', new LocalStrategy({
     function (req, email, password, done) {
         Administrators.findOne({
             username: email,
-            password: password
+            password: sha1(password)
         }, function (err, user) {
             if (err) return done(err);
             if (!user) return done(null, false);
@@ -127,7 +126,7 @@ passport.use('extranet-local', new LocalStrategy({
     function (req, email, password, done) {
         Artists.findOne({
             usermail: email,
-            pwd: password,
+            pwd: sha1(password),
             active: 1
         }, function (err, user) {
             if (err) return done(err);

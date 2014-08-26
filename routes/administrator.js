@@ -119,7 +119,6 @@ router.route('/artists/edit/:id')
             artist.slug = req.body.slug;
             artist.phone = req.body.phone;
             artist.usermail = req.body.usermail;
-            artist.pwd = req.body.pwd;
             artist.category = mongoose.Types.ObjectId(req.body.category);
             artist.web = req.body.web;
             artist.region = mongoose.Types.ObjectId(req.body.region);
@@ -181,9 +180,7 @@ router.route('/articles/add')
             artist: mongoose.Types.ObjectId(req.body.artist),
             tags: req.body.tags.toLocaleLowerCase().split(','),
             year: today.getFullYear(),
-            active: 1,
             home: home,
-            views: 1,
             registered: Date.now()
         }).save(function (err) {
             if (!err) {

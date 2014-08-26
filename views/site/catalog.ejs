@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-xs-2">
                         <div class="form-group">
-                            <label>Categoria</label>
+                            <label>Tema</label>
                             <select class="form-control" name="theme[]" id="theme">
                                 <option value="">-</option>
                                 <% themes.forEach( function (row){ %>
@@ -74,7 +74,7 @@
         <p><%- include loadtime.ejs %></p>
     </div>
     <div class="col-xs-6">
-        <p class="pull-right"><a href="/search?q=&technique[]=&theme[]=&price=&year[]=">Ricerca Avanzata</a></p>
+        <p class="pull-right"><a href="/search?technique[]=&theme[]=&year[]=">Ricerca Avanzata</a></p>
     </div>
 </div>
 

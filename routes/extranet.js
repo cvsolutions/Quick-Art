@@ -11,10 +11,22 @@ var mongoose = require('mongoose');
 var fs = require('fs');
 
 /**
+ * sha1
+ * @type {api|exports}
+ */
+var sha1 = require('sha1');
+
+/**
  * passport
  * @type {exports}
  */
 var passport = require('passport');
+
+/**
+ * exif
+ * @type {exports.ExifImage|*}
+ */
+var ExifImage = require('exif').ExifImage;
 
 /**
  * express
@@ -124,7 +136,6 @@ router.route('/profile')
             artist.slug = req.body.slug;
             artist.phone = req.body.phone;
             artist.usermail = req.body.usermail;
-            artist.pwd = req.body.pwd;
             artist.category = mongoose.Types.ObjectId(req.body.category);
             artist.web = req.body.web;
             artist.region = mongoose.Types.ObjectId(req.body.region);
@@ -132,6 +143,35 @@ router.route('/profile')
             artist.biography = req.body.biography;
             artist.reviews = req.body.reviews;
             artist.exhibitions = req.body.exhibitions;
+            artist.modification = Date.now();
+            artist.save(function (err) {
+                if (!err) {
+                    res.status(200).send({
+                        text: 'Operazione eseguita con successo!'
+                    });
+                } else {
+                    res.status(500).send(err);
+                }
+            });
+        });
+    });
+
+/**
+ * Modifica Password
+ */
+router.route('/edit-password')
+    .get(isLoggedIn, function (req, res, next) {
+        Artists.findById(req.session.passport.user).exec(function (err, artist) {
+            if (err) return next(err);
+            res.render('extranet/edit-password', {
+                artist: artist
+            });
+        });
+    })
+    .post(isLoggedIn, function (req, res) {
+        Artists.findById(req.body.id, function (err, artist) {
+            artist.pwd = sha1(req.body.pwd);
+            artist.modification = Date.now();
             artist.save(function (err) {
                 if (!err) {
                     res.status(200).send({
@@ -185,46 +225,54 @@ router.route('/gallery/add')
             });
         });
     })
-    .post(isLoggedIn, function (req, res) {
+    .post(isLoggedIn, function (req, res, next) {
+
         var cover = req.body.cover == 1 ? 1 : 0;
         var available = req.body.available == 1 ? 1 : 0;
         var frame = req.body.frame == 1 ? 1 : 0;
-        Photos({
-            rid: Math.floor(Math.random() * 99999),
-            fullname: req.body.fullname,
-            slug: req.body.slug,
-            technique: mongoose.Types.ObjectId(req.body.technique),
-            theme: mongoose.Types.ObjectId(req.body.theme),
-            description: req.body.description,
-            picture: req.files.picture.name,
-            height: req.body.height,
-            width: req.body.width,
-            depth: req.body.depth,
-            measure: req.body.measure,
-            code: req.body.code,
-            price: req.body.price,
-            year: req.body.year,
-            artist: mongoose.Types.ObjectId(req.session.passport.user),
-            tags: req.body.tags.toLocaleLowerCase().split(','),
-            cover: cover,
-            available: available,
-            frame: frame,
-            views: 1,
-            registered: Date.now()
-        }).save(function (err, image) {
-            if (!err) {
-                if (cover == 1) {
-                    Artists.findById(req.session.passport.user).exec(function (err, artist) {
-                        artist.photo = mongoose.Types.ObjectId(image._id);
-                        artist.save();
+
+        new ExifImage({
+            image: req.files.picture.path
+        }, function (error, exifData) {
+            if (error) return next(error.message);
+            Photos({
+                rid: Math.floor(Math.random() * 99999),
+                fullname: req.body.fullname,
+                slug: req.body.slug,
+                technique: mongoose.Types.ObjectId(req.body.technique),
+                theme: mongoose.Types.ObjectId(req.body.theme),
+                description: req.body.description,
+                picture: req.files.picture.name,
+                metadata: exifData,
+                height: req.body.height,
+                width: req.body.width,
+                depth: req.body.depth,
+                measure: req.body.measure,
+                code: req.body.code,
+                price: req.body.price,
+                year: req.body.year,
+                artist: mongoose.Types.ObjectId(req.session.passport.user),
+                tags: req.body.tags.toLocaleLowerCase().split(','),
+                cover: cover,
+                available: available,
+                frame: frame,
+                registered: Date.now(),
+                modification: Date.now()
+            }).save(function (err, image) {
+                if (!err) {
+                    if (cover == 1) {
+                        Artists.findById(req.session.passport.user).exec(function (err, artist) {
+                            artist.photo = mongoose.Types.ObjectId(image._id);
+                            artist.save();
+                        });
+                    }
+                    res.status(200).send({
+                        text: 'Operazione eseguita con successo!'
                     });
+                } else {
+                    res.status(500).send(err);
                 }
-                res.status(200).send({
-                    text: 'Operazione eseguita con successo!'
-                });
-            } else {
-                res.status(500).send(err);
-            }
+            });
         });
     });
 
@@ -258,7 +306,7 @@ router.route('/gallery/edit/:id')
             });
         });
     })
-    .post(isLoggedIn, function (req, res) {
+    .post(isLoggedIn, function (req, res, next) {
 
         var ID = req.body.id;
         var cover = req.body.cover == 1 ? 1 : 0;
@@ -267,47 +315,56 @@ router.route('/gallery/edit/:id')
 
         Photos.findById(ID, function (err, photo) {
 
+            var target_path = './public/uploads/' + photo.picture;
             var picture = photo.picture;
+            var image = target_path;
 
             if (req.files.picture) {
                 picture = req.files.picture.name;
-                var target_path = './public/uploads/' + photo.picture;
+                image = req.files.picture.path;
                 fs.unlink(target_path, function (err) {
                     if (err) return console.error(err);
                 });
             }
 
-            photo.fullname = req.body.fullname;
-            photo.slug = req.body.slug;
-            photo.technique = mongoose.Types.ObjectId(req.body.technique);
-            photo.theme = mongoose.Types.ObjectId(req.body.theme);
-            photo.description = req.body.description;
-            photo.picture = picture;
-            photo.height = req.body.height;
-            photo.width = req.body.width;
-            photo.depth = req.body.depth;
-            photo.measure = req.body.measure;
-            photo.code = req.body.code;
-            photo.price = req.body.price;
-            photo.year = req.body.year;
-            photo.tags = req.body.tags.toLocaleLowerCase().split(',');
-            photo.cover = cover;
-            photo.available = available;
-            photo.frame = frame;
-            photo.save(function (err, image) {
-                if (!err) {
-                    Artists.findById(image.artist).exec(function (err, artist) {
-                        if (cover == 1) {
-                            artist.photo = mongoose.Types.ObjectId(image._id);
-                            artist.save();
-                        }
-                    });
-                    res.status(200).send({
-                        text: 'Operazione eseguita con successo!'
-                    });
-                } else {
-                    res.status(500).send(err);
-                }
+            new ExifImage({
+                image: image
+            }, function (error, exifData) {
+                if (error) return next(error.message);
+                photo.fullname = req.body.fullname;
+                photo.slug = req.body.slug;
+                photo.technique = mongoose.Types.ObjectId(req.body.technique);
+                photo.theme = mongoose.Types.ObjectId(req.body.theme);
+                photo.description = req.body.description;
+                photo.picture = picture;
+                photo.metadata = exifData;
+                photo.height = req.body.height;
+                photo.width = req.body.width;
+                photo.depth = req.body.depth;
+                photo.measure = req.body.measure;
+                photo.code = req.body.code;
+                photo.price = req.body.price;
+                photo.year = req.body.year;
+                photo.tags = req.body.tags.toLocaleLowerCase().split(',');
+                photo.cover = cover;
+                photo.available = available;
+                photo.frame = frame;
+                photo.modification = Date.now();
+                photo.save(function (err, image) {
+                    if (!err) {
+                        Artists.findById(image.artist).exec(function (err, artist) {
+                            if (cover == 1) {
+                                artist.photo = mongoose.Types.ObjectId(image._id);
+                                artist.save();
+                            }
+                        });
+                        res.status(200).send({
+                            text: 'Operazione eseguita con successo!'
+                        });
+                    } else {
+                        res.status(500).send(err);
+                    }
+                });
             });
         });
     });
@@ -358,8 +415,8 @@ router.route('/news/add')
             year: today.getFullYear(),
             active: 1,
             home: 1,
-            views: 1,
-            registered: Date.now()
+            registered: Date.now(),
+            modification: Date.now()
         }).save(function (err) {
             if (!err) {
                 res.status(200).send({
@@ -411,6 +468,8 @@ router.route('/news/edit/:id')
             article.tags = req.body.tags.toLocaleLowerCase().split(',');
             article.active = active;
             article.home = home;
+            article.modification = Date.now();
+
             article.save(function (err) {
                 if (!err) {
                     res.status(200).send({

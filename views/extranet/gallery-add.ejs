@@ -10,13 +10,13 @@
         <div id="result"></div>
         <form id="js-gallery-add-form" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label>Titolo</label>
+                <label><span class="text-danger">*</span> Titolo</label>
                 <input type="text" class="form-control" name="fullname" id="fullname" value="" required="">
             </div>
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Tecnica</label>
+                        <label><span class="text-danger">*</span> Tecnica</label>
                         <select class="form-control" name="technique" id="technique" required="">
                             <option value="">-</option>
                             <% techniques.forEach( function (row){ %>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Categoria Tematica</label>
+                        <label><span class="text-danger">*</span> Tema</label>
                         <select class="form-control" name="theme" id="theme" required="">
                             <option value="">-</option>
                             <% themes.forEach( function (row){ %>
@@ -42,14 +42,14 @@
                 <textarea class="form-control" name="description" id="description" rows="5"></textarea>
             </div>
             <div class="form-group">
-                <label>Immagine</label>
+                <label><span class="text-danger">*</span> Immagine</label>
                 <input type="file" name="picture" id="picture" accept="image/*" required="">
                 <p class="help-block">(Dimensioni minime: 640x480 px; Peso MAX consentito: 2 MB)</p>
             </div>
             <div class="row">
                 <div class="col-xs-8">
                     <div class="form-group">
-                        <label>Dimensione (H×L×P)</label>
+                        <label><span class="text-danger">*</span> Dimensione (H×L×P)</label>
 
                         <div class="row">
                             <div class="col-xs-3"><input type="number" class="form-control" name="height" id="height" value="" required=""></div>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="col-xs-4">
-                    <label>Prezzo Netto</label>
+                    <label><span class="text-danger">*</span> Prezzo Netto</label>
 
                     <div class="input-group">
                         <input type="text" class="form-control" name="price" id="price" value="" required="">
@@ -84,13 +84,13 @@
                 </div>
                 <div class="col-xs-4">
                     <div class="form-group">
-                        <label>Anno</label>
+                        <label><span class="text-danger">*</span> Anno</label>
                         <input type="text" class="form-control" name="year" id="year" value="" required="">
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label>Tags (separare le parole con una virgola e uno spazio)</label>
+                <label><span class="text-danger">*</span> Tags (separare le parole con una virgola e uno spazio)</label>
                 <input type="text" class="form-control" name="tags" id="tags" value="" data-role="tagsinput" required="">
             </div>
             <div class="checkbox">

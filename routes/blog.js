@@ -30,7 +30,7 @@ router.get('/', function (req, res, next) {
         Articles.find({
             active: 1,
         }).populate('content').sort({
-            views: 'desc'
+            registered: 'desc'
         }).limit(6).exec(function (err, articles) {
             if (err) return next(err);
             Articles.find({
@@ -120,23 +120,19 @@ router.get('/:rid/:slug', function (req, res, next) {
     }).populate('content').populate('artist').exec(function (err, article) {
         if (err) return next(err);
         if (article) {
-            article.views = (article.views + 1);
-            article.save(function (err) {
+            Articles.find({
+                active: 1,
+                _id: {
+                    '$ne': article._id
+                },
+                tags: {
+                    '$in': article.tags
+                }
+            }).exec(function (err, related) {
                 if (err) return next(err);
-                Articles.find({
-                    active: 1,
-                    _id: {
-                        '$ne': article._id
-                    },
-                    tags: {
-                        '$in': article.tags
-                    }
-                }).exec(function (err, related) {
-                    if (err) return next(err);
-                    res.render('blog/article', {
-                        article: article,
-                        related: related
-                    });
+                res.render('blog/article', {
+                    article: article,
+                    related: related
                 });
             });
         } else {

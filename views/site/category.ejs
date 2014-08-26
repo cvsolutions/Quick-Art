@@ -41,7 +41,7 @@
 
         <div class="list-group">
             <% categories.forEach( function (row){ %>
-            <a href="/categoria/<%= row.slug %>" class="list-group-item <% if(row.slug == category.slug){ %>active<% } %>"><%= row.fullname %></a>
+            <a href="/categoria/<%= row.slug %>" class="list-group-item <% if(row.slug == category.slug){ %>active<% } %>">Categoria <%= row.fullname %></a>
             <% }); %>
         </div>
         <div class="panel panel-default">
@@ -51,7 +51,7 @@
         </div>
         <div class="list-group">
             <% themes.forEach( function (row){ %>
-            <a href="/theme/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
+            <a href="/tema/<%= row.slug %>" class="list-group-item"><%= row.fullname %></a>
             <% }); %>
         </div>
     </div>

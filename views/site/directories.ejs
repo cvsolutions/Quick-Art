@@ -1,0 +1,55 @@
+<% title = 'Art Directory | Scambio Links | Awards | Artisti' %>
+<%- layout('layout') %>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h1>Art Directory Scambio Links</h1>
+        <p>Se vuoi scambiare un link con il nostro Portale, inserisci un link reciproco usando le seguenti informazioni e riempi il form sottostante. Appena il tuo link sarà verificato, verrai aggiunto all’elenco nei successivi 7-10 giorni.</p>
+        <p>&nbsp;</p>
+
+        <div id="result"></div>
+        <form id="js-directory-form" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label><span class="text-danger">*</span> Titolo</label>
+                        <input type="text" class="form-control" name="fullname" id="fullname" value="" required="">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label><span class="text-danger">*</span> Categoria</label>
+                        <select class="form-control" name="category" id="category" required="">
+                            <option value="">-</option>
+                            <% categories.forEach( function (row){ %>
+                            <option value="<%= row._id %>"><%= row.fullname %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label><span class="text-danger">*</span> description</label>
+                <textarea class="form-control" name="description" id="description" rows="10" required=""></textarea>
+            </div>
+            <div class="form-group">
+                <label><span class="text-danger">*</span> web</label>
+                <input type="url" class="form-control" name="web" id="web" value="" required="">
+            </div>
+            <p>* I siti non riguardanti l’Arte non saranno inclusi.</p>
+            <input type="submit" class="btn btn-default" value="Invia Richiesta">
+        </form>
+    </div>
+    <div class="col-xs-4">
+        <div class="list-group">
+            <% categories.forEach( function (row){ %>
+            <a href="/directory/<%= row.slug %>" class="list-group-item">Categoria <%= row.fullname %></a>
+            <% }); %>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%- include adsbygoogle-300-250.ejs %>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,12 @@
 var mongoose = require('mongoose');
 
 /**
+ * sha1
+ * @type {api|exports}
+ */
+var sha1 = require('sha1');
+
+/**
  * model
  */
 var Regions = mongoose.model('regions');
@@ -16,6 +22,7 @@ var Techniques = mongoose.model('techniques');
 var Themes = mongoose.model('themes');
 var Definitions = mongoose.model('definitions');
 var Articles = mongoose.model('articles');
+var Directories = mongoose.model('directories');
 
 /**
  * express
@@ -200,7 +207,7 @@ router.route('/registrazione')
             slug: req.body.slug,
             phone: req.body.phone,
             usermail: req.body.usermail,
-            pwd: req.body.pwd,
+            pwd: sha1(req.body.pwd),
             category: mongoose.Types.ObjectId(req.body.category),
             web: req.body.web,
             region: mongoose.Types.ObjectId(req.body.region),
@@ -210,7 +217,9 @@ router.route('/registrazione')
             exhibitions: req.body.exhibitions,
             level: 1,
             active: 1,
-            registered: Date.now()
+            ip: req.connection.remoteAddress,
+            registered: Date.now(),
+            modification: Date.now()
         }).save(function (err, user) {
             if (!err) {
                 res.status(200).send({
@@ -389,32 +398,28 @@ router.get('/opera-darte/:rid/:slug', function (req, res, next) {
     }).populate('technique').populate('theme').populate('artist').exec(function (err, photo) {
         if (err) return next(err);
         if (photo) {
-            photo.views = (photo.views + 1);
-            photo.save(function (err) {
+            Photos.find({
+                _id: {
+                    '$ne': photo._id
+                },
+                artist: photo.artist._id
+            }).populate('technique').sort({
+                fullname: 'asc'
+            }).exec(function (err, pictures) {
                 if (err) return next(err);
                 Photos.find({
                     _id: {
                         '$ne': photo._id
                     },
-                    artist: photo.artist._id
-                }).populate('technique').sort({
-                    fullname: 'asc'
-                }).exec(function (err, pictures) {
+                    tags: {
+                        '$in': photo.tags
+                    }
+                }).populate('artist').populate('technique').limit(4).exec(function (err, related) {
                     if (err) return next(err);
-                    Photos.find({
-                        _id: {
-                            '$ne': photo._id
-                        },
-                        tags: {
-                            '$in': photo.tags
-                        }
-                    }).populate('artist').populate('technique').limit(4).exec(function (err, related) {
-                        if (err) return next(err);
-                        res.render('site/product', {
-                            photo: photo,
-                            pictures: pictures,
-                            related: related
-                        });
+                    res.render('site/product', {
+                        photo: photo,
+                        pictures: pictures,
+                        related: related
                     });
                 });
             });
@@ -430,17 +435,19 @@ router.get('/opera-darte/:rid/:slug', function (req, res, next) {
 router.get('/search', function (req, res, next) {
     var search = {};
     if (req.query.q) search.fullname = new RegExp(req.query.q, 'i');
-    if (req.query.technique && req.query.technique.length > 0) search.technique = {$in: req.query.technique};
-    if (req.query.theme && req.query.theme.length > 0) search.theme = {$in: req.query.theme};
+    if (req.query.technique[0]) search.technique = {$in: req.query.technique};
+    if (req.query.theme[0]) search.theme = {$in: req.query.theme};
     if (req.query.price) search.price = req.query.price;
-    if (req.query.year && req.query.year.length > 0) search.year = {$in: req.query.year};
+    if (req.query.year[0]) search.year = {$in: req.query.year};
     if (req.query.height) search.height = req.query.height;
     if (req.query.width) search.width = req.query.width;
     if (req.query.depth) search.depth = req.query.depth;
     if (req.query.measure) search.measure = req.query.measure;
     if (req.query.artist) search.artist = req.query.artist;
     if (req.query.tags) search.tags = {$in: req.query.tags.toLocaleLowerCase().split(',')};
+
     // console.log(req.query);
+    // console.log(search);
 
     Techniques.find({}).sort({
         fullname: 'asc'
@@ -476,7 +483,7 @@ router.get('/tags/:tag', function (req, res, next) {
     Photos.find({
         tags: new RegExp(req.param('tag'), 'i')
     }).populate('technique').populate('artist').sort({
-        views: 'desc'
+        registered: 'desc'
     }).exec(function (err, photos) {
         if (err) return next(err);
         if (photos) {
@@ -533,9 +540,9 @@ router.get('/glossario/:letter', function (req, res, next) {
 });
 
 /**
- * Tipologia (Natura Morta)
+ * Tema (Natura Morta)
  */
-router.get('/theme/:slug', function (req, res, next) {
+router.get('/tema/:slug', function (req, res, next) {
     Themes.find({}).sort({
         fullname: 'asc'
     }).exec(function (err, themes) {
@@ -591,20 +598,18 @@ router.get('/tecnica/:slug', function (req, res, next) {
         }).exec(function (err, technique) {
             if (err) return next(err);
             if (technique) {
-                Photos.find(
-                    {
-                        technique: technique._id
-                    }
-                ).populate('artist').populate('technique').populate('theme').sort({
-                        fullname: 'asc'
-                    }).exec(function (err, photos) {
-                        if (err) return next(err);
-                        res.render('site/technique', {
-                            techniques: techniques,
-                            technique: technique,
-                            photos: photos
-                        });
+                Photos.find({
+                    technique: technique._id
+                }).populate('artist').populate('technique').populate('theme').sort({
+                    fullname: 'asc'
+                }).exec(function (err, photos) {
+                    if (err) return next(err);
+                    res.render('site/technique', {
+                        techniques: techniques,
+                        technique: technique,
+                        photos: photos
                     });
+                });
             } else {
                 res.status(404).render('site/404');
             }
@@ -618,10 +623,46 @@ router.get('/tecnica/:slug', function (req, res, next) {
 router.get('/art-directory', function (req, res, next) {
     Categories.find({
         type: 'directory'
+    }).sort({
+        fullname: 'asc'
     }).exec(function (err, categories) {
         if (err) return next(err);
-        res.render('site/directory', {
+        res.render('site/directories', {
             categories: categories
+        });
+    });
+});
+
+/**
+ * Categoria Directory
+ */
+router.get('/directory/:slug', function (req, res, next) {
+    Categories.find({
+        type: 'directory'
+    }).sort({
+        fullname: 'asc'
+    }).exec(function (err, categories) {
+        if (err) return next(err);
+        Categories.findOne({
+            slug: req.param('slug'),
+            type: 'directory'
+        }).exec(function (err, category) {
+            if (err) return next(err);
+            if (category) {
+                Directories.find({
+                    category: category._id,
+                    active: 1
+                }).exec(function (err, directory) {
+                    if (err) return next(err);
+                    res.render('site/directory', {
+                        categories: categories,
+                        category: category,
+                        directory: directory
+                    });
+                });
+            } else {
+                res.status(404).render('site/404');
+            }
         });
     });
 });

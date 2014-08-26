@@ -77,7 +77,9 @@ var Artists = Schema({
     },
     level: Number,
     active: Number,
-    registered: Date
+    ip: String,
+    registered: Date,
+    modification: Date
 }, {
     collection: 'artists'
 });
