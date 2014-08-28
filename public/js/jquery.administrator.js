@@ -270,4 +270,97 @@ $(document).ready(function () {
      */
     $(':file').filestyle();
 
+    /**
+     * Art Directory
+     */
+    $('#js-full-directory').dataTable({
+        "ajax": '/api/directories',
+        "language": {
+            "url": '/js/jquery.dataTables_messages_it.json'
+        },
+        "order": [
+            [3, 'desc']
+        ],
+        "columns": [
+            {
+                'data': 'fullname'
+            },
+            {
+                'data': 'category.fullname'
+            },
+            {
+                'data': 'web'
+            },
+            {
+                'data': 'registered'
+            },
+            {
+                'data': 'active'
+            }
+        ],
+        columnDefs: [
+            {
+                targets: 4,
+                data: 'active',
+                searchable: false,
+                render: function (data) {
+                    return data;
+                }
+            },
+            {
+                targets: 5,
+                data: '_id',
+                searchable: false,
+                render: function (data) {
+                    return '<div class="btn-group">' +
+                        '<a href="/administrator/directory/edit/' + data + '" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span></a>' +
+                        '<a href="#" class="btn btn-default btn-sm" onclick="return confirm(\'Sei sicuro di voler cancellare?\');"><span class="glyphicon glyphicon-trash"></span></a>' +
+                        '</div>';
+                }
+            }
+        ]
+    });
+
+    /**
+     * Modifica Art Directory
+     */
+    $('#js-directory-edit-form').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                url: '/administrator/directory/edit/' + $('#id').val(),
+                type: 'POST',
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                cache: false,
+                beforeSend: function () {
+                    $.isLoading({
+                        text: 'Loading',
+                        position: 'overlay'
+                    });
+                },
+                statusCode: {
+                    200: function (response) {
+                        $.isLoading('hide');
+                        var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
+                        $('html,body').animate({
+                            scrollTop: $('.container').offset().top
+                        }, 1000);
+                        $('#result').hide().html(output).slideDown();
+                        setTimeout(function () {
+                            window.location.href = '/administrator/directory';
+                        }, 2000);
+                    },
+                    500: function (response) {
+                        $.isLoading('hide');
+                        alert(response.responseJSON.err);
+                        $('.form-control').val('');
+                    }
+                }
+            });
+            return true;
+        }
+    });
+
 });

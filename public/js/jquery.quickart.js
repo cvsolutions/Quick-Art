@@ -827,4 +827,50 @@ $(document).ready(function () {
         }
     });
 
+    /**
+     * Art Directory Scambio Links
+     */
+    $('#js-directory-form').validate({
+        rules: {
+            web: {
+                required: true,
+                remote: {
+                    url: '/api/check-web-directory',
+                    type: 'POST'
+                }
+            }
+        },
+        messages: {
+            web: {
+                remote: 'Esiste già questo sito web'
+            }
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                url: '/art-directory',
+                type: 'POST',
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                cache: false,
+                statusCode: {
+                    200: function (response) {
+                        var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
+                        $('html,body').animate({
+                            scrollTop: $('.container').offset().top
+                        }, 1000);
+                        $('#result').hide().html(output).slideDown();
+                    },
+                    500: function (response) {
+                        alert(response.responseJSON.err);
+                        $('.form-control').val('');
+                    }
+                }
+            });
+            return true;
+        }
+    });
+
+
 });

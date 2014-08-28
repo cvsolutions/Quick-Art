@@ -33,6 +33,7 @@ var Artists = mongoose.model('artists');
 var Regions = mongoose.model('regions');
 var Provinces = mongoose.model('provinces');
 var Categories = mongoose.model('categories');
+var Directories = mongoose.model('directories');
 
 /**
  * isLoggedIn
@@ -243,6 +244,54 @@ router.route('/articles/edit/:id')
             article.active = active;
             article.home = home;
             article.save(function (err) {
+                if (!err) {
+                    res.status(200).send({
+                        text: 'Operazione eseguita con successo!'
+                    });
+                } else {
+                    res.status(500).send(err);
+                }
+            });
+        });
+    });
+
+/**
+ * Art Directory
+ */
+router.get('/directory', isLoggedIn, function (req, res) {
+    res.render('administrator/directories');
+});
+
+/**
+ * Modifica Art Directory
+ */
+router.route('/directory/edit/:id')
+    .get(isLoggedIn, function (req, res, next) {
+        Categories.find({
+            type: 'directory'
+        }).sort({
+            fullname: 'asc'
+        }).exec(function (err, categories) {
+            if (err) return next(err);
+            var ID = req.param('id');
+            Directories.findById(ID).exec(function (err, directories) {
+                if (err) return next(err);
+                res.render('administrator/directories-edit', {
+                    categories: categories,
+                    directories: directories
+                });
+            });
+        });
+    })
+    .post(isLoggedIn, function (req, res, next) {
+        Directories.findById(req.body.id).exec(function (err, directory) {
+            var active = req.body.active == 1 ? 1 : 0;
+            directory.fullname = req.body.fullname;
+            directory.description = req.body.description;
+            directory.category = mongoose.Types.ObjectId(req.body.category);
+            directory.web = req.body.web;
+            directory.active = active;
+            directory.save(function (err) {
                 if (!err) {
                     res.status(200).send({
                         text: 'Operazione eseguita con successo!'

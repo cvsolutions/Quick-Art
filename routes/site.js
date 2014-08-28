@@ -11,6 +11,13 @@ var mongoose = require('mongoose');
 var sha1 = require('sha1');
 
 /**
+ * pushover
+ * @type {exports}
+ */
+var push = require('pushover-notifications');
+
+
+/**
  * model
  */
 var Regions = mongoose.model('regions');
@@ -222,9 +229,23 @@ router.route('/registrazione')
             modification: Date.now()
         }).save(function (err, user) {
             if (!err) {
-                res.status(200).send({
-                    status: true,
-                    user: user
+                var p = new push({
+                    user: 'uiDoXqQ7HnHkU1u8hacT6hgcGUQY6Z',
+                    token: 'autbBE9ZWx4WJCHXeEgZ3EEHJciuN4'
+                });
+                p.send({
+                    message: 'Ciao Concetto, ' + req.body.fullname + ' si è appena registrato!',
+                    title: "Registrazione - Quick-Art"
+                }, function (err, result) {
+                    if (err) {
+                        throw err;
+                    }
+                    res.status(200).send({
+                        status: true,
+                        push: result,
+                        user: user
+                    });
+                    console.log(result);
                 });
             } else {
                 res.status(500).send(err);
@@ -620,18 +641,43 @@ router.get('/tecnica/:slug', function (req, res, next) {
 /**
  * Art Directory Scambio link
  */
-router.get('/art-directory', function (req, res, next) {
-    Categories.find({
-        type: 'directory'
-    }).sort({
-        fullname: 'asc'
-    }).exec(function (err, categories) {
-        if (err) return next(err);
-        res.render('site/directories', {
-            categories: categories
+router.route('/art-directory')
+    .get(function (req, res, next) {
+        Categories.find({
+            type: 'directory'
+        }).sort({
+            fullname: 'asc'
+        }).exec(function (err, categories) {
+            if (err) return next(err);
+            Directories.find({
+                active: 1
+            }).populate('category').limit(6).exec(function (err, directories) {
+                if (err) return next(err);
+                res.render('site/directories', {
+                    categories: categories,
+                    directories: directories
+                });
+            });
+        });
+    })
+    .post(function (req, res, next) {
+        Directories({
+            fullname: req.body.fullname,
+            description: req.body.description,
+            category: mongoose.Types.ObjectId(req.body.category),
+            web: req.body.web,
+            active: 0,
+            registered: Date.now()
+        }).save(function (err) {
+            if (!err) {
+                res.status(200).send({
+                    text: 'Operazione eseguita con successo!'
+                });
+            } else {
+                res.status(500).send(err);
+            }
         });
     });
-});
 
 /**
  * Categoria Directory
@@ -652,12 +698,12 @@ router.get('/directory/:slug', function (req, res, next) {
                 Directories.find({
                     category: category._id,
                     active: 1
-                }).exec(function (err, directory) {
+                }).exec(function (err, directories) {
                     if (err) return next(err);
                     res.render('site/directory', {
                         categories: categories,
                         category: category,
-                        directory: directory
+                        directories: directories
                     });
                 });
             } else {

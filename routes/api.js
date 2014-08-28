@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 var Artists = mongoose.model('artists');
 var Photos = mongoose.model('photos');
 var Articles = mongoose.model('articles');
+var Directories = mongoose.model('directories');
 
 /**
  * express
@@ -164,6 +165,35 @@ router.get('/news/articles', function (req, res, next) {
     Articles.find({
         artist: req.session.passport.user
     }).exec(function (err, articles) {
+        if (err) return next(err);
+        res.status(200).send({
+            data: articles
+        });
+    });
+});
+
+/**
+ * Verifico che NON esiste un sito web nella directory
+ */
+router.post('/check-web-directory', function (req, res, next) {
+    Directories.findOne({
+        web: req.body.web,
+        active: 1
+    }).exec(function (err, result) {
+        if (err) return next(err);
+        if (result) {
+            res.status(200).send(false);
+        } else {
+            res.status(200).send(true);
+        }
+    });
+});
+
+/**
+ * Tutti i links di Art Directory
+ */
+router.get('/directories', function (req, res, next) {
+    Directories.find({}).populate('category').exec(function (err, articles) {
         if (err) return next(err);
         res.status(200).send({
             data: articles

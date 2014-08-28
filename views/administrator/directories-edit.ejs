@@ -1,0 +1,43 @@
+<%- layout('layout') %>
+<%- include header.ejs %>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Modifica Art Directory</div>
+    <div class="panel-body">
+        <div id="result"></div>
+        <form id="js-directory-edit-form" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label><span class="text-danger">*</span> Titolo</label>
+                        <input type="text" class="form-control" name="fullname" id="fullname" value="<%= directories.fullname %>" required="">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label><span class="text-danger">*</span> Categoria</label>
+                        <select class="form-control" name="category" id="category" data-selected="<%= directories.category %>" required="">
+                            <option value="">-</option>
+                            <% categories.forEach( function (row){ %>
+                            <option value="<%= row._id %>"><%= row.fullname %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label><span class="text-danger">*</span> Breve descrizione</label>
+                <textarea class="form-control" name="description" id="description" rows="10" required=""><%= directories.description %></textarea>
+            </div>
+            <div class="form-group">
+                <label><span class="text-danger">*</span> Sito Internet</label>
+                <input type="url" class="form-control" name="web" id="web" value="<%= directories.web %>" required="">
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="active" id="active" <% if (directories.active == 1) { %>checked <% } %>value="1"> Mostra sul sito</label>
+            </div>
+            <input type="hidden" name="id" id="id" value="<%= directories._id %>">
+            <input type="submit" class="btn btn-primary" value="Salva">
+        </form>
+    </div>
+</div>
