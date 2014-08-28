@@ -93,14 +93,12 @@ router.route('/password').
         res.render('extranet/password');
     })
     .post(function (req, res, next) {
-        Artists.find({
+        var pwd = randomstring.generate(7);
+        Artists.findOne({
             usermail: req.body.usermail,
             active: 1
         }).exec(function (err, artist) {
             if (err) return next(err);
-            console.log(artist);
-
-            var pwd = randomstring.generate(7);
             artist.pwd = sha1(pwd);
             artist.modification = Date.now();
             artist.save(function (err) {
