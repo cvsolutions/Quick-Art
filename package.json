@@ -21,6 +21,8 @@
         "sha1": "1.x",
         "exif": "0.x",
         "pushover-notifications": "0.x",
+        "nodemailer": "1.x",
+        "randomstring": "1.x",
         "multer": "0.x"
     }
 }

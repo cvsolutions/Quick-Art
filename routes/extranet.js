@@ -23,10 +23,22 @@ var sha1 = require('sha1');
 var passport = require('passport');
 
 /**
+ * nodemailer
+ * @type {exports}
+ */
+var nodemailer = require('nodemailer');
+
+/**
  * exif
  * @type {exports.ExifImage|*}
  */
 var ExifImage = require('exif').ExifImage;
+
+/**
+ * randomstring
+ * @type {exports}
+ */
+var randomstring = require('randomstring');
 
 /**
  * express
@@ -81,8 +93,44 @@ router.route('/password').
         res.render('extranet/password');
     })
     .post(function (req, res, next) {
-        res.status(200).send({
-            text: 'I tuoi dati sono stati inviati.'
+        Artists.find({
+            usermail: req.body.usermail,
+            active: 1
+        }).exec(function (err, artist) {
+            if (err) return next(err);
+            console.log(artist);
+
+            var pwd = randomstring.generate(7);
+            artist.pwd = sha1(pwd);
+            artist.modification = Date.now();
+            artist.save(function (err) {
+                if (!err) {
+                    var transporter = nodemailer.createTransport({
+                        service: 'Gmail',
+                        auth: {
+                            user: 'quickartprojects@gmail.com',
+                            pass: 'qu1ck4rtproj3cts'
+                        }
+                    });
+                    transporter.sendMail({
+                        from: 'Quick-Art <quickartprojects@gmail.com>',
+                        to: req.body.usermail,
+                        subject: 'Password Smarrita - Quick-Art',
+                        html: 'Gentile Artista, <br> come richiesto ecco le nuove credenziali per accedere al Portale:<br><ul><li>Indirizzo Email: ' + req.body.usermail + '</li><li>Password: ' + pwd + '</li></ul>'
+                    }, function (error, info) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            res.status(200).send({
+                                mail: info.response,
+                                text: 'I tuoi dati sono stati inviati.'
+                            });
+                        }
+                    });
+                } else {
+                    res.status(500).send(err);
+                }
+            });
         });
     });
 
