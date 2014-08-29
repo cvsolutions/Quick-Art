@@ -455,7 +455,7 @@ router.route('/news/add')
             subtitle: req.body.subtitle,
             description: req.body.description,
             picture: req.files.picture.name,
-            content: mongoose.Types.ObjectId('53e1fe85c5c357280c150ce4'),
+            content: mongoose.Types.ObjectId('54007362d444cdec9d5de517'),
             artist: mongoose.Types.ObjectId(req.session.passport.user),
             tags: req.body.tags.toLocaleLowerCase().split(','),
             year: today.getFullYear(),
