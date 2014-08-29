@@ -109,9 +109,25 @@
             <div class="checkbox">
                 <label><input type="checkbox" name="accept" id="accept" value="1" checked required=""> <span class="text-danger">*</span> Accetto il regolamento</label>
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox" name="privacy" id="privacy" value="1" checked required=""> <span class="text-danger">*</span> Ho preso visione dell’informativa al trattamento dei dati</label>
-            </div>
+
+            <a href="//www.iubenda.com/privacy-policy/996684" class="iubenda-white iubenda-embed" title="Privacy Policy">Privacy Policy</a>
+            <script type="text/javascript">
+                (function (w, d) {
+                    var loader = function () {
+                        var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0];
+                        s.src = "//cdn.iubenda.com/iubenda.js";
+                        tag.parentNode.insertBefore(s, tag);
+                    };
+                    if (w.addEventListener) {
+                        w.addEventListener("load", loader, false);
+                    } else if (w.attachEvent) {
+                        w.attachEvent("onload", loader);
+                    } else {
+                        w.onload = loader;
+                    }
+                })(window, document);
+            </script>
+            <p>&nbsp;</p>
             <input type="hidden" name="slug" id="slug" value="">
             <input type="submit" class="btn btn-default" value="Registrati">
         </form>
