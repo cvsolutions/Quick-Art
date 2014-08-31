@@ -148,7 +148,7 @@ app.use('/api', require('./routes/api'));
  * 404 Error
  */
 app.use(function (req, res) {
-    res.status(404).render('site/404', {});
+    // res.status(404).render('site/404', {});
 });
 
 app.listen(3010, function () {
