@@ -682,7 +682,7 @@ router.route('/art-directory')
 /**
  * Categoria Directory
  */
-router.get('/___directory/:slug', function (req, res, next) {
+router.get('/directory/:slug', function (req, res, next) {
     Categories.find({
         type: 'directory'
     }).sort({
