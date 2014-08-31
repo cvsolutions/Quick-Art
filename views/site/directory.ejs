@@ -5,17 +5,22 @@
     <div class="col-xs-8">
         <h1><%= category.fullname %></h1>
         <p>...</p>
+
+        <% if(directories.length > 0){ %>
         <% directories.forEach( function (row){ %>
         <div class="media">
             <a class="pull-left" target="_blank" href="<%= row.web %>">
                 <img src="/images/info.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
             </a>
+
             <div class="media-body">
                 <h4 class="media-heading"><%= row.fullname %></h4>
                 <p><%= row.description %></p>
             </div>
         </div>
         <% }); %>
+        <% } %>
+
     </div>
     <div class="col-xs-4">
         <div class="list-group">
