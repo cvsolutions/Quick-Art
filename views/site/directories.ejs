@@ -7,6 +7,7 @@
         <p>Se vuoi scambiare un link con il nostro Portale, inserisci un link reciproco usando le seguenti informazioni e riempi il form sottostante. Appena il tuo link sarà verificato, verrai aggiunto all’elenco nei successivi 7-10 giorni.</p>
         <p>&nbsp;</p>
 
+        <% if(directories.length > 0){ %>
         <div class="well">
             <div class="row">
                 <% directories.forEach( function (row){ %>
@@ -15,6 +16,7 @@
                         <a class="pull-left" target="_blank" href="<%= row.web %>">
                             <img src="/images/info.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
                         </a>
+
                         <div class="media-body">
                             <h4 class="media-heading"><%= row.fullname %></h4>
                             <p><%= row.category.fullname %></p>
@@ -25,6 +27,7 @@
                 <% }); %>
             </div>
         </div>
+        <% } %>
 
         <hr/>
         <div id="result"></div>
