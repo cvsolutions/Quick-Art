@@ -34,8 +34,16 @@
 	"show": 1
 }
 
+
+{
+"fullname": "Periodi storici",
+"slug": "periodi-storici",
+"show": 1
+}
+
 {
 	"fullname": "Tecniche & Strumenti",
 	"slug": "tecniche-strumenti",
 	"show": 1
 }
+

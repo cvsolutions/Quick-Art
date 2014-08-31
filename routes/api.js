@@ -163,8 +163,7 @@ router.get('/gallery/photos', function (req, res, next) {
  */
 router.get('/news/articles', function (req, res, next) {
     Articles.find({
-        artist: req.session.passport.user,
-        content: mongoose.Types.ObjectId('54007362d444cdec9d5de517')
+        artist: req.session.passport.user
     }).exec(function (err, articles) {
         if (err) return next(err);
         res.status(200).send({
