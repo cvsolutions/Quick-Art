@@ -246,13 +246,17 @@ $(document).ready(function () {
             {
                 'data': 'artist.fullname'
             },
+
+            {
+                'data': 'active'
+            },
             {
                 'data': 'registered'
             }
         ],
         columnDefs: [
             {
-                targets: 4,
+                targets: 5,
                 data: '_id',
                 searchable: false,
                 render: function (data) {

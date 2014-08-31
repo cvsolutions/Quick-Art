@@ -181,6 +181,7 @@ router.route('/articles/add')
             artist: mongoose.Types.ObjectId(req.body.artist),
             tags: req.body.tags.toLocaleLowerCase().split(','),
             year: today.getFullYear(),
+            active: 1,
             home: home,
             registered: Date.now()
         }).save(function (err) {
