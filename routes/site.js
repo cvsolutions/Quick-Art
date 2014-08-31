@@ -387,7 +387,7 @@ router.get('/artista/:rid/:slug', function (req, res, next) {
                         if (err) return next(err);
                         Articles.find({
                             artist: artist._id,
-                            content: new ObjectID('54007362d444cdec9d5de517'),
+                            content: mongoose.Types.ObjectId('54007362d444cdec9d5de517'),
                             active: 1
                         }).sort({
                             registered: 'desc'
