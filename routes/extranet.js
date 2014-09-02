@@ -104,7 +104,7 @@ router.route('/password').
             artist.save(function (err) {
                 if (!err) {
                     var transporter = nodemailer.createTransport({
-                        service: 'Gmail',
+                        service: 'gmail',
                         auth: {
                             user: 'quickartprojects@gmail.com',
                             pass: 'qu1ck4rtproj3cts'
