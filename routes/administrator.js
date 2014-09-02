@@ -113,7 +113,7 @@ router.route('/artists/edit/:id')
             });
         });
     })
-    .post(isLoggedIn, function (req, res, next) {
+    .post(isLoggedIn, function (req, res) {
         var active = req.body.active == 1 ? 1 : 0;
         Artists.findById(req.body.id, function (err, artist) {
             artist.fullname = req.body.fullname;
@@ -284,7 +284,7 @@ router.route('/directory/edit/:id')
             });
         });
     })
-    .post(isLoggedIn, function (req, res, next) {
+    .post(isLoggedIn, function (req, res) {
         Directories.findById(req.body.id).exec(function (err, directory) {
             var active = req.body.active == 1 ? 1 : 0;
             directory.fullname = req.body.fullname;
