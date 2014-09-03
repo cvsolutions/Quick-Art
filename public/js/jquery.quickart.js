@@ -61,6 +61,28 @@ $(document).ready(function () {
     $("#measure option[value='" + measure + "']").attr('selected', 'selected');
 
     /**
+     * fullCalendar
+     */
+    $('#js-calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: '',
+            right: 'title'
+        },
+        defaultDate: new Date(),
+        lang: 'it',
+        height: 'auto',
+        editable: true,
+        eventLimit: true,
+        events: {
+            url: '/api/calendar',
+            error: function () {
+                alert('Error Calendar!');
+            }
+        }
+    });
+
+    /**
      * Registrazione
      */
     $('#js-registration-form').validate({
@@ -871,25 +893,5 @@ $(document).ready(function () {
             return true;
         }
     });
-
-    $('#js-calendar').fullCalendar({
-        header: {
-            left: 'prev,next today',
-            center: '',
-            right: 'title'
-        },
-        defaultDate: new Date(),
-        lang: 'it',
-        height: 'auto',
-        editable: true,
-        eventLimit: true,
-        events: {
-            url: '/api/calendar',
-            error: function () {
-                alert('Error Calendar!');
-            }
-        }
-    });
-
 
 });

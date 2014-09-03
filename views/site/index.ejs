@@ -12,17 +12,14 @@
             <div class="carousel-inner">
                 <div class="item active">
                     <img src="/slide/1.jpg" alt="Pablo Picasso"/>
-
                     <div class="carousel-caption">"Se dipingete, chiudete gli occhi e cantate" (Pablo Picasso)</div>
                 </div>
                 <div class="item">
                     <img src="/slide/2.jpg" alt="Goethe"/>
-
                     <div class="carousel-caption">"I grandi lavori d'arte sono come i lavori della natura, veri come le montagne, i ruscelli e i prati" (Goethe)</div>
                 </div>
                 <div class="item">
                     <img src="/slide/3.jpg" alt="Gustave Flaubert"/>
-
                     <div class="carousel-caption">"L'autore nella sua opera dovrebbe essere come Dio nell'universo, presente ovunque e visibile da nessuna parte" (Gustave Flaubert)</div>
                 </div>
             </div>
@@ -49,6 +46,7 @@
         <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53fc95881113fd0c"></script>
 
         <br/>
+
         <p>Finalmente On-line il nuovo servizio dedicato all'Arte Moderna che nasce con lo scopo di fornire agli <strong>Artisti Contemporanei</strong> uno spazio espositivo <strong>gratuito</strong> e di alta qualità. L'iniziativa ha l'ambizione di costruire in breve tempo uno dei maggiori <strong>Database di Artisti Italiani</strong> presenti nel Web dove si potranno effettuare ricerche e scoprire direttamente idee, talenti e nuove tendenze nel mondo artistico in tutti i suoi aspetti.</p>
         <p><strong>Quick-Art</strong>, ti permette anche di acquistare le <strong>Opere degli Artisti</strong>: per ogni artista presentato c'è un modulo che permette al visitatore di fare una semplice Richiesta per ogni opera esposta. Quick-Art si impegna per altro a soddisfare le esigenze degli Artisti e di coloro che vogliano comprare <strong>Quadri</strong> e Opere Artistiche...</p>
         <p>Questo è il primo Portale interamente dedicato ai <strong>Pittori Contemporanei</strong> che offre una transazione diretta con l’artista senza nessuna intermediazione e senza alcun ricarico sulle opere d’arte. Semplicemente ti mette in contatto diretto con l’Artista.</p>
@@ -94,8 +92,7 @@
 <div class="row">
     <div class="col-xs-4">
         <p><strong>Città d' Arte Italiane</strong></p>
-
-        <div id="mappa">
+        <div class="table-responsive" id="mappa">
             <% regions.forEach( function (row){ %>
             <a href="/regione/<%= row.slug %>"><img src="/italia/<%= row.slug %>.gif" class="imgOut" id="<%= row.slug %>" alt="<%= row.fullname %>"/></a>
             <% }); %>
@@ -139,9 +136,9 @@
                         <img src="/images/no-image.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
                         <% } %>
                     </a>
-
                     <div class="media-body">
                         <h4 class="media-heading"><%= row.fullname %></h4>
+
                         <p><%= row.category.fullname %>, <%= row.region.fullname %></p>
                     </div>
                 </div>
@@ -183,23 +180,30 @@
 </div>
 
 <div class="row">
-    <% articles.forEach( function (row){ %>
-    <div class="col-xs-4">
-        <div class="media">
-            <a class="pull-left" href="/blog/<%= row.rid %>/<%= row.slug %>">
-                <% if (row.picture) { %>
-                <img src="/uploads/<%= row.picture %>" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
-                <% } else { %>
-                <img src="/images/no-image.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
-                <% } %>
-            </a>
-
-            <div class="media-body">
-                <h4 class="media-heading"><%= row.fullname %></h4>
-                <p><%= row.content.fullname %></p>
+    <div class="col-xs-6">
+        <div class="row">
+            <% articles.forEach( function (row){ %>
+            <div class="col-xs-6">
+                <div class="media">
+                    <a class="pull-left js-tooltip" title="<%= row.fullname %>" href="/blog/<%= row.rid %>/<%= row.slug %>">
+                        <% if (row.picture) { %>
+                        <img src="/uploads/<%= row.picture %>" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <% } else { %>
+                        <img src="/images/no-image.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <% } %>
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading"><%- truncate(row.fullname, 35) %></h4>
+                        <p><%= row.content.fullname %></p>
+                    </div>
+                </div>
+                <br/>
             </div>
+            <% }); %>
         </div>
-        <br/>
     </div>
-    <% }); %>
+    <div class="col-xs-6">
+        <%- include calendar.ejs %>
+    </div>
 </div>
+

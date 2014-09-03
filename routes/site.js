@@ -74,7 +74,7 @@ router.route('/')
                     active: 1
                 }).populate('content').sort({
                     registered: 'desc'
-                }).limit(6).exec(function (err, articles) {
+                }).limit(10).exec(function (err, articles) {
                     if (err) return next(err);
                     Regions.find({}).sort({
                         fullname: 'asc'
@@ -733,5 +733,18 @@ router.get('/annunci-arte', function (req, res, next) {
     });
 });
 
+/**
+ * Chi Siamo
+ */
+router.get('/chi-siamo', function (req, res) {
+    res.render('site/about-us');
+});
+
+/**
+ * Regolamento
+ */
+router.get('/regolamento', function (req, res) {
+    res.render('site/regulation');
+});
 
 module.exports = router;
