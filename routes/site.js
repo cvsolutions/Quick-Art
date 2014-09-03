@@ -747,4 +747,14 @@ router.get('/regolamento', function (req, res) {
     res.render('site/regulation');
 });
 
+/**
+ * Form Contacts
+ */
+router.post('/contacts', function (req, res) {
+    res.status(200).send({
+        text: 'La tua richiesta è stata inviata',
+        post: req.body
+    });
+});
+
 module.exports = router;

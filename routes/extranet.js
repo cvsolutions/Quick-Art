@@ -99,31 +99,19 @@ router.route('/password').
             active: 1
         }).exec(function (err, artist) {
             if (err) return next(err);
+            var transporter = nodemailer.createTransport();
+            transporter.sendMail({
+                from: 'quickartprojects@gmail.com',
+                to: req.body.usermail,
+                subject: 'Password Smarrita - Quick-Art',
+                html: 'Gentile Artista, <br> come richiesto ecco le nuove credenziali per accedere al Portale:<br><ul><li>Indirizzo Email: ' + req.body.usermail + '</li><li>Password: ' + pwd + '</li></ul>'
+            });
             artist.pwd = sha1(pwd);
             artist.modification = Date.now();
             artist.save(function (err) {
                 if (!err) {
-                    var transporter = nodemailer.createTransport({
-                        service: 'gmail',
-                        auth: {
-                            user: 'quickartprojects@gmail.com',
-                            pass: 'qu1ck4rtproj3cts'
-                        }
-                    });
-                    transporter.sendMail({
-                        from: 'Quick-Art <quickartprojects@gmail.com>',
-                        to: req.body.usermail,
-                        subject: 'Password Smarrita - Quick-Art',
-                        html: 'Gentile Artista, <br> come richiesto ecco le nuove credenziali per accedere al Portale:<br><ul><li>Indirizzo Email: ' + req.body.usermail + '</li><li>Password: ' + pwd + '</li></ul>'
-                    }, function (error, info) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            res.status(200).send({
-                                mail: info.response,
-                                text: 'I tuoi dati sono stati inviati.'
-                            });
-                        }
+                    res.status(200).send({
+                        text: 'I tuoi dati sono stati inviati.'
                     });
                 } else {
                     res.status(500).send(err);

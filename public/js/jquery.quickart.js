@@ -186,6 +186,45 @@ $(document).ready(function () {
     });
 
     /**
+     * Questo quadro potrebbe essere tuo
+     */
+    $('#js-contacts-form').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                url: '/contacts',
+                type: 'POST',
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                cache: false,
+                beforeSend: function () {
+                    $.isLoading({
+                        text: 'Loading',
+                        position: 'overlay'
+                    });
+                },
+                statusCode: {
+                    200: function (response) {
+                        $.isLoading('hide');
+                        var output = '<div class="alert alert-success alert-dismissable">' + response.text + '</div>';
+                        $('html,body').animate({
+                            scrollTop: $('.container').offset().top
+                        }, 1000);
+                        $('#result').hide().html(output).slideDown();
+                    },
+                    500: function (response) {
+                        $.isLoading('hide');
+                        alert(response.responseJSON.err);
+                        $('.form-control').val('');
+                    }
+                }
+            });
+            return true;
+        }
+    });
+
+    /**
      * Modifica Profilo
      */
     $('#js-profile-form').validate({

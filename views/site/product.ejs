@@ -82,20 +82,22 @@
             <div class="panel-heading">Questo quadro potrebbe essere tuo</div>
             <div class="panel-body">
                 <p>Chiedi come fare direttamente all'artista, senza alcuna intermediazione.</p>
-
-                <form id="" method="post" enctype="application/x-www-form-urlencoded">
+                <div id="result"></div>
+                <form id="js-contacts-form" method="post" enctype="application/x-www-form-urlencoded">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="" id="" placeholder="Nome & Cognome" required="">
+                        <input type="text" class="form-control" name="fullname" id="fullname" placeholder="Nome & Cognome" required="">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="" id="" placeholder="Indirizzo E-mail" required="">
+                        <input type="text" class="form-control" name="email" id="email" placeholder="Indirizzo E-mail" required="">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="" id="" placeholder="Telefono" required="">
+                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Telefono" required="">
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" name="" id="" placeholder="Messaggio"></textarea>
+                        <textarea class="form-control" name="message" id="message" placeholder="Messaggio"></textarea>
                     </div>
+                    <input type="hidden" name="artist" id="artist" required="" value="<%= photo.artist._id %>">
+                    <input type="hidden" name="photo" id="photo" required="" value="<%= photo.fullname %>">
                     <input type="submit" class="btn btn-default btn-block" value="INVIA">
                 </form>
             </div>
