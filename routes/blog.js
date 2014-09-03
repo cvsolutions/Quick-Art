@@ -28,13 +28,13 @@ router.get('/', function (req, res, next) {
     }).exec(function (err, contents) {
         if (err) return next(err);
         Articles.find({
-            active: 1,
+            active: 1
         }).populate('content').sort({
             registered: 'desc'
         }).limit(6).exec(function (err, articles) {
             if (err) return next(err);
             Articles.find({
-                active: 1,
+                active: 1
             }).populate('content').sort({
                 registered: 'desc'
             }).limit(10).exec(function (err, last) {

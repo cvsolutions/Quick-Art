@@ -5,7 +5,9 @@
     <div class="col-xs-8">
         <h1><%= theme.fullname %></h1>
         <p class="lead">Catalogo delle Opere d'Arte dell'Archivio Contemporaneo</p>
+        <%- include adsbygoogle-468-60.ejs %>
         <p>Trovati <%= photos.length %> risultati <%- include loadtime.ejs %></p>
+        <hr/>
         <% col = 6 %>
         <%- include row-catalog.ejs %>
     </div>

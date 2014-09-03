@@ -16,6 +16,11 @@ var sha1 = require('sha1');
  */
 var push = require('pushover-notifications');
 
+/**
+ * mongoose
+ * @type {ObjectId|Types.ObjectId|exports.ObjectId}
+ */
+var ObjectId = require('mongoose').Types.ObjectId;
 
 /**
  * model
@@ -69,7 +74,7 @@ router.route('/')
                     active: 1
                 }).populate('content').sort({
                     registered: 'desc'
-                }).limit(3).exec(function (err, articles) {
+                }).limit(6).exec(function (err, articles) {
                     if (err) return next(err);
                     Regions.find({}).sort({
                         fullname: 'asc'
@@ -387,6 +392,7 @@ router.get('/artista/:rid/:slug', function (req, res, next) {
                         if (err) return next(err);
                         Articles.find({
                             artist: artist._id,
+                            content: new ObjectId('54007362d444cdec9d5de517'),
                             active: 1
                         }).sort({
                             registered: 'desc'

@@ -872,5 +872,24 @@ $(document).ready(function () {
         }
     });
 
+    $('#js-calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: '',
+            right: 'title'
+        },
+        defaultDate: new Date(),
+        lang: 'it',
+        height: 'auto',
+        editable: true,
+        eventLimit: true,
+        events: {
+            url: '/api/calendar',
+            error: function () {
+                alert('Error Calendar!');
+            }
+        }
+    });
+
 
 });

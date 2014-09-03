@@ -42,8 +42,8 @@
                 <textarea class="form-control" name="description" id="description" rows="5"><%- photo.description %></textarea>
             </div>
             <div class="form-group">
-                <label>Immagine</label>
-                <input type="file" name="picture" id="picture" accept="image/*">
+                <label>Immagine (Utilizza solo formati jpg)</label>
+                <input type="file" name="picture" id="picture" accept="image/jpeg">
                 <p class="help-block">(Dimensioni minime: 640x480 px; Peso MAX consentito: 2 MB)</p>
                 <p class="help-block"><a href="/uploads/<%= photo.picture %>" class="js-fancybox" rel="picture"><%= photo.picture %></a></p>
             </div>

@@ -155,3 +155,7 @@ img.imgOut {
     left: 130px;
     top: 270px;
 }
+
+.fc-right h2 {
+    font-size: 14px;
+}

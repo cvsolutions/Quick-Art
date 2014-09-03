@@ -5,7 +5,8 @@
     <div class="col-xs-8">
         <h1><%= content.fullname %></h1>
         <p class="lead">E' la tua guida italiana all' Arte, trovi: notizie, mostre, eventi, articoli...</p>
-        <br/>
+        <%- include ../site/adsbygoogle-468-60.ejs %>
+        <hr/>
         <%- include row-articles.ejs %>
     </div>
     <div class="col-xs-4">
@@ -14,9 +15,11 @@
             <a href="/blog/articoli/<%= row.slug %>" class="list-group-item <% if(row.slug == content.slug){ %>active<% } %>"><%= row.fullname %></a>
             <% }); %>
         </div>
+        <%- include ../site/calendar.ejs %>
+        <br/>
         <div class="panel panel-default">
             <div class="panel-body">
-                <%- include ../site/adsbygoogle-300-600.ejs %>
+                <%- include ../site/adsbygoogle-300-250.ejs %>
             </div>
         </div>
     </div>

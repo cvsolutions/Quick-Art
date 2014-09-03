@@ -5,6 +5,12 @@
 var mongoose = require('mongoose');
 
 /**
+ * mongoose
+ * @type {ObjectId|Types.ObjectId|exports.ObjectId}
+ */
+var ObjectId = require('mongoose').Types.ObjectId;
+
+/**
  * model
  */
 var Artists = mongoose.model('artists');
@@ -163,7 +169,8 @@ router.get('/gallery/photos', function (req, res, next) {
  */
 router.get('/news/articles', function (req, res, next) {
     Articles.find({
-        artist: req.session.passport.user
+        artist: req.session.passport.user,
+        content: new ObjectId('54007362d444cdec9d5de517')
     }).exec(function (err, articles) {
         if (err) return next(err);
         res.status(200).send({
@@ -198,6 +205,27 @@ router.get('/directories', function (req, res, next) {
         res.status(200).send({
             data: articles
         });
+    });
+});
+
+/**
+ * Tutti gli Articoli nel Calendario
+ */
+router.get('/calendar', function (req, res, next) {
+    Articles.find({
+        active: 1,
+        content: new ObjectId('54007362d444cdec9d5de517')
+    }).exec(function (err, articles) {
+        if (err) return next(err);
+        var obj = [];
+        for (var i in articles) {
+            obj[i] = {};
+            obj[i]['title'] = articles[i].fullname;
+            obj[i]['url'] = '/blog/' + articles[i].rid + '/' + articles[i].slug;
+            obj[i]['start'] = articles[i].registered;
+            obj[i]['allDay'] = true;
+        }
+        res.status(200).send(obj);
     });
 });
 
