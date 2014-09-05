@@ -1,20 +1,20 @@
-<% title = photo.fullname + ' | ' + photo.technique.fullname + ' | ' + photo.theme.fullname %>
+<% title = helper.e(photo.fullname) + ' | ' + photo.technique.fullname + ' | ' + photo.theme.fullname %>
 <%- layout('layout') %>
 
 <div class="row">
     <div class="col-xs-8">
-        <h1><%= photo.fullname %></h1>
-        <p><i>di: <a href="/artista/<%= photo.artist.rid %>/<%= photo.artist.slug %>"><%= photo.artist.fullname %></a></i></p>
+        <h1><%= helper.e(photo.fullname) %></h1>
+        <p><i>di: <a href="/artista/<%= photo.artist.rid %>/<%= photo.artist.slug %>"><%= helper.e(photo.artist.fullname) %></a></i></p>
         <p>
             <a href="/uploads/<%= photo.picture %>" class="js-fancybox" title="<%= photo.fullname %>" rel="picture">
-                <img src="/uploads/<%= photo.picture %>" class="img-responsive img-thumbnail" alt="<%= photo.fullname %>"/>
+                <img src="/uploads/<%= photo.picture %>" class="img-responsive img-thumbnail" alt="<%= helper.e(photo.fullname) %>"/>
             </a>
         </p>
 
         <p class="text-danger"><i>Alcuni browser in base alle impostazioni del vostro computer possono cambiare leggermente la tonalità del dipinto.</i></p>
 
         <% if(photo.description != undefined){ %>
-        <p><%- helper.nl2br(photo.description) %></p>
+        <p><%- helper.nl2br(helper.e(photo.description)) %></p>
         <br/>
         <% } %>
 
@@ -22,7 +22,7 @@
         <ul class="breadcrumb">
             <li>Tags:</li>
             <% photo.tags.forEach( function (tag){ %>
-            <li><a href="/tags/<%= tag %>"><%= tag %></a></li>
+            <li><a href="/tags/<%= helper.e(tag) %>"><%= helper.e(tag) %></a></li>
             <% }); %>
         </ul>
         <% } %>
@@ -61,10 +61,10 @@
                     <li>Codice: <%- photo.code %></li>
                     <li>Tecnica: <a href="/tecnica/<%= photo.technique.slug %>"><%= photo.technique.fullname %></a></li>
                     <li>Anno: <%= photo.year %></li>
-                    <li>Dimensione: <%= photo.height %>x<%= photo.width %>x<%= photo.depth %> <%= photo.measure %></li>
+                    <li>Dimensione: <%= helper.e(photo.height) %>x<%= helper.e(photo.width) %>x<%= helper.e(photo.depth) %> <%= photo.measure %></li>
                 </ul>
                 <hr/>
-                <p class="lead"><%= helper.number_format(photo.price, 2, '.', ',') %> €</p>
+                <p class="lead"><%= helper.number_format(helper.e(photo.price), 2, '.', ',') %> €</p>
                 <ul class="list-unstyled">
                     <% if(photo.available == 1){ %>
                     <li><span class="label label-success">Disponibile</span>
@@ -97,7 +97,7 @@
                         <textarea class="form-control" name="message" id="message" placeholder="Messaggio"></textarea>
                     </div>
                     <input type="hidden" name="artist" id="artist" required="" value="<%= photo.artist._id %>">
-                    <input type="hidden" name="photo" id="photo" required="" value="<%= photo.fullname %>">
+                    <input type="hidden" name="photo" id="photo" required="" value="<%= helper.e(photo.fullname) %>">
                     <input type="submit" class="btn btn-default btn-block" value="INVIA">
                 </form>
             </div>
@@ -129,15 +129,15 @@
     <% related.forEach( function (row){ %>
     <div class="col-xs-3">
         <div class="media">
-            <a class="pull-left js-tooltip" data-toggle="tooltip" title="<%= row.height %>x<%= row.width %>x<%= row.depth %> <%= row.measure %>" href="/opera-darte/<%= row.rid %>/<%= row.slug %>">
-                <img src="/uploads/<%= row.picture %>" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
+            <a class="pull-left js-tooltip" data-toggle="tooltip" title="<%= helper.e(row.height) %>x<%= helper.e(row.width) %>x<%= helper.e(row.depth) %> <%= row.measure %>" href="/opera-darte/<%= row.rid %>/<%= row.slug %>">
+                <img src="/uploads/<%= row.picture %>" class="media-object js-rc-64" alt="<%= helper.e(row.fullname) %>"/>
             </a>
 
             <div class="media-body">
-                <h4 class="media-heading"><%= row.fullname %></h4>
+                <h4 class="media-heading"><%= helper.e(row.fullname) %></h4>
                 <ul class="list-unstyled">
                     <li><%= row.technique.fullname %></li>
-                    <li><%= row.artist.fullname %></li>
+                    <li><%= helper.e(row.artist.fullname) %></li>
                 </ul>
             </div>
         </div>
@@ -161,7 +161,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <p class="lead">Guarda altri quadri di <a href="/artista/<%= photo.artist.rid %>/<%= photo.artist.slug %>"><%= photo.artist.fullname %></a> (scelti a caso)</p>
+        <p class="lead">Guarda altri quadri di <a href="/artista/<%= photo.artist.rid %>/<%= photo.artist.slug %>"><%= helper.e(photo.artist.fullname) %></a> (scelti a caso)</p>
     </div>
 </div>
 
@@ -179,18 +179,18 @@
     <div class="col-xs-4">
         <div class="thumbnail">
             <a href="/opera-darte/<%= row.rid %>/<%= row.slug %>">
-                <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt="<%= row.fullname %>"/>
+                <img src="/uploads/<%= row.picture %>" class="img-responsive js-rc-480" alt="<%= helper.e(row.fullname) %>"/>
             </a>
 
             <div class="caption">
-                <h3 data-toggle="tooltip" class="js-tooltip" title="<%= row.fullname %>"><%- truncate(row.fullname, 25) %></h3>
+                <h3 data-toggle="tooltip" class="js-tooltip" title="<%= helper.e(row.fullname) %>"><%- truncate(helper.e(row.fullname), 25) %></h3>
                 <ul class="list-unstyled">
                     <li><%= row.technique.fullname %></li>
-                    <li><%= row.height %>x<%= row.width %>x<%= row.depth %> <%= row.measure %></li>
+                    <li><%= helper.e(row.height) %>x<%= helper.e(row.width) %>x<%= helper.e(row.depth) %> <%= row.measure %></li>
                 </ul>
                 <hr/>
                 <ul class="list-inline">
-                    <li><%= helper.number_format(row.price, 2, '.', ',') %> €</li>
+                    <li><%= helper.number_format(helper.e(row.price), 2, '.', ',') %> €</li>
                     <li class="pull-right"><a href="/opera-darte/<%= row.rid %>/<%= row.slug %>" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-search"></span> dettagli</a></li>
                 </ul>
             </div>

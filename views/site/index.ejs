@@ -131,13 +131,13 @@
                 <div class="media">
                     <a class="pull-left" href="/artista/<%= row.rid %>/<%= row.slug %>">
                         <% if (row.photo) { %>
-                        <img src="/uploads/<%= row.photo.picture %>" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <img src="/uploads/<%= row.photo.picture %>" class="media-object js-rc-64" alt="<%= helper.e(row.fullname) %>"/>
                         <% } else { %>
-                        <img src="/images/no-image.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <img src="/images/no-image.png" class="media-object js-rc-64" alt="<%= helper.e(row.fullname) %>"/>
                         <% } %>
                     </a>
                     <div class="media-body">
-                        <h4 class="media-heading"><%= row.fullname %></h4>
+                        <h4 class="media-heading"><%= helper.e(row.fullname) %></h4>
 
                         <p><%= row.category.fullname %>, <%= row.region.fullname %></p>
                     </div>
@@ -185,15 +185,15 @@
             <% articles.forEach( function (row){ %>
             <div class="col-xs-6">
                 <div class="media">
-                    <a class="pull-left js-tooltip" title="<%= row.fullname %>" href="/blog/<%= row.rid %>/<%= row.slug %>">
+                    <a class="pull-left js-tooltip" title="<%= helper.e(row.fullname) %>" href="/blog/<%= row.rid %>/<%= row.slug %>">
                         <% if (row.picture) { %>
-                        <img src="/uploads/<%= row.picture %>" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <img src="/uploads/<%= row.picture %>" class="media-object js-rc-64" alt="<%= helper.e(row.fullname) %>"/>
                         <% } else { %>
-                        <img src="/images/no-image.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
+                        <img src="/images/no-image.png" class="media-object js-rc-64" alt="<%= helper.e(row.fullname) %>"/>
                         <% } %>
                     </a>
                     <div class="media-body">
-                        <h4 class="media-heading"><%- truncate(row.fullname, 35) %></h4>
+                        <h4 class="media-heading"><%- truncate(helper.e(row.fullname), 35) %></h4>
                         <p><%= row.content.fullname %></p>
                     </div>
                 </div>

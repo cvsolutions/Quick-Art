@@ -10,12 +10,12 @@
         <% if(directories.length > 0){ %>
         <% directories.forEach( function (row){ %>
         <div class="media">
-            <a class="pull-left" target="_blank" href="<%= row.web %>">
-                <img src="/images/info.png" class="media-object js-rc-64" alt="<%= row.fullname %>"/>
+            <a class="pull-left" target="_blank" href="<%= helper.e(row.web) %>">
+                <img src="/images/info.png" class="media-object js-rc-64" alt="<%= helper.e(row.fullname) %>"/>
             </a>
 
             <div class="media-body">
-                <h4 class="media-heading"><%= row.fullname %></h4>
+                <h4 class="media-heading"><%= helper.e(row.fullname) %></h4>
                 <p><%= row.description %></p>
             </div>
         </div>
