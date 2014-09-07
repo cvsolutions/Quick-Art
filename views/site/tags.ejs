@@ -1,9 +1,9 @@
-<% title = tag + ' | Opere d\'Arte' %>
+<% helper.e(title = tag) + ' | Opere d\'Arte' %>
 <%- layout('layout') %>
 
 <div class="row">
     <div class="col-xs-8">
-        <h1><%= tag %></h1>
+        <h1><%= helper.e(tag) %></h1>
         <p class="lead">Catalogo delle Opere d'Arte dell'Archivio Contemporaneo</p>
         <%- include adsbygoogle-468-60.ejs %>
         <br/>

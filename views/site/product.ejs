@@ -6,7 +6,7 @@
         <h1><%= helper.e(photo.fullname) %></h1>
         <p><i>di: <a href="/artista/<%= photo.artist.rid %>/<%= photo.artist.slug %>"><%= helper.e(photo.artist.fullname) %></a></i></p>
         <p>
-            <a href="/uploads/<%= photo.picture %>" class="js-fancybox" title="<%= photo.fullname %>" rel="picture">
+            <a href="/uploads/<%= photo.picture %>" class="js-fancybox" title="<%= helper.e(photo.fullname) %>" rel="picture">
                 <img src="/uploads/<%= photo.picture %>" class="img-responsive img-thumbnail" alt="<%= helper.e(photo.fullname) %>"/>
             </a>
         </p>
@@ -58,9 +58,9 @@
             <div class="panel-heading">Informazioni Produttore</div>
             <div class="panel-body">
                 <ul class="list-unstyled">
-                    <li>Codice: <%- photo.code %></li>
+                    <li>Codice: <%- helper.e(photo.code) %></li>
                     <li>Tecnica: <a href="/tecnica/<%= photo.technique.slug %>"><%= photo.technique.fullname %></a></li>
-                    <li>Anno: <%= photo.year %></li>
+                    <li>Anno: <%= helper.e(photo.year) %></li>
                     <li>Dimensione: <%= helper.e(photo.height) %>x<%= helper.e(photo.width) %>x<%= helper.e(photo.depth) %> <%= photo.measure %></li>
                 </ul>
                 <hr/>

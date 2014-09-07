@@ -1,14 +1,14 @@
-<% title = 'Benvenuto, ' + user.fullname %>
+<% title = 'Benvenuto, ' + helper.e(user.fullname) %>
 <%- layout('../site/layout') %>
 
 <div class="row">
     <div class="col-xs-8">
-        <h1>Benvenuto, <%= user.fullname %></h1>
+        <h1>Benvenuto, <%= helper.e(user.fullname) %></h1>
         <p class="lead">L'accesso a quest'area è concesso solamente agli espositori già iscritti.</p>
 
         <div class="media">
             <a class="pull-left" href="/artista/<%= user.rid %>/<%= user.slug %>">
-                <img class="media-object" src="<%- gravatar.url(user.usermail, {s: '64', r: 'pg', d: '404'}) %>" alt="">
+                <img class="media-object" src="<%- gravatar.url(helper.e(user.usermail), {s: '64', r: 'pg', d: '404'}) %>" alt="">
             </a>
 
             <div class="media-body">

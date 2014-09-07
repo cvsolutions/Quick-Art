@@ -44,7 +44,7 @@ var Photos = Schema({
     height: {
         type: Number,
         trim: true,
-        required: true
+        required: false
     },
     width: {
         type: Number,

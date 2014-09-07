@@ -1,4 +1,4 @@
-<% title = content.fullname %>
+<% title = content.fullname + ' | Art Blog' %>
 <%- layout('../site/layout') %>
 
 <div class="row">
@@ -17,6 +17,7 @@
         </div>
         <%- include ../site/calendar.ejs %>
         <br/>
+
         <div class="panel panel-default">
             <div class="panel-body">
                 <%- include ../site/adsbygoogle-300-250.ejs %>

@@ -234,23 +234,9 @@ router.route('/registrazione')
             modification: Date.now()
         }).save(function (err, user) {
             if (!err) {
-                var p = new push({
-                    user: 'uiDoXqQ7HnHkU1u8hacT6hgcGUQY6Z',
-                    token: 'autbBE9ZWx4WJCHXeEgZ3EEHJciuN4'
-                });
-                p.send({
-                    message: 'Ciao Concetto, ' + req.body.fullname + ' si è appena registrato!',
-                    title: "Registrazione - Quick-Art"
-                }, function (err, result) {
-                    if (err) {
-                        throw err;
-                    }
-                    res.status(200).send({
-                        status: true,
-                        push: result,
-                        user: user
-                    });
-                    console.log(result);
+                res.status(200).send({
+                    status: true,
+                    user: user
                 });
             } else {
                 res.status(500).send(err);
@@ -673,6 +659,7 @@ router.route('/art-directory')
             category: mongoose.Types.ObjectId(req.body.category),
             web: req.body.web,
             active: 0,
+            ip: req.connection.remoteAddress,
             registered: Date.now()
         }).save(function (err) {
             if (!err) {
