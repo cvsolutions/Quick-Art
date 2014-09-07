@@ -146,6 +146,7 @@ app.use('/blog', require('./routes/blog'));
 app.use('/administrator', require('./routes/administrator'));
 app.use('/extranet', require('./routes/extranet'));
 app.use('/api', require('./routes/api'));
+app.use('/mobile', require('./routes/mobile'));
 
 /**
  * 404 Error

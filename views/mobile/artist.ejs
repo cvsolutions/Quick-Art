@@ -1,0 +1,55 @@
+<%- layout('layout') %>
+
+<header class="bar bar-nav">
+    <a href="/mobile" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
+    <a href="#menu" class="icon icon-bars pull-right"></a>
+    <h1 class="title"><%= helper.e(artist.fullname) %></h1>
+</header>
+
+<div class="bar bar-standard bar-header-secondary">
+    <form>
+        <input type="search" name="" value="" placeholder="Cerca Artisti, Pittori Contemporanei...">
+    </form>
+</div>
+
+<div class="content">
+
+    <div class="slider" id="mySlider">
+        <div class="slide-group">
+            <% photos.forEach( function (row){ %>
+            <div class="slide">
+                <img src="/uploads/<%= row.picture %>" width="640" height="300" alt=""/>
+                <span class="slide-text"><span class="icon icon-left-nav"></span></span>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <div class="segmented-control">
+        <a class="control-item active" href="#biography">Biografia</a>
+        <a class="control-item" href="#reviews">Critiche</a>
+        <a class="control-item" href="#exhibitions">Mostre</a>
+    </div>
+    <div class="">
+        <span id="biography" class="control-content active">
+            <div class="content-padded">
+                <p><%- helper.nl2br(helper.e(artist.biography)) %></p>
+            </div>
+
+        </span>
+        <span id="reviews" class="control-content">
+            <div class="content-padded">
+                <% if(artist.reviews != undefined){ %>
+                <p><%= helper.nl2br(helper.e(artist.reviews)) %></p>
+                <% } %>
+            </div>
+        </span>
+        <span id="exhibitions" class="control-content">
+            <div class="content-padded">
+                <% if(artist.exhibitions != undefined){ %>
+                <p><%- helper.nl2br(helper.e(artist.exhibitions)) %></p>
+                <% } %>
+            </div>
+        </span>
+    </div>
+</div>
