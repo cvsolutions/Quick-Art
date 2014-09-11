@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var satelize = require('satelize');
+var ip = require('ip');
 
 var Artists = mongoose.model('artists');
 var Photos = mongoose.model('photos');
@@ -8,6 +10,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function (req, res, next) {
+    var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
     Artists.find({
         active: 1
     }).populate('category').populate('photo').sort({
@@ -20,9 +23,15 @@ router.get('/', function (req, res, next) {
             registered: 'desc'
         }).exec(function (err, photos) {
             if (err) return next(err);
-            res.render('mobile/index', {
-                artists: artists,
-                photos: photos
+            satelize.satelize({
+                ip: ip
+            }, function (err, geoData) {
+                res.render('mobile/index', {
+                    artists: artists,
+                    photos: photos,
+                    ip: ip,
+                    geo: JSON.parse(geoData)
+                });
             });
         });
     });

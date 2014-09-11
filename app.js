@@ -1,6 +1,5 @@
 var express = require('express');
 var http = require('http');
-var path = require('path');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var engine = require('ejs-locals');
@@ -59,6 +58,8 @@ app.engine('ejs', engine);
 app.set('port', process.env.PORT || 3010);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+
+app.enable('trust proxy');
 
 /**
  * use
