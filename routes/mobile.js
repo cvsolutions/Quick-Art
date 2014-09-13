@@ -39,7 +39,7 @@ router.get('/', function (req, res, next) {
             cover: 1
         }).sort({
             registered: 'desc'
-        }).exec(function (err, photos) {
+        }).limit(10).exec(function (err, photos) {
             if (err) return next(err);
             res.render('mobile/index', {
                 artists: artists,
