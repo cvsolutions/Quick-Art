@@ -1,0 +1,42 @@
+<%- layout('layout') %>
+
+<header class="bar bar-nav">
+    <a href="/mobile/events" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
+    <a href="#menu" class="icon icon-info pull-right"></a>
+    <h1 class="title"><a href="#article"><%- truncate(helper.e(article.fullname), 25) %></a></h1>
+</header>
+
+<%- include search.ejs %>
+<%- include nav.ejs %>
+
+<div class="content">
+
+    <% if(article.picture){ %>
+    <div class="slider">
+        <div class="slide-group">
+            <div class="slide">
+                <img src="/uploads/<%= article.picture %>" width="640" height="300" class="js-rc-640" alt=""/>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+    <div class="content-padded">
+        <p><strong><%= helper.e(article.fullname) %></strong></p>
+        <p><%= helper.date.format('l, d M Y', article.registered) %></p>
+        <p><i><%- helper.nl2br(helper.e(article.subtitle)) %></i></p>
+        <p><%- helper.nl2br(helper.e(article.description)) %></p>
+    </div>
+
+</div>
+
+<div id="article" class="popover">
+    <header class="bar bar-nav">
+        <h1 class="title">Evento</h1>
+    </header>
+    <ul class="table-view">
+        <li class="table-view-cell"><%= helper.e(article.fullname) %></li>
+    </ul>
+</div>
+
+<%- include modal.ejs %>

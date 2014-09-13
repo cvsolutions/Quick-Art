@@ -2,8 +2,7 @@
 
 <header class="bar bar-nav">
     <a href="/mobile" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
-    <a href="#menu" class="icon icon-bars pull-right"></a>
-
+    <a href="#artist" class="icon icon-person pull-right"></a>
     <h1 class="title"><%= helper.e(artist.fullname) %></h1>
 </header>
 
@@ -12,7 +11,8 @@
 
 <div class="content">
 
-    <div class="slider" id="mySlider">
+    <% if(photos.length > 0){ %>
+    <div class="slider">
         <div class="slide-group">
             <% photos.forEach( function (row){ %>
             <div class="slide">
@@ -22,6 +22,7 @@
             <% }); %>
         </div>
     </div>
+    <% } %>
 
     <div class="segmented-control">
         <a class="control-item active" href="#biography">Biografia</a>
@@ -50,4 +51,20 @@
             </div>
         </span>
     </div>
+</div>
+
+<div class="modal" id="artist">
+    <header class="bar bar-nav">
+        <a class="icon icon-close pull-right" href="#artist"></a>
+
+        <h1 class="title"><%= helper.e(artist.fullname) %></h1>
+    </header>
+    <ul class="table-view">
+        <li class="table-view-cell">Categoria <span class="badge"><%= helper.e(artist.category.fullname) %></span></li>
+        <li class="table-view-cell">Regione <span class="badge"><%= helper.e(artist.region.fullname) %></span></li>
+        <li class="table-view-cell">Provincia <span class="badge"><%= helper.e(artist.province.fullname) %></span></li>
+        <li class="table-view-cell">Telefono <span class="badge"><a href="tel:<%= helper.e(artist.phone) %>"><%= helper.e(artist.phone) %></a></span></li>
+        <li class="table-view-cell">E-mail <span class="badge"><a href="mailto:<%= helper.e(artist.usermail) %>"><%= helper.e(artist.usermail) %></a></span></li>
+        <li class="table-view-cell">Web <span class="badge"><a href="<%= helper.e(artist.web) %>"><%= helper.e(artist.web) %></a></span></li>
+    </ul>
 </div>

@@ -150,6 +150,7 @@
 <script src="/js/fullcalendar.js"></script>
 <script src="/js/fullcalendar-it.js"></script>
 <script src="/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<script src="//cdn.jsdelivr.net/mobile-detect.js/0.4.0/mobile-detect.min.js"></script>
 <script src="/js/jquery.quickart.js"></script>
 
 <script>
@@ -160,6 +161,12 @@
 
     ga('create', 'UA-54421492-1', 'auto');
     ga('send', 'pageview');
+
+    // MobileDetect
+    var md = new MobileDetect(window.navigator.userAgent);
+    if(md.mobile()){
+        window.location.href = 'http://www.quick-art.me/mobile';
+    }
 </script>
 
 </body>

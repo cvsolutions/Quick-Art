@@ -1,19 +1,50 @@
+/**
+ * mongoose
+ * @type {exports}
+ */
 var mongoose = require('mongoose');
+
+/**
+ * satelize
+ * @type {Satelize|exports}
+ */
 var satelize = require('satelize');
+
+/**
+ * ip
+ * @type {exports}
+ */
 var ip = require('ip');
 
+/**
+ * ObjectId
+ * @type {ObjectId|Types.ObjectId|exports.ObjectId}
+ */
+var ObjectId = require('mongoose').Types.ObjectId;
+
+/**
+ * model
+ */
 var Artists = mongoose.model('artists');
 var Photos = mongoose.model('photos');
 var Categories = mongoose.model('categories');
+var Articles = mongoose.model('articles');
 
+/**
+ * express
+ * @type {exports}
+ */
 var express = require('express');
 var router = express.Router();
 
+/**
+ * Home Mobile
+ */
 router.get('/', function (req, res, next) {
     var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
     Artists.find({
         active: 1
-    }).populate('category').populate('photo').sort({
+    }).populate('category').populate('region').populate('photo').sort({
         registered: 'desc'
     }).limit(10).exec(function (err, artists) {
         if (err) return next(err);
@@ -37,6 +68,9 @@ router.get('/', function (req, res, next) {
     });
 });
 
+/**
+ * Tutte le Categorie
+ */
 router.get('/categories', function (req, res, next) {
     Categories.find({
         type: 'gallery'
@@ -50,6 +84,9 @@ router.get('/categories', function (req, res, next) {
     });
 });
 
+/**
+ * Artisati per Categoria
+ */
 router.get('/category/:slug', function (req, res, next) {
     Categories.findOne({
         slug: req.param('slug'),
@@ -71,6 +108,9 @@ router.get('/category/:slug', function (req, res, next) {
     });
 });
 
+/**
+ * Artista
+ */
 router.get('/artist/:rid', function (req, res, next) {
     Artists.findOne({
         rid: req.param('rid'),
@@ -91,5 +131,36 @@ router.get('/artist/:rid', function (req, res, next) {
     });
 });
 
+/**
+ * Tutti gli Eventi
+ */
+router.get('/events', function (req, res, next) {
+    Articles.find({
+        content: new ObjectId('54007362d444cdec9d5de517'),
+        active: 1
+    }).sort({
+        registered: 'desc'
+    }).exec(function (err, articles) {
+        if (err) return next(err);
+        res.render('mobile/events', {
+            articles: articles
+        });
+    });
+});
+
+/**
+ * Dettaglio Evento
+ */
+router.get('/event/:rid', function (req, res, next) {
+    Articles.findOne({
+        rid: req.param('rid'),
+        active: 1
+    }).exec(function (err, article) {
+        if (err) return next(err);
+        res.render('mobile/event', {
+            article: article
+        });
+    });
+});
 
 module.exports = router;

@@ -1,26 +1,26 @@
 <%- layout('layout') %>
 
 <header class="bar bar-nav">
-    <a href="/mobile/categories" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
+    <a href="/mobile" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
     <a href="#menu" class="icon icon-info pull-right"></a>
 
-    <h1 class="title"><%= helper.e(category.fullname) %></h1>
+    <h1 class="title">Eventi</h1>
 </header>
 
 <%- include search.ejs %>
 <%- include nav.ejs %>
 
 <div class="content">
-    <% if(artists.length > 0){ %>
+    <% if(articles.length > 0){ %>
     <ul class="table-view">
-        <% artists.forEach( function (row){ %>
+        <% articles.forEach( function (row){ %>
         <li class="table-view-cell media">
-            <a href="/mobile/artist/<%= row.rid %>" class="navigate-right" data-transition="slide-in">
-                <img src="<% if (row.photo) { %>/uploads/<%= row.photo.picture %> <% } else { %>/images/no-image.png<% } %>" class="media-object pull-left js-rc-64" width="64" height="64" alt=""/>
+            <a href="/mobile/event/<%= row.rid %>" class="navigate-right" data-transition="slide-in">
+                <img src="<% if (row.picture) { %>/uploads/<%= row.picture %> <% } else { %>/images/no-image.png<% } %>" class="media-object pull-left js-rc-64" width="64" height="64" alt=""/>
 
                 <div class="media-body">
                     <p><%= helper.e(row.fullname) %></p>
-                    <p><%= helper.e(row.region.fullname) %></p>
+                    <p><%= helper.date.format('l, d M Y', row.registered) %></p>
                 </div>
             </a>
         </li>

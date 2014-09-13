@@ -1,7 +1,7 @@
 <%- layout('layout') %>
 
 <header class="bar bar-nav">
-    <a href="#menu" class="icon icon-bars pull-right"></a>
+    <a href="#menu" class="icon icon-info pull-right"></a>
 
     <h1 class="title">Quick Art</h1>
 </header>
@@ -26,17 +26,15 @@
         <li class="table-view-cell media">
             <a href="/mobile/artist/<%= row.rid %>" class="navigate-right" data-transition="slide-in">
                 <img src="<% if (row.photo) { %>/uploads/<%= row.photo.picture %> <% } else { %>/images/no-image.png<% } %>" class="media-object pull-left js-rc-64" width="64" height="64" alt=""/>
-
                 <div class="media-body">
                     <p><%= helper.e(row.fullname) %></p>
-                    <p><%= helper.e(row.category.fullname) %></p>
+                    <p><%= helper.e(row.category.fullname) %>, <%= helper.e(row.region.fullname) %></p>
                 </div>
             </a>
         </li>
         <% }); %>
     </ul>
 
-    <p><%= ip %></p>
-    <p><%= geo.country %></p>
-
 </div>
+
+<%- include modal.ejs %>
