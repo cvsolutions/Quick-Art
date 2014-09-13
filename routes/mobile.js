@@ -5,18 +5,6 @@
 var mongoose = require('mongoose');
 
 /**
- * satelize
- * @type {Satelize|exports}
- */
-var satelize = require('satelize');
-
-/**
- * ip
- * @type {exports}
- */
-var ip = require('ip');
-
-/**
  * ObjectId
  * @type {ObjectId|Types.ObjectId|exports.ObjectId}
  */
@@ -41,7 +29,6 @@ var router = express.Router();
  * Home Mobile
  */
 router.get('/', function (req, res, next) {
-    var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
     Artists.find({
         active: 1
     }).populate('category').populate('region').populate('photo').sort({
@@ -54,15 +41,9 @@ router.get('/', function (req, res, next) {
             registered: 'desc'
         }).exec(function (err, photos) {
             if (err) return next(err);
-            satelize.satelize({
-                ip: ip
-            }, function (err, geoData) {
-                res.render('mobile/index', {
-                    artists: artists,
-                    photos: photos,
-                    ip: ip,
-                    geo: JSON.parse(geoData)
-                });
+            res.render('mobile/index', {
+                artists: artists,
+                photos: photos
             });
         });
     });
@@ -161,6 +142,13 @@ router.get('/event/:rid', function (req, res, next) {
             article: article
         });
     });
+});
+
+/**
+ * Ricerca
+ */
+router.get('/search', function (req, res, next) {
+    res.render('mobile/search');
 });
 
 module.exports = router;

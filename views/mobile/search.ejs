@@ -1,5 +1,16 @@
-<div class="bar bar-standard bar-header-secondary">
-    <form>
-        <input type="search" name="" value="" placeholder="Cerca Artisti, Pittori Contemporanei...">
-    </form>
+<%- layout('layout') %>
+
+<header class="bar bar-nav">
+    <a href="/mobile" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
+    <a href="#menu" class="icon icon-info pull-right"></a>
+    <h1 class="title">Search</h1>
+</header>
+
+<%- include search.ejs %>
+<%- include nav.ejs %>
+
+<div class="content">
+
 </div>
+
+<%- include modal.ejs %>

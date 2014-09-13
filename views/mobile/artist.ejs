@@ -3,6 +3,7 @@
 <header class="bar bar-nav">
     <a href="/mobile" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
     <a href="#artist" class="icon icon-person pull-right"></a>
+
     <h1 class="title"><%= helper.e(artist.fullname) %></h1>
 </header>
 
@@ -63,8 +64,12 @@
         <li class="table-view-cell">Categoria <span class="badge"><%= helper.e(artist.category.fullname) %></span></li>
         <li class="table-view-cell">Regione <span class="badge"><%= helper.e(artist.region.fullname) %></span></li>
         <li class="table-view-cell">Provincia <span class="badge"><%= helper.e(artist.province.fullname) %></span></li>
+        <% if(photos.phone){ %>
         <li class="table-view-cell">Telefono <span class="badge"><a href="tel:<%= helper.e(artist.phone) %>"><%= helper.e(artist.phone) %></a></span></li>
+        <% } %>
         <li class="table-view-cell">E-mail <span class="badge"><a href="mailto:<%= helper.e(artist.usermail) %>"><%= helper.e(artist.usermail) %></a></span></li>
+        <% if(photos.web){ %>
         <li class="table-view-cell">Web <span class="badge"><a href="<%= helper.e(artist.web) %>"><%= helper.e(artist.web) %></a></span></li>
+        <% } %>
     </ul>
 </div>
