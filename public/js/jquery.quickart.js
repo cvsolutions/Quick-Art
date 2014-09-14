@@ -161,7 +161,7 @@ $(document).ready(function () {
                 cache: false,
                 beforeSend: function () {
                     $.isLoading({
-                        text: 'Loading',
+                        text: 'Attendere, Caricamento in corso...',
                         position: 'overlay'
                     });
                 },
@@ -200,7 +200,7 @@ $(document).ready(function () {
                 cache: false,
                 beforeSend: function () {
                     $.isLoading({
-                        text: 'Loading',
+                        text: 'Attendere, Caricamento in corso...',
                         position: 'overlay'
                     });
                 },
@@ -257,7 +257,7 @@ $(document).ready(function () {
                 cache: false,
                 beforeSend: function () {
                     $.isLoading({
-                        text: 'Loading',
+                        text: 'Attendere, Caricamento in corso...',
                         position: 'overlay'
                     });
                 },
@@ -299,7 +299,7 @@ $(document).ready(function () {
                 cache: false,
                 beforeSend: function () {
                     $.isLoading({
-                        text: 'Loading',
+                        text: 'Attendere, Caricamento in corso...',
                         position: 'overlay'
                     });
                 },
@@ -347,7 +347,7 @@ $(document).ready(function () {
                 cache: false,
                 beforeSend: function () {
                     $.isLoading({
-                        text: 'Loading',
+                        text: 'Attendere, Caricamento in corso...',
                         position: 'overlay'
                     });
                 },
@@ -392,7 +392,7 @@ $(document).ready(function () {
                 cache: false,
                 beforeSend: function () {
                     $.isLoading({
-                        text: 'Loading',
+                        text: 'Attendere, Caricamento in corso...',
                         position: 'overlay'
                     });
                 },
@@ -816,7 +816,7 @@ $(document).ready(function () {
                 cache: false,
                 beforeSend: function () {
                     $.isLoading({
-                        text: 'Loading',
+                        text: 'Attendere, Caricamento in corso...',
                         position: 'overlay'
                     });
                 },
@@ -861,7 +861,7 @@ $(document).ready(function () {
                 cache: false,
                 beforeSend: function () {
                     $.isLoading({
-                        text: 'Loading',
+                        text: 'Attendere, Caricamento in corso...',
                         position: 'overlay'
                     });
                 },
