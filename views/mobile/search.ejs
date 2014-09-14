@@ -2,7 +2,8 @@
 
 <header class="bar bar-nav">
     <a href="/mobile" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
-    <a href="#menu" class="icon icon-info pull-right"></a>
+    <a href="#search" class="icon icon-search pull-right"></a>
+
     <h1 class="title">Search</h1>
 </header>
 
@@ -10,7 +11,31 @@
 <%- include nav.ejs %>
 
 <div class="content">
+    <% if(artists.length > 0){ %>
+    <ul class="table-view">
+        <% artists.forEach( function (row){ %>
+        <li class="table-view-cell media">
+            <a href="/mobile/artist/<%= row.rid %>" class="navigate-right" data-transition="slide-in">
+                <img src="<% if (row.photo) { %>/uploads/<%= row.photo.picture %> <% } else { %>/images/no-image.png<% } %>" class="media-object pull-left js-rc-64" width="64" height="64" alt=""/>
 
+                <div class="media-body">
+                    <p><%= helper.e(row.fullname) %></p>
+                    <p><%= helper.e(row.region.fullname) %></p>
+                </div>
+            </a>
+        </li>
+        <% }); %>
+    </ul>
+    <% } else { %>
+    <div class="content-padded">
+        <p>Spiacente, ma nessun risultato è stato trovato!</p>
+    </div>
+    <% } %>
 </div>
 
-<%- include modal.ejs %>
+<div class="modal" id="search">
+    <header class="bar bar-nav">
+        <a class="icon icon-close pull-right" href="#search"></a>
+        <h1 class="title">Search</h1>
+    </header>
+</div>

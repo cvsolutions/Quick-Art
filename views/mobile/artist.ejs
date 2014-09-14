@@ -2,9 +2,8 @@
 
 <header class="bar bar-nav">
     <a href="/mobile" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
-    <a href="#artist" class="icon icon-person pull-right"></a>
-
-    <h1 class="title"><%= helper.e(artist.fullname) %></h1>
+    <a href="#menu" class="icon icon-info pull-right"></a>
+    <h1 class="title"><%- truncate(helper.e(artist.fullname), 25) %></h1>
 </header>
 
 <%- include form-search.ejs %>
@@ -12,64 +11,41 @@
 
 <div class="content">
 
-    <% if(photos.length > 0){ %>
     <div class="slider">
         <div class="slide-group">
+            <% if(photos.length > 0){ %>
             <% photos.forEach( function (row){ %>
             <div class="slide">
                 <img src="/uploads/<%= row.picture %>" width="640" height="300" class="js-rc-640" alt=""/>
                 <span class="slide-text"><span class="icon icon-left-nav"></span></span>
             </div>
             <% }); %>
+            <% } else { %>
+            <div class="slide">
+                <img src="/images/no-image-available.png" width="640" height="300" class="js-rc-640" alt=""/>
+            </div>
+            <% } %>
         </div>
     </div>
-    <% } %>
 
     <div class="segmented-control">
         <a class="control-item active" href="#biography">Biografia</a>
         <a class="control-item" href="#reviews">Critiche</a>
         <a class="control-item" href="#exhibitions">Mostre</a>
     </div>
-    <div class="">
-        <span id="biography" class="control-content active">
-            <div class="content-padded">
-                <p><%- helper.nl2br(helper.e(artist.biography)) %></p>
-            </div>
 
-        </span>
-        <span id="reviews" class="control-content">
-            <div class="content-padded">
-                <% if(artist.reviews != undefined){ %>
-                <p><%= helper.nl2br(helper.e(artist.reviews)) %></p>
-                <% } %>
-            </div>
-        </span>
-        <span id="exhibitions" class="control-content">
-            <div class="content-padded">
-                <% if(artist.exhibitions != undefined){ %>
-                <p><%- helper.nl2br(helper.e(artist.exhibitions)) %></p>
-                <% } %>
-            </div>
-        </span>
+    <div id="biography" class="control-content content-padded active">
+        <p><%- helper.nl2br(helper.e(artist.biography)) %></p>
     </div>
+
+    <div id="reviews" class="control-content content-padded">
+        <p><%- helper.nl2br(helper.e(artist.reviews)) %></p>
+    </div>
+
+    <div id="exhibitions" class="control-content content-padded">
+        <p><%- helper.nl2br(helper.e(artist.exhibitions)) %></p>
+    </div>
+
 </div>
 
-<div class="modal" id="artist">
-    <header class="bar bar-nav">
-        <a class="icon icon-close pull-right" href="#artist"></a>
-
-        <h1 class="title"><%= helper.e(artist.fullname) %></h1>
-    </header>
-    <ul class="table-view">
-        <li class="table-view-cell">Categoria <span class="badge"><%= helper.e(artist.category.fullname) %></span></li>
-        <li class="table-view-cell">Regione <span class="badge"><%= helper.e(artist.region.fullname) %></span></li>
-        <li class="table-view-cell">Provincia <span class="badge"><%= helper.e(artist.province.fullname) %></span></li>
-        <% if(photos.phone){ %>
-        <li class="table-view-cell">Telefono <span class="badge"><a href="tel:<%= helper.e(artist.phone) %>"><%= helper.e(artist.phone) %></a></span></li>
-        <% } %>
-        <li class="table-view-cell">E-mail <span class="badge"><a href="mailto:<%= helper.e(artist.usermail) %>"><%= helper.e(artist.usermail) %></a></span></li>
-        <% if(photos.web){ %>
-        <li class="table-view-cell">Web <span class="badge"><a href="<%= helper.e(artist.web) %>"><%= helper.e(artist.web) %></a></span></li>
-        <% } %>
-    </ul>
-</div>
+<%- include modal.ejs %>

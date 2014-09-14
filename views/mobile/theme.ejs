@@ -1,26 +1,24 @@
 <%- layout('layout') %>
 
 <header class="bar bar-nav">
-    <a href="/mobile" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
+    <a href="/mobile/categories" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
     <a href="#menu" class="icon icon-info pull-right"></a>
-
-    <h1 class="title">Notizie & Eventi</h1>
+    <h1 class="title"><%= helper.e(theme.fullname) %></h1>
 </header>
 
 <%- include form-search.ejs %>
 <%- include nav.ejs %>
 
 <div class="content">
-    <% if(articles.length > 0){ %>
+    <% if(photos.length > 0){ %>
     <ul class="table-view">
-        <% articles.forEach( function (row){ %>
+        <% photos.forEach( function (row){ %>
         <li class="table-view-cell media">
-            <a href="/mobile/event/<%= row.rid %>" class="navigate-right" data-transition="slide-in">
-                <img src="<% if (row.picture) { %>/uploads/<%= row.picture %> <% } else { %>/images/no-image.png<% } %>" class="media-object pull-left js-rc-64" width="64" height="64" alt=""/>
-
+            <a href="/mobile/artist/<%= row.rid %>" class="navigate-right" data-transition="slide-in">
+                <img src="/uploads/<%= row.picture %>" class="media-object pull-left js-rc-64" width="64" height="64" alt=""/>
                 <div class="media-body">
                     <p><%= helper.e(row.fullname) %></p>
-                    <p><%= helper.date.format('l, d M Y', row.registered) %></p>
+                    <p><%= helper.e(row.technique.fullname) %></p>
                 </div>
             </a>
         </li>

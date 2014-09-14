@@ -17,6 +17,8 @@ var Artists = mongoose.model('artists');
 var Photos = mongoose.model('photos');
 var Categories = mongoose.model('categories');
 var Articles = mongoose.model('articles');
+var Techniques = mongoose.model('techniques');
+var Themes = mongoose.model('themes');
 
 /**
  * express
@@ -66,7 +68,7 @@ router.get('/categories', function (req, res, next) {
 });
 
 /**
- * Artisati per Categoria
+ * Artisti per Categoria
  */
 router.get('/category/:slug', function (req, res, next) {
     Categories.findOne({
@@ -90,7 +92,7 @@ router.get('/category/:slug', function (req, res, next) {
 });
 
 /**
- * Artista
+ * Dettaglio Artista
  */
 router.get('/artist/:rid', function (req, res, next) {
     Artists.findOne({
@@ -106,6 +108,40 @@ router.get('/artist/:rid', function (req, res, next) {
             if (err) return next(err);
             res.render('mobile/artist', {
                 artist: artist,
+                photos: photos
+            });
+        });
+    });
+});
+
+/**
+ * Catalogo Opere d'Arte
+ */
+router.get('/themes', function (req, res, next) {
+    Themes.find({}).sort({
+        fullname: 'asc'
+    }).exec(function (err, themes) {
+        if (err) return next(err);
+        res.render('mobile/themes', {
+            themes: themes
+        });
+    });
+});
+
+/**
+ * Tutte le Opere in base alla Categoria Tematica
+ */
+router.get('/theme/:slug', function (req, res, next) {
+    Themes.findOne({
+        slug: req.param('slug'),
+    }).exec(function (err, theme) {
+        if (err) return next(err);
+        Photos.find({
+            theme: theme._id
+        }).populate('technique').exec(function (err, photos) {
+            if (err) return next(err);
+            res.render('mobile/theme', {
+                theme: theme,
                 photos: photos
             });
         });
@@ -148,7 +184,14 @@ router.get('/event/:rid', function (req, res, next) {
  * Ricerca
  */
 router.get('/search', function (req, res, next) {
-    res.render('mobile/search');
+    Artists.find({
+        fullname: new RegExp(req.query.q, 'i')
+    }).populate('category').populate('region').exec(function (err, artists) {
+        if (err) return next(err);
+        res.render('mobile/search', {
+            artists: artists
+        });
+    });
 });
 
 module.exports = router;

@@ -4,7 +4,7 @@
     <a href="/mobile" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
     <a href="#menu" class="icon icon-info pull-right"></a>
 
-    <h1 class="title">Artisti Contemporanei</h1>
+    <h1 class="title">Catalogo Opere d'Arte</h1>
 </header>
 
 <%- include form-search.ejs %>
@@ -12,8 +12,8 @@
 
 <div class="content">
     <ul class="table-view">
-        <% categories.forEach( function (row){ %>
-        <li class="table-view-cell"><a href="/mobile/category/<%= row.slug %>" data-transition="slide-in" class="navigate-right"><%= helper.e(row.fullname) %></a></li>
+        <% themes.forEach( function (row){ %>
+        <li class="table-view-cell"><a href="/mobile/theme/<%= row.slug %>" data-transition="slide-in" class="navigate-right"><%= helper.e(row.fullname) %></a></li>
         <% }); %>
     </ul>
 </div>
