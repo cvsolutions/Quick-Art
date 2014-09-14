@@ -1,0 +1,33 @@
+<%- layout('layout') %>
+
+<header class="bar bar-nav">
+    <a href="/mobile/themes" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
+    <a href="#menu" class="icon icon-info pull-right"></a>
+    <h1 class="title"><%- truncate(helper.e(photo.fullname), 25) %></h1>
+</header>
+
+<%- include form-search.ejs %>
+<%- include nav.ejs %>
+
+<div class="content">
+    <div class="slider" id="mySlider">
+        <div class="slide-group">
+            <div class="slide">
+                <img src="/uploads/<%= photo.picture %>" alt=""/>
+            </div>
+        </div>
+    </div>
+    <div class="content-padded">
+        <ul class="table-view">
+            <li class="table-view-cell table-view-divider"><%- helper.e(photo.fullname) %></li>
+            <li class="table-view-cell">Codice <span class="badge"><%- helper.e(photo.code) %></span></li>
+            <li class="table-view-cell">Tecnica <span class="badge"><%= photo.technique.fullname %></span></li>
+            <li class="table-view-cell">Anno <span class="badge"><%= helper.e(photo.year) %></span></li>
+            <li class="table-view-cell">Dimensione <span class="badge"><%= helper.e(photo.height) %>x<%= helper.e(photo.width) %>x<%= helper.e(photo.depth) %> <%= photo.measure %></span></li>
+            <li class="table-view-cell">Prezzo <span class="badge"><%= helper.number_format(helper.e(photo.price), 2, '.', ',') %> €</span></li>
+            <li class="table-view-cell table-view-divider"><%- helper.nl2br(helper.e(photo.description)) %></li>
+        </ul>
+    </div>
+</div>
+
+<%- include modal.ejs %>

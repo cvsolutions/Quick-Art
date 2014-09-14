@@ -1,7 +1,7 @@
 <%- layout('layout') %>
 
 <header class="bar bar-nav">
-    <a href="/mobile/categories" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
+    <a href="/mobile/themes" data-transition="slide-in" class="icon icon-left-nav pull-left"></a>
     <a href="#menu" class="icon icon-info pull-right"></a>
     <h1 class="title"><%= helper.e(theme.fullname) %></h1>
 </header>
@@ -14,7 +14,7 @@
     <ul class="table-view">
         <% photos.forEach( function (row){ %>
         <li class="table-view-cell media">
-            <a href="/mobile/artist/<%= row.rid %>" class="navigate-right" data-transition="slide-in">
+            <a href="/mobile/photo/<%= row.rid %>" class="navigate-right" data-transition="slide-in">
                 <img src="/uploads/<%= row.picture %>" class="media-object pull-left js-rc-64" width="64" height="64" alt=""/>
                 <div class="media-body">
                     <p><%= helper.e(row.fullname) %></p>

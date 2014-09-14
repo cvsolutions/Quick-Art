@@ -149,6 +149,20 @@ router.get('/theme/:slug', function (req, res, next) {
 });
 
 /**
+ * Dettaglio Opera d'Arte
+ */
+router.get('/photo/:rid', function (req, res, next) {
+    Photos.findOne({
+        rid: req.param('rid')
+    }).populate('technique').exec(function (err, photo) {
+        if (err) return next(err);
+        res.render('mobile/photo', {
+            photo: photo
+        });
+    });
+});
+
+/**
  * Tutti gli Eventi
  */
 router.get('/events', function (req, res, next) {
